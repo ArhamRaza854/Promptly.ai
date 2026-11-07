@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -560,7 +559,7 @@ footer {
 <a class="brand" href="#"><span class="logo">P</span> promptly<span style="color:var(--accent2)">.</span></a>
 <div class="nav-right">
 <a href="#tools">Explore tools</a>
-<span>20 useful tools · No sign-up</span>
+<span>43 useful tools · No sign-up</span>
 </div>
 </div>
 </header>
@@ -568,7 +567,7 @@ footer {
 <section class="hero shell">
 <span class="eyebrow">✦ SIMPLE TOOLS. REAL USEFULNESS.</span>
 <h1>Get things done.<br><span class="gradient">Without the clutter.</span></h1>
-<p>Twenty practical tools for AI prompts, programming, social media and everyday creativity. Free to use, right in your browser.</p>
+<p>Forty-three practical tools for AI prompts, programming, social media and everyday creativity. Free to use, right in your browser.</p>
 
 <div class="search-wrap">
 <input id="search" type="search" placeholder="Search a tool... e.g. password, HTML, Instagram bio">
@@ -590,7 +589,7 @@ footer {
 <h2>Explore the toolkit</h2>
 <p>Pick a tool and get started in seconds.</p>
 </div>
-<span class="count" id="count">20 tools</span>
+<span class="count" id="count">43 tools</span>
 </div>
 
 <div class="tool-grid" id="grid"></div>
@@ -640,7 +639,30 @@ const tools = [
 {id:'hashtag',name:'Hashtag Generator',desc:'Find relevant hashtags for your niche.',icon:'#️⃣',cat:'Social Media'},
 {id:'palette',name:'Color Palette Generator',desc:'Generate color combinations and copy HEX codes.',icon:'🎨',cat:'Web & Design'},
 {id:'favicon',name:'Favicon Generator',desc:'Create and download a website icon.',icon:'🌐',cat:'Web & Design'},
-{id:'meta',name:'Meta Tag Generator',desc:'Create SEO titles, descriptions and meta tags.',icon:'🔎',cat:'Web & Design'}
+{id:'meta',name:'Meta Tag Generator',desc:'Create SEO titles, descriptions and meta tags.',icon:'🔎',cat:'Web & Design'},
+{id:'ytitle',name:'YouTube Title & Description',desc:'Get title ideas, a description and tags for your video.',icon:'▶️',cat:'Social Media'},
+{id:'reels',name:'Reels & TikTok Script Writer',desc:'Write a hook, scenes and caption for short videos.',icon:'🎬',cat:'Social Media'},
+{id:'tweet',name:'Tweet & Thread Writer',desc:'Turn an idea into tweets or a short thread.',icon:'🐦',cat:'Social Media'},
+{id:'blog',name:'Blog Outline Generator',desc:'Plan a blog post with title, sections and meta description.',icon:'📝',cat:'AI & Writing'},
+{id:'paraphrase',name:'Paraphraser',desc:'Build a prompt that rewrites any text in a new style.',icon:'🔁',cat:'AI & Writing'},
+{id:'grammar',name:'Grammar & Tone Fixer',desc:'Fix common typos and punctuation, or make text formal.',icon:'✅',cat:'AI & Writing'},
+{id:'summarize',name:'Text Summarizer',desc:'Shorten long text into its key sentences or bullets.',icon:'📄',cat:'AI & Writing'},
+{id:'email',name:'Email Writer',desc:'Write follow-up, cold, complaint or thank-you emails.',icon:'✉️',cat:'AI & Writing'},
+{id:'product',name:'Product Description Writer',desc:'Create a headline and description for your product.',icon:'🛍️',cat:'AI & Writing'},
+{id:'adcopy',name:'Ad Copy Generator',desc:'Write ad text for Google, Facebook or LinkedIn.',icon:'📣',cat:'AI & Writing'},
+{id:'essay',name:'Essay Outline Helper',desc:'Plan an essay with thesis, body paragraphs and conclusion.',icon:'🧾',cat:'AI & Writing'},
+{id:'resume',name:'Resume & Cover Letter',desc:'Create a resume summary or a cover letter draft.',icon:'💼',cat:'AI & Writing'},
+{id:'interview',name:'Interview Practice',desc:'Get random interview questions for your role.',icon:'🎤',cat:'AI & Writing'},
+{id:'study',name:'Study Notes & Quiz Maker',desc:'Turn your notes into key points and a fill-in-the-blank quiz.',icon:'🎓',cat:'AI & Writing'},
+{id:'imgprompt',name:'AI Image Prompt Builder',desc:'Build detailed prompts for Midjourney, DALL·E and more.',icon:'🖼️',cat:'AI & Writing'},
+{id:'codeexplain',name:'Code Explainer',desc:'Scan your code and get a prompt that explains it simply.',icon:'🧠',cat:'Programming'},
+{id:'codeconvert',name:'Code Converter',desc:'Build a prompt to convert code between languages.',icon:'🔄',cat:'Programming'},
+{id:'bugfix',name:'Bug Finder & Fixer',desc:'Check syntax problems and get a prompt to fix the bug.',icon:'🐞',cat:'Programming'},
+{id:'regex',name:'Regex Generator',desc:'Pick a pattern in plain English and test it on your text.',icon:'🔣',cat:'Programming'},
+{id:'sql',name:'SQL Query Builder',desc:'Build SELECT, INSERT, UPDATE and DELETE queries.',icon:'🗄️',cat:'Programming'},
+{id:'docs',name:'Code Comment & Docs Writer',desc:'Create doc comment templates for your functions.',icon:'📚',cat:'Programming'},
+{id:'readme',name:'README Generator',desc:'Create a clean README.md for your GitHub project.',icon:'📖',cat:'Programming'},
+{id:'bizname',name:'Business Name & Slogan',desc:'Get brand name ideas and slogans from your keywords.',icon:'🏷️',cat:'Generators'}
 ];
 
 const $ = s => document.querySelector(s);
@@ -725,6 +747,72 @@ function actions() {
 
 function copyButton() {
   return `<div class="actions"><button class="btn success" id="copy">Copy result</button></div>`;
+}
+
+/* ===== Extra tools: shared helpers ===== */
+
+const LANGS = ['JavaScript','TypeScript','Python','Java','C#','C++','Go','PHP','Ruby','Rust','Swift','Kotlin'];
+const langSelect = id => select(id, LANGS.map(l => [l, l]));
+const aiHint = '<p class="hint">This tool builds a ready-to-use prompt. Paste it into ChatGPT, Claude or Gemini to get the final answer.</p>';
+
+const STOP = new Set('the a an and or but of to in on for with at by from as is are was were be been it this that these those i you he she we they my your our their its not no so if then than also can will just into about over after before more most such'.split(' '));
+
+const cap = s => s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
+const lines = s => s.split(/\n+/).map(x => x.trim()).filter(Boolean);
+
+function shuffle(a) {
+  const b = a.slice();
+  for (let i = b.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [b[i], b[j]] = [b[j], b[i]];
+  }
+  return b;
+}
+
+function sentencesOf(t) {
+  return (t.replace(/\s+/g, ' ').trim().match(/[^.!?]+[.!?]+|[^.!?]+$/g) || []).map(s => s.trim()).filter(Boolean);
+}
+
+function rankSentences(text, n) {
+  const sents = sentencesOf(text);
+  if (sents.length <= n) return { sents, picked: sents.map((s, i) => i) };
+  const freq = {};
+  (text.toLowerCase().match(/[a-z']+/g) || []).forEach(w => {
+    if (w.length > 2 && !STOP.has(w)) freq[w] = (freq[w] || 0) + 1;
+  });
+  const scored = sents.map((s, i) => {
+    const ws = s.toLowerCase().match(/[a-z']+/g) || [];
+    let sc = 0;
+    ws.forEach(w => sc += freq[w] || 0);
+    return { i, sc: sc / Math.max(8, ws.length) };
+  });
+  const picked = scored.sort((a, b) => b.sc - a.sc).slice(0, n).map(x => x.i).sort((a, b) => a - b);
+  return { sents, picked };
+}
+
+function scanBrackets(code, hash) {
+  const pairs = { ')': '(', ']': '[', '}': '{' };
+  const stack = [], issues = [];
+  let line = 1, str = null, lc = false, bc = false;
+  for (let i = 0; i < code.length; i++) {
+    const c = code[i], n = code[i + 1];
+    if (c === '\n') { line++; lc = false; if (str === "'" || str === '"') str = null; continue; }
+    if (lc) continue;
+    if (bc) { if (c === '*' && n === '/') { bc = false; i++; } continue; }
+    if (str) { if (c === '\\') { i++; continue; } if (c === str) str = null; continue; }
+    if (hash && c === '#') { lc = true; continue; }
+    if (!hash && c === '/' && n === '/') { lc = true; continue; }
+    if (!hash && c === '/' && n === '*') { bc = true; i++; continue; }
+    if (c === "'" || c === '"' || c === '`') { str = c; continue; }
+    if ('([{'.includes(c)) stack.push([c, line]);
+    else if (pairs[c]) {
+      const t = stack.pop();
+      if (!t || t[0] !== pairs[c]) issues.push('Line ' + line + ': unexpected "' + c + '"');
+    }
+  }
+  stack.forEach(s => issues.push('Line ' + s[1] + ': "' + s[0] + '" is never closed'));
+  if (str) issues.push('A string is never closed');
+  return issues;
 }
 
 const templates = {
@@ -887,7 +975,175 @@ field('Meta description',area('description','Describe your page...'))+
 field('Page URL',input('url','https://example.com'))+
 field('Social image URL',input('image','https://example.com/image.jpg'))+
 field('Brand name',input('site','Your brand'))+
-actions()+copyButton()
+actions()+copyButton(),
+
+ytitle:()=>field('Video topic',input('topic','e.g. learn Python in 30 days'))+
+field('Audience (optional)',input('aud','e.g. beginners'))+
+field('Title style',select('style',[['curiosity','Curiosity'],['howto','How-to'],['list','List'],['bold','Bold claim']]))+
+field('Keywords (optional, separated by commas)',input('kw','e.g. python, coding, tutorial'))+
+actions()+copyButton(),
+
+reels:()=>field('Topic',input('topic','e.g. 3 habits for better focus'))+
+field('Goal',select('goal',[['educate','Teach something'],['sell','Promote a product'],['story','Tell a story']]))+
+field('Length',select('len',[['15','15 seconds'],['30','30 seconds'],['60','60 seconds']]))+
+actions()+copyButton(),
+
+tweet:()=>field('Topic or idea',input('topic','e.g. learning to code'))+
+`<div class="row-fields">
+${field('Format',select('format',[['single','Single tweet (3 options)'],['thread','Thread (6 tweets)']]))}
+${field('Tone',select('tone',[['pro','Professional'],['fun','Funny'],['insp','Inspiring']]))}
+</div>`+
+actions()+copyButton(),
+
+blog:()=>field('Blog topic',input('topic','e.g. healthy meal prep'))+
+field('Audience (optional)',input('aud','e.g. busy students'))+
+field('Post type',select('type',[['guide','How-to guide'],['list','List post'],['opinion','Opinion'],['review','Review']]))+
+actions()+copyButton(),
+
+paraphrase:()=>field('Text to rewrite',area('text','Paste your text here...'))+
+field('Rewrite style',select('style',[['simpler','Simpler words'],['formal','More formal'],['casual','More casual'],['shorter','Shorter']]))+
+actions()+copyButton()+aiHint,
+
+grammar:()=>field('Your text',area('text','Paste your text here...'))+
+field('Tone',select('tone',[['keep','Keep my tone'],['formal','Make it more formal']]))+
+actions()+copyButton()+
+`<p class="hint">Fixes common typos, spacing, capital letters and punctuation. It does not check every grammar rule, so read the result before you use it.</p>`,
+
+summarize:()=>field('Text to shorten',area('text','Paste an article or long text here...'))+
+field('Result',select('len',[['3','3 sentences'],['5','5 sentences'],['bullets','Key points (5 bullets)']]))+
+actions()+copyButton()+
+`<p class="hint">Picks the most important sentences from your own text. Nothing is rewritten and nothing leaves your browser.</p>`,
+
+email:()=>field('Purpose',select('purpose',[['followup','Follow-up'],['cold','Cold outreach'],['complaint','Complaint'],['apology','Apology'],['request','Request'],['thanks','Thank you']]))+
+`<div class="row-fields">
+${field('Recipient name (optional)',input('to','e.g. Sarah'))}
+${field('Your name',input('from','e.g. Arham'))}
+</div>`+
+field('Key points (one per line)',area('points','Mention the date, the order number, what you need...'))+
+field('Tone',select('tone',[['professional','Professional'],['friendly','Friendly'],['direct','Direct']]))+
+actions()+copyButton(),
+
+product:()=>field('Product name',input('name','e.g. AeroBottle'))+
+field('Features (one per line)',area('features','Keeps drinks cold for 24 hours\nLeak-proof lid\nMade from recycled steel'))+
+field('Who is it for?',input('aud','e.g. hikers and gym lovers'))+
+field('Tone',select('tone',[['persuasive','Persuasive'],['simple','Simple'],['luxury','Premium']]))+
+actions()+copyButton(),
+
+adcopy:()=>field('Product or brand name',input('name','e.g. FitTrack'))+
+field('Main benefit',input('benefit','e.g. track your workouts in seconds'))+
+field('Audience (optional)',input('aud','e.g. busy professionals'))+
+field('Platform',select('platform',[['google','Google Ads'],['facebook','Facebook / Instagram'],['linkedin','LinkedIn']]))+
+actions()+copyButton(),
+
+essay:()=>field('Essay topic',input('topic','e.g. social media and teenagers'))+
+`<div class="row-fields">
+${field('Essay type',select('type',[['argumentative','Argumentative'],['expository','Expository'],['compare','Compare and contrast'],['narrative','Narrative']]))}
+${field('Body paragraphs',select('paras',[['3','3 paragraphs'],['4','4 paragraphs'],['5','5 paragraphs']]))}
+</div>`+
+actions()+copyButton(),
+
+resume:()=>`<div class="row-fields">
+${field('Your name',input('name','e.g. Arham Raza'))}
+${field('Target role',input('role','e.g. Frontend Developer'))}
+</div>`+
+`<div class="row-fields">
+${field('Email (optional)',input('email','you@example.com'))}
+${field('Company (for cover letter)',input('company','e.g. Acme Inc.'))}
+</div>`+
+field('Skills (separated by commas)',input('skills','e.g. JavaScript, React, CSS, Git'))+
+field('Experience or achievements (one per line)',area('exp','Built a dashboard used by 2,000 users\nReduced page load time by 40%'))+
+field('Education (optional)',input('edu','e.g. BSc Computer Science, 2025'))+
+field('Create',select('mode',[['resume','Resume summary'],['cover','Cover letter']]))+
+actions()+copyButton(),
+
+interview:()=>field('Role',input('role','e.g. web developer'))+
+`<div class="row-fields">
+${field('Question type',select('type',[['mix','Mixed'],['behavioral','Behavioral'],['situational','Situational'],['technical','Role skills']]))}
+${field('How many?',select('qty',[['5','5 questions'],['8','8 questions'],['10','10 questions']]))}
+</div>`+
+actions()+copyButton(),
+
+study:()=>field('Your notes or textbook text',area('text','Paste at least a paragraph of notes here...'))+
+`<div class="row-fields">
+${field('Create',select('mode',[['both','Notes and quiz'],['notes','Study notes only'],['quiz','Quiz only']]))}
+${field('Items',select('qty',[['5','5 items'],['8','8 items'],['10','10 items']]))}
+</div>`+
+actions()+copyButton(),
+
+imgprompt:()=>field('Subject',input('subject','e.g. a lighthouse on a cliff during a storm'))+
+`<div class="row-fields">
+${field('Style',select('style',[['photo','Photorealistic photo'],['3d','3D render'],['anime','Anime illustration'],['oil','Oil painting'],['vector','Minimal vector art'],['cyber','Cyberpunk art']]))}
+${field('Mood',select('mood',[['calm','Calm'],['dramatic','Dramatic'],['dreamy','Dreamy'],['energetic','Energetic']]))}
+</div>`+
+`<div class="row-fields">
+${field('Lighting',select('light',[['soft natural light','Soft natural light'],['golden hour light','Golden hour'],['neon lighting','Neon lights'],['studio lighting','Studio lighting']]))}
+${field('Shot',select('shot',[['close-up','Close-up'],['wide shot','Wide shot'],['aerial view','Aerial view'],['portrait','Portrait']]))}
+</div>`+
+field('Aspect ratio',select('ratio',[['1:1','Square 1:1'],['16:9','Landscape 16:9'],['9:16','Vertical 9:16']]))+
+field('Extra details (optional)',input('extra','e.g. no text, no watermark'))+
+actions()+copyButton(),
+
+codeexplain:()=>`<div class="row-fields">
+${field('Language',langSelect('lang'))}
+${field('Explain it for',select('level',[['beginner','A beginner'],['intermediate','Someone with experience']]))}
+</div>`+
+field('Your code',area('code','Paste your code here...'))+
+actions()+copyButton()+aiHint,
+
+codeconvert:()=>`<div class="row-fields">
+${field('Convert from',langSelect('from'))}
+${field('Convert to',langSelect('to'))}
+</div>`+
+field('Your code',area('code','Paste your code here...'))+
+actions()+copyButton()+aiHint,
+
+bugfix:()=>field('Language',select('lang',[['JavaScript','JavaScript'],['Python','Python'],['JSON','JSON'],['HTML','HTML'],['Other','Other']]))+
+field('Your code',area('code','Paste the code that is not working...'))+
+field('Error message (optional)',input('err','e.g. Uncaught TypeError: x is not a function'))+
+actions()+copyButton()+
+`<p class="hint">Checks brackets, quotes and common syntax mistakes, then builds a prompt for an AI assistant. JavaScript that uses import or top-level await may be reported as an error here even when it is valid.</p>`,
+
+regex:()=>field('Pattern',select('kind',[['email','Email address'],['url','Web link (URL)'],['phone','Phone number'],['date','Date (YYYY-MM-DD)'],['time','Time (HH:MM)'],['hex','Hex colour'],['ip','IPv4 address'],['zip','US ZIP code'],['username','Username (3 to 16 characters)'],['digits','Numbers only'],['contains','Contains a word'],['starts','Starts with text'],['ends','Ends with text']]))+
+field('Word or text (for the last three options)',input('val','e.g. invoice'))+
+field('Test text (optional)',area('test','Paste text here to see what the pattern matches...'))+
+actions()+copyButton(),
+
+sql:()=>field('Action',select('act',[['SELECT','SELECT (read rows)'],['INSERT','INSERT (add a row)'],['UPDATE','UPDATE (change rows)'],['DELETE','DELETE (remove rows)']]))+
+field('Table name',input('table','e.g. users'))+
+field('Columns',input('cols',"e.g. name, email   (UPDATE: name = 'Ali', age = 30)"))+
+field('Values (INSERT only)',input('vals',"e.g. 'Ali', 'ali@mail.com'"))+
+field('Condition (WHERE)',input('cond','e.g. age > 18'))+
+`<div class="row-fields">
+${field('Order by',input('order','e.g. name ASC'))}
+${field('Limit',input('limit','e.g. 10','number'))}
+</div>`+
+actions()+copyButton(),
+
+docs:()=>field('Language',langSelect('lang'))+
+field('Your code',area('code','Paste your functions here...'))+
+actions()+copyButton()+
+`<p class="hint">Creates doc comment templates for JavaScript, TypeScript and Python functions. Fill in each TODO.</p>`,
+
+readme:()=>field('Project name',input('name','e.g. TaskFlow'))+
+field('One-line description',input('desc','e.g. A simple task manager for small teams'))+
+field('Features (one per line)',area('features','Create and organise tasks\nDrag and drop boards\nWorks offline'))+
+`<div class="row-fields">
+${field('Install command',input('install','','text','npm install'))}
+${field('Run command',input('usage','','text','npm start'))}
+</div>`+
+`<div class="row-fields">
+${field('License',select('license',[['MIT','MIT'],['Apache-2.0','Apache 2.0'],['GPL-3.0','GPL 3.0'],['none','None']]))}
+${field('Author (optional)',input('author','e.g. Arham'))}
+</div>`+
+actions()+copyButton(),
+
+bizname:()=>field('Keywords (separated by commas or spaces)',input('kw','e.g. coffee, morning, fresh'))+
+`<div class="row-fields">
+${field('Industry',select('industry',[['tech','Tech'],['food','Food and drink'],['fashion','Fashion'],['fitness','Health and fitness'],['education','Education'],['creative','Creative studio']]))}
+${field('Style',select('style',[['modern','Modern'],['classic','Classic'],['playful','Playful']]))}
+</div>`+
+actions()+copyButton()+
+`<p class="hint">Always check that the domain name and social media handles are free before you choose a name.</p>`
 };
 
 function openTool(id) {
@@ -1245,7 +1501,392 @@ ${site?`<meta property="og:site_name" content="${esc(site)}">`:''}
 <meta name="twitter:card" content="${image?'summary_large_image':'summary'}">`);
     copy();
   });
+    /* ===== Extra tools ===== */
+
+  if(id==='ytitle') run(()=>{
+    const T=el('topic').value.trim();
+    if(!T) return set('Enter a video topic first.');
+    const aud=el('aud').value.trim(),y=new Date().getFullYear();
+    const kw=(el('kw').value.match(/[^,]+/g)||[]).map(x=>x.trim()).filter(Boolean);
+    const sets={
+      curiosity:[`The Truth About ${T} Nobody Tells You`,`I Tried ${T} for 30 Days. Here Is What Happened`,`Why ${T} Is Harder Than It Looks`,`What Everyone Gets Wrong About ${T}`],
+      howto:[`How to ${T} (Step-by-Step for Beginners)`,`${T}: The Simple Method That Works`,`How to Get Started With ${T} in ${y}`,`${T} Made Easy: A Complete Guide`],
+      list:[`7 ${T} Tips That Actually Work`,`5 Mistakes to Avoid With ${T}`,`10 ${T} Ideas You Can Try Today`,`The Only ${T} Checklist You Need`],
+      bold:[`${T}: Stop Doing It Wrong`,`This Changes Everything About ${T}`,`${T} in ${y}: What Actually Works`,`The Fastest Way to Improve at ${T}`]
+    };
+    const generic=[`${T} Explained in 5 Minutes`,`${T}: Beginner vs Pro`,`Is ${T} Worth It in ${y}?`,`${T} for Beginners`];
+    const titles=[...sets[el('style').value],...generic];
+    set(['TITLE IDEAS (aim for under 60 characters)',...titles.map((t,i)=>`${i+1}. ${t}`),'','DESCRIPTION',`In this video you will learn about ${T}${aud?` for ${aud}`:''}.`,'','In this video:',`• The basics of ${T}`,'• Common mistakes to avoid','• What to do next','','If this helped, like and subscribe for more.','','TAGS',(kw.length?kw:[T]).join(', ')].join('\n'));
+    copy();
+  });
+
+  if(id==='reels') run(()=>{
+    const T=el('topic').value.trim();
+    if(!T) return set('Enter a topic first.');
+    const goal=el('goal').value,len=+el('len').value,tips=len===15?1:len===30?2:3;
+    const hooks=[`Stop scrolling if you care about ${T}.`,`Nobody talks about this part of ${T}.`,`Here is ${T} in ${len} seconds.`];
+    let beats;
+    if(goal==='sell') beats=['Show the problem your viewer has.',`Reveal ${T} as the answer.`,'Show the result or a quick demo.'];
+    else if(goal==='story') beats=['Set the scene in one sentence.','Describe the turning point.',`Share the lesson about ${T}.`];
+    else beats=Array.from({length:tips},(_,i)=>`Tip ${i+1}: one clear, specific point about ${T}.`);
+    const cta=goal==='sell'?'Tap the link in bio to try it.':'Follow for more, and save this for later.';
+    set(['HOOK OPTIONS (first 3 seconds)',...hooks.map((h,i)=>`${i+1}. ${h}`),'',`SCRIPT (${len} seconds)`,...beats.map((b,i)=>`Scene ${i+1}: ${b}`),`Final scene: ${cta}`,'','CAPTION',`${cap(T)} 👇 ${cta}`].join('\n'));
+    copy();
+  });
+
+  if(id==='tweet') run(()=>{
+    const T=el('topic').value.trim();
+    if(!T) return set('Enter a topic first.');
+    const open={pro:'A practical note on',fun:'Hot take on',insp:'A reminder about'}[el('tone').value];
+    if(el('format').value==='single'){
+      const v=[`${open} ${T}: start small, stay consistent, and measure what happens.`,`${cap(T)} is simpler than it looks. Pick one step and do it today.`,`The best advice I have on ${T}: ship it, learn from it, repeat.`];
+      set(v.map((t,i)=>`Option ${i+1} (${t.length}/280)\n${t}`).join('\n\n'));
+    } else {
+      const th=[`${open} ${T}. A thread 🧵`,`The problem: most people overcomplicate ${T}.`,'Start small. One clear step beats ten vague ones.','Track what happens, then adjust. Progress comes from feedback.','Share what you learn. Teaching makes it stick.','That is the idea. Follow for more, and share this with someone who needs it.'];
+      set(th.map((x,i)=>`${i+1}/${th.length} ${x}`).join('\n\n'));
+    }
+    copy();
+  });
+
+  if(id==='blog') run(()=>{
+    const T=el('topic').value.trim();
+    if(!T) return set('Enter a topic first.');
+    const aud=el('aud').value.trim()||'beginners',type=el('type').value;
+    const secs={
+      guide:[`What is ${T}?`,`Why ${T} matters`,'Step-by-step: how to get started','Common mistakes to avoid','Tools and resources','Frequently asked questions'],
+      list:['Tip 1: Start with the basics','Tip 2: Build a simple routine','Tip 3: Use the right tools','Tip 4: Learn from examples','Tip 5: Track your progress','Bonus: What to avoid'],
+      opinion:[`My position on ${T}`,'The case for it','The strongest counterargument','Why I still disagree','What readers can do next'],
+      review:[`What ${T} is`,'What I liked','What could be better','Who it is best for','Price and value','Final verdict']
+    }[type];
+    const title={guide:`The Complete Beginner's Guide to ${T}`,list:`7 Simple Ways to Get Better at ${T}`,opinion:`Why ${T} Is Not What You Think`,review:`${cap(T)} Review: Is It Worth It?`}[type];
+    set(['TITLE',title,'','INTRODUCTION',`Hook: open with a problem or question your ${aud} face with ${T}.`,'Promise: say exactly what the reader will learn.','','OUTLINE',...secs.map((s,i)=>`H2 ${i+1}. ${s}`),'','CONCLUSION','Summarise the key points and finish with one clear next step.','','META DESCRIPTION',`A clear, practical look at ${T} for ${aud}. Learn what matters and what to do next.`].join('\n'));
+    copy();
+  });
+
+  if(id==='paraphrase') run(()=>{
+    const t=el('text').value.trim();
+    if(!t) return set('Paste some text first.');
+    const how={simpler:'in simpler words that anyone can understand',formal:'in a more formal, professional tone',casual:'in a relaxed, conversational tone',shorter:'in fewer words while keeping every key point'}[el('style').value];
+    set(`Rewrite the text below ${how}.\n\nRules:\n- Keep the original meaning.\n- Do not add new facts.\n- Return only the rewritten text.\n\nText:\n"""\n${t}\n"""`);
+    copy();
+  });
+
+  if(id==='grammar') run(()=>{
+    let s=el('text').value;
+    if(!s.trim()) return set('Paste some text first.');
+    let n=0;
+    const fix=(re,fn)=>{s=s.replace(re,(...a)=>{n++;return typeof fn==='function'?fn(...a):fn;});};
+    const typos={teh:'the',recieve:'receive',definately:'definitely',seperate:'separate',occured:'occurred',untill:'until',alot:'a lot',wich:'which',becuase:'because',thier:'their',adress:'address',dont:"don't",cant:"can't",wont:"won't",im:"I'm",ive:"I've",didnt:"didn't",doesnt:"doesn't",isnt:"isn't"};
+    fix(new RegExp('\\b('+Object.keys(typos).join('|')+')\\b','gi'),m=>{
+      const r=typos[m.toLowerCase()];
+      return m[0]===m[0].toUpperCase()?r.charAt(0).toUpperCase()+r.slice(1):r;
+    });
+    fix(/\bi\b(?=\s|'|[.,!?]|$)/g,'I');
+    fix(/\b(\w+)\s+\1\b/gi,(m,a)=>a);
+    fix(/[ \t]{2,}/g,' ');
+    fix(/[ \t]+([,.!?;:])/g,(m,a)=>a);
+    fix(/([,;!?])(?=[A-Za-z])/g,(m,a)=>a+' ');
+    fix(/\.(?=[A-Z][a-z])/g,'. ');
+    fix(/(^|[.!?]\s+|\n\s*)([a-z])/g,(m,a,b)=>a+b.toUpperCase());
+    if(el('tone').value==='formal'){
+      const f={"don't":'do not',"can't":'cannot',"won't":'will not',"I'm":'I am',"it's":'it is',"I've":'I have',"didn't":'did not',"doesn't":'does not',"isn't":'is not',gonna:'going to',wanna:'want to',kinda:'somewhat'};
+      fix(new RegExp('\\b('+Object.keys(f).join('|')+')\\b','gi'),m=>{
+        const k=Object.keys(f).find(x=>x.toLowerCase()===m.toLowerCase());
+        const r=f[k];
+        return m[0]===m[0].toUpperCase()?r.charAt(0).toUpperCase()+r.slice(1):r;
+      });
+    }
+    s=s.trim();
+    if(/[A-Za-z0-9]$/.test(s)){s+='.';n++;}
+    set(s);
+    toast(n+(n===1?' fix':' fixes')+' applied');
+    copy();
+  });
+
+  if(id==='summarize') run(()=>{
+    const t=el('text').value.trim();
+    if(!t) return set('Paste some text first.');
+    const bullets=el('len').value==='bullets',n=bullets?5:+el('len').value;
+    const r=rankSentences(t,n);
+    if(r.sents.length<=n) return set('This text is already short. Paste more text to summarise.');
+    const out=r.picked.map(i=>r.sents[i]);
+    set(bullets?out.map(s=>'• '+s).join('\n'):out.join(' '));
+    toast('Shortened from '+t.split(/\s+/).length+' to '+out.join(' ').split(/\s+/).length+' words');
+    copy();
+  });
+
+  if(id==='email') run(()=>{
+    const p=el('purpose').value,tone=el('tone').value;
+    const to=el('to').value.trim(),from=el('from').value.trim();
+    const pts=lines(el('points').value);
+    const subject={followup:'Following up on our conversation',cold:'A quick idea for you',complaint:'An issue that needs your attention',apology:'My apologies',request:'A quick request',thanks:'Thank you'}[p];
+    const open={followup:'I wanted to follow up on our recent conversation.',cold:'I am reaching out because I think I can help.',complaint:'I am writing about a problem I would like to see resolved.',apology:'I am sorry about what happened, and I want to make it right.',request:'I would like to ask for your help with something.',thanks:'Thank you so much for your time and support.'}[p];
+    const close={followup:'Could you let me know where things stand?',cold:'Would you be open to a short call this week?',complaint:'I would appreciate a reply and a resolution by the end of the week.',apology:'Thank you for your understanding.',request:'Thank you in advance for your help.',thanks:'I really appreciate it.'}[p];
+    const hi=to?{professional:`Dear ${to},`,friendly:`Hi ${to},`,direct:`${to},`}[tone]:{professional:'Hello,',friendly:'Hi there,',direct:'Hello,'}[tone];
+    const bye={professional:'Kind regards,',friendly:'Thanks,',direct:'Regards,'}[tone];
+    set([`Subject: ${subject}`,'',hi,'',open,...(pts.length?['',...pts.map(x=>'- '+x)]:[]),'',close,'',bye,from||'[Your name]'].join('\n'));
+    copy();
+  });
+
+  if(id==='product') run(()=>{
+    const n=el('name').value.trim();
+    if(!n) return set('Enter a product name first.');
+    const f=lines(el('features').value),aud=el('aud').value.trim()||'everyday use',tone=el('tone').value;
+    const head={persuasive:`Meet ${n}: made to make life easier`,simple:`${n}: simple, useful, reliable`,luxury:`${n}: crafted for those who expect more`}[tone];
+    const intro={persuasive:`${n} is designed for ${aud}, with everything you need and nothing you do not.`,simple:`${n} is made for ${aud}. It does the job well.`,luxury:`Designed with care for ${aud}, ${n} brings quality and style together.`}[tone];
+    const cta={persuasive:'Order yours today and see the difference.',simple:'Add it to your cart today.',luxury:'Make it yours today.'}[tone];
+    set([head,'',intro,'',...(f.length?['Key features:',...f.map(x=>'✔ '+x),'']:[]),cta].join('\n'));
+    copy();
+  });
+
+  if(id==='adcopy') run(()=>{
+    const n=el('name').value.trim(),b=el('benefit').value.trim();
+    if(!n||!b) return set('Add a product name and a main benefit.');
+    const aud=el('aud').value.trim()||'you',plat=el('platform').value;
+    const cnt=(s,m)=>`${s} (${s.length}/${m})${s.length>m?' - too long, shorten it':''}`;
+    if(plat==='google'){
+      set(['HEADLINES (max 30 characters each)',cnt(n,30),cnt(`Try ${n} Today`,30),cnt(cap(b),30),cnt(`Why ${n}?`,30),'','DESCRIPTIONS (max 90 characters each)',cnt(`${n} helps ${aud} ${b}. Start today.`,90),cnt(`Join people who chose ${n}. ${cap(b)}.`,90)].join('\n'));
+    } else if(plat==='facebook'){
+      set(['PRIMARY TEXT',`${cap(b)}: that is what ${n} is built for.`,'',`Made for ${aud}. See why people love it.`,'','HEADLINE',`${n}: ${cap(b)}`,'','BUTTON','Learn More'].join('\n'));
+    } else {
+      set(['INTRO TEXT',`${cap(aud)}: ${b}. Here is how ${n} helps.`,'',`We built ${n} to make that simple. See how it works.`,'','HEADLINE',`${n}: ${cap(b)}`,'','BUTTON','Learn More'].join('\n'));
+    }
+    copy();
+  });
+
+  if(id==='essay') run(()=>{
+    const T=el('topic').value.trim();
+    if(!T) return set('Enter your essay topic first.');
+    const type=el('type').value,n=+el('paras').value;
+    const thesis={argumentative:`${cap(T)} should be [supported / changed] because of [reason 1], [reason 2] and [reason 3].`,expository:`${cap(T)} can be understood through [point 1], [point 2] and [point 3].`,compare:`Although [A] and [B] share [similarity], they differ in [difference 1] and [difference 2] when it comes to ${T}.`,narrative:`The experience of ${T} taught me [lesson], and it changed how I [see / act].`}[type];
+    const hook={argumentative:'a surprising fact, statistic or question',expository:'a short definition or a striking example',compare:'a question that links the two subjects',narrative:'a vivid moment or sensory detail'}[type];
+    const body=Array.from({length:n},(_,i)=>`BODY PARAGRAPH ${i+1}\n- Topic sentence: state point ${i+1} about ${T}\n- Evidence: add a fact, quote or example\n- Explanation: say why it matters\n- Link: connect back to your thesis`);
+    set([`INTRODUCTION\n- Hook: start with ${hook}\n- Background: 1 to 2 sentences on ${T}\n- Thesis: ${thesis}`,'',...body.flatMap(b=>[b,'']),...(type==='argumentative'?['COUNTERARGUMENT\n- Present the strongest opposing view\n- Respond with evidence','']:[]),'CONCLUSION\n- Restate your thesis in new words\n- Summarise your main points\n- End with a final thought or call to action'].join('\n'));
+    copy();
+  });
+
+  if(id==='resume') run(()=>{
+    const n=el('name').value.trim(),r=el('role').value.trim();
+    if(!n||!r) return set('Add your name and target role.');
+    const sk=(el('skills').value.match(/[^,]+/g)||[]).map(x=>x.trim()).filter(Boolean);
+    const ex=lines(el('exp').value),ed=el('edu').value.trim(),em=el('email').value.trim();
+    if(el('mode').value==='cover'){
+      const co=el('company').value.trim()||'your company';
+      set(['Dear Hiring Manager,','',`I am excited to apply for the ${r} role at ${co}.${sk.length?` My experience with ${sk.slice(0,3).join(', ')} has prepared me to contribute from day one.`:''}`,'',...(ex.length?['Highlights from my background:',...ex.map(x=>'- '+x),'']:[]),`I would welcome the chance to discuss how I can help ${co} succeed. Thank you for your time and consideration.`,'','Sincerely,',n,...(em?[em]:[])].join('\n'));
+    } else {
+      set([n.toUpperCase(),r+(em?' | '+em:''),'','SUMMARY',`${r} with experience in ${sk.slice(0,4).join(', ')||'a range of areas'}. Focused on clear results, reliable work and continuous learning.`,'',...(sk.length?['SKILLS',sk.join(' • '),'']:[]),...(ex.length?['EXPERIENCE',...ex.map(x=>'• '+x),'']:[]),...(ed?['EDUCATION',ed]:[])].join('\n'));
+    }
+    copy();
+  });
+
+  if(id==='interview') run(()=>{
+    const role=el('role').value.trim()||'professional',type=el('type').value,count=+el('qty').value;
+    const bank={
+      behavioral:['Tell me about a time you faced a difficult challenge at work. What did you do?','Describe a time you disagreed with a teammate. How did you handle it?','Tell me about a goal you achieved and how you reached it.','Describe a mistake you made and what you learned from it.','Tell me about a time you had to learn something quickly.','Give an example of when you showed leadership.','Tell me about a time you worked under a tight deadline.','Describe a time you received difficult feedback.'],
+      situational:['What would you do if you were given two urgent tasks at the same time?','How would you handle a teammate who is not doing their share?','What would you do if you found a serious mistake just before a deadline?','How would you respond if a client was unhappy with your work?','What would you do if you did not know how to complete a task?','How would you handle a change in priorities halfway through a project?'],
+      technical:[`What skills make someone successful as a ${role}?`,`Walk me through a recent project you completed as a ${role}.`,`What tools do you use most as a ${role}, and why?`,`How do you keep your ${role} skills up to date?`,`Describe a hard problem you solved as a ${role}.`,`How do you check the quality of your work as a ${role}?`]
+    };
+    const pool=type==='mix'?[...bank.behavioral,...bank.situational,...bank.technical]:bank[type];
+    const qs=shuffle(pool).slice(0,count);
+    set(`Practice questions for ${role}\n\n`+qs.map((q,i)=>`${i+1}. ${q}`).join('\n\n')+'\n\nTip: answer behavioral questions with the STAR method: Situation, Task, Action, Result.');
+    copy();
+  });
+
+  if(id==='study') run(()=>{
+    const t=el('text').value.trim();
+    if(t.split(/\s+/).length<20) return set('Paste at least a short paragraph (about 20 words) of notes.');
+    const n=+el('qty').value,mode=el('mode').value;
+    const r=rankSentences(t,n),keep=r.picked.map(i=>r.sents[i]);
+    const parts=[];
+    if(mode!=='quiz') parts.push('STUDY NOTES',...keep.map(s=>'• '+s),'');
+    if(mode!=='notes'){
+      const freq={};
+      (t.toLowerCase().match(/[a-z]{5,}/g)||[]).forEach(w=>{if(!STOP.has(w)) freq[w]=(freq[w]||0)+1;});
+      const answers=[];
+      parts.push('QUIZ: fill in the blank');
+      keep.forEach(s=>{
+        const ws=(s.toLowerCase().match(/[a-z]{5,}/g)||[]).filter(w=>!STOP.has(w)).sort((a,b)=>(freq[b]||0)-(freq[a]||0)||b.length-a.length);
+        if(!ws.length) return;
+        const w=ws.find(x=>!answers.includes(x))||ws[0];
+        answers.push(w);
+        parts.push(`${answers.length}. ${s.replace(new RegExp('\\b'+w+'\\b','i'),'_____')}`);
+      });
+      parts.push('','ANSWERS',...answers.map((a,i)=>`${i+1}. ${a}`));
+    }
+    set(parts.join('\n'));
+    copy();
+  });
+
+  if(id==='imgprompt') run(()=>{
+    const s=el('subject').value.trim();
+    if(!s) return set('Describe your subject first.');
+    const style=el('style').selectedOptions[0].text.toLowerCase(),mood=el('mood').selectedOptions[0].text.toLowerCase();
+    const light=el('light').value,shot=el('shot').value,ar=el('ratio').value,ex=el('extra').value.trim();
+    const p=`${s}, ${shot}, ${style}, ${mood} mood, ${light}, highly detailed, sharp focus${ex?', '+ex:''}`;
+    set(`PROMPT\n${p}\n\nMIDJOURNEY VERSION\n${p} --ar ${ar}\n\nTIP\nPut the most important idea first. Add "no text, no watermark" if you want a clean image.`);
+    copy();
+  });
+
+  if(id==='codeexplain') run(()=>{
+    const c=el('code').value;
+    if(!c.trim()) return set('Paste some code first.');
+    const fn=(c.match(/\bfunction\b|\bdef\b|=>|\bfunc\b|\bfn\b/g)||[]).length;
+    const lp=(c.match(/\bfor\b|\bwhile\b|\.forEach\(|\.map\(/g)||[]).length;
+    const cond=(c.match(/\bif\b|\belse\b|\bswitch\b|\bcase\b/g)||[]).length;
+    const level=el('level').value==='beginner'?'a complete beginner':'someone with some programming experience';
+    set(`QUICK SCAN\nLines: ${c.split('\n').length}\nFunctions: ${fn}\nLoops: ${lp}\nConditions: ${cond}\n\nPROMPT FOR AI\nExplain the following ${el('lang').value} code to ${level}.\n\n1. Start with a one-sentence summary of what it does.\n2. Walk through it step by step.\n3. Point out any bugs or risky parts.\n\nCode:\n----\n${c}\n----`);
+    copy();
+  });
+
+  if(id==='codeconvert'){
+    el('to').value='Python';
+    run(()=>{
+      const c=el('code').value,from=el('from').value,to=el('to').value;
+      if(!c.trim()) return set('Paste some code first.');
+      if(from===to) return set('Choose two different languages.');
+      set(`Convert the following ${from} code to ${to}.\n\nRules:\n- Keep the same behaviour.\n- Use idiomatic ${to} style and naming.\n- Add short comments where the approach differs.\n- List any libraries or setup needed.\n\n${from} code:\n----\n${c}\n----`);
+      copy();
+    });
+  }
+
+  if(id==='bugfix') run(()=>{
+    const c=el('code').value,lang=el('lang').value;
+    if(!c.trim()) return set('Paste your code first.');
+    const found=[];
+    if(lang==='JSON'){
+      try{JSON.parse(c);}catch(e){found.push('JSON error: '+e.message);}
+    } else if(lang==='HTML'){
+      ['div','span','p','ul','ol','li','a','section','article','main','header','footer','nav','button','form','table','tr','td','h1','h2','h3'].forEach(t=>{
+        const o=(c.match(new RegExp('<'+t+'(\\s[^>]*)?>','gi'))||[]).length,x=(c.match(new RegExp('</'+t+'>','gi'))||[]).length;
+        if(o!==x) found.push(`<${t}> is opened ${o} time(s) but closed ${x} time(s)`);
+      });
+    } else {
+      scanBrackets(c,lang==='Python').forEach(x=>found.push(x));
+      if(lang==='JavaScript'){
+        try{new Function(c);}catch(e){found.push('JavaScript syntax: '+e.message);}
+      }
+      if(lang==='Python'){
+        c.split('\n').forEach((l,i)=>{
+          if(/^\s*(def|class|if|elif|else|for|while|try|except|finally|with)\b[^#]*[^:\s#]\s*(#.*)?$/.test(l)&&!/[(\[{,\\]\s*$/.test(l)) found.push(`Line ${i+1}: this line may be missing a ":" at the end`);
+          if(/^\s*print\s+[^(\s=]/.test(l)) found.push(`Line ${i+1}: use print(...) with brackets`);
+        });
+        if(/^\t+ /m.test(c)||/^ +\t/m.test(c)) found.push('Tabs and spaces are mixed in the indentation');
+      }
+    }
+    const err=el('err').value.trim();
+    set(`FINDINGS\n${found.length?found.map(x=>'• '+x).join('\n'):'No obvious syntax problems found. The bug may be in the logic.'}\n\nPROMPT FOR AI\nFind and fix the bug in this ${lang==='Other'?'':lang+' '}code.${err?'\nError message: '+err:''}\n\nExplain what was wrong, then give the corrected code.\n\nCode:\n----\n${c}\n----`);
+    copy();
+  });
+
+  if(id==='regex') run(()=>{
+    const kind=el('kind').value,val=el('val').value.trim();
+    const lib={
+      email:[/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/,'Email address'],
+      url:[/https?:\/\/[^\s/$.?#][^\s]*/,'Web link starting with http or https'],
+      phone:[/\+?\d{1,3}[\s.-]?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}/,'Phone number with optional country code'],
+      date:[/\b\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|3[01])\b/,'Date in YYYY-MM-DD format'],
+      time:[/\b(?:[01]\d|2[0-3]):[0-5]\d\b/,'24-hour time (HH:MM)'],
+      hex:[/#(?:[0-9a-fA-F]{3}){1,2}\b/,'Hex colour code'],
+      ip:[/\b(?:(?:25[0-5]|2[0-4]\d|1?\d?\d)\.){3}(?:25[0-5]|2[0-4]\d|1?\d?\d)\b/,'IPv4 address'],
+      zip:[/\b\d{5}(?:-\d{4})?\b/,'US ZIP code'],
+      username:[/\b[A-Za-z0-9_]{3,16}\b/,'Username of 3 to 16 letters, numbers or underscores'],
+      digits:[/\d+/,'One or more digits']
+    };
+    let re,why;
+    if(lib[kind]){ re=lib[kind][0]; why=lib[kind][1]; }
+    else {
+      if(!val) return set('Enter a word or text first.');
+      const e=val.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+      re={contains:new RegExp('\\b'+e+'\\b'),starts:new RegExp('^'+e),ends:new RegExp(e+'$')}[kind];
+      why={contains:'Whole word "'+val+'"',starts:'Text that starts with "'+val+'"',ends:'Text that ends with "'+val+'"'}[kind];
+    }
+    const flags=kind==='starts'||kind==='ends'?'gm':'g';
+    const text=el('test').value;
+    const m=text?(text.match(new RegExp(re.source,flags))||[]):null;
+    set(`PATTERN\n/${re.source}/${flags}\n\nMEANING\n${why}`+(m?`\n\nMATCHES IN YOUR TEXT: ${m.length}${m.length?'\n'+m.slice(0,20).join('\n'):''}`:'')+`\n\nJAVASCRIPT\nconst pattern = /${re.source}/${flags};`);
+    copy();
+  });
+
+  if(id==='sql') run(()=>{
+    const act=el('act').value,tb=el('table').value.trim();
+    if(!/^[A-Za-z_][\w.]*$/.test(tb)) return set('Enter a valid table name (letters, numbers and underscores).');
+    const cols=el('cols').value.trim(),vals=el('vals').value.trim(),cond=el('cond').value.trim(),ord=el('order').value.trim(),lim=parseInt(el('limit').value,10);
+    let q,warn='';
+    if(act==='SELECT'){
+      q=`SELECT ${cols||'*'}\nFROM ${tb}`;
+      if(cond) q+=`\nWHERE ${cond}`;
+      if(ord) q+=`\nORDER BY ${ord}`;
+      if(lim>0) q+=`\nLIMIT ${lim}`;
+    } else if(act==='INSERT'){
+      if(!cols||!vals) return set('INSERT needs columns and values.');
+      q=`INSERT INTO ${tb} (${cols})\nVALUES (${vals})`;
+    } else if(act==='UPDATE'){
+      if(!cols) return set("UPDATE needs columns like: name = 'Ali'");
+      q=`UPDATE ${tb}\nSET ${cols}`;
+      if(cond) q+=`\nWHERE ${cond}`;
+    } else {
+      q=`DELETE FROM ${tb}`;
+      if(cond) q+=`\nWHERE ${cond}`;
+    }
+    if((act==='UPDATE'||act==='DELETE')&&!cond) warn='\n\n-- Warning: no WHERE condition. This will affect every row in the table.';
+    set(q+';'+warn);
+    copy();
+  });
+
+  if(id==='docs') run(()=>{
+    const c=el('code').value,lang=el('lang').value;
+    if(!c.trim()) return set('Paste your code first.');
+    const clean=a=>a.split(',').map(x=>x.replace(/=.*$/,'').replace(/:.*$/,'').replace(/[*.\s]/g,'')).filter(Boolean);
+    const out=[];
+    if(lang==='Python'){
+      for(const m of c.matchAll(/def\s+(\w+)\s*\(([^)]*)\)/g)){
+        const ps=clean(m[2]).filter(p=>p!=='self'&&p!=='cls');
+        const L=[`def ${m[1]}(${m[2].trim()}):`,`    """TODO: describe what ${m[1]} does.`];
+        if(ps.length) L.push('','    Args:',...ps.map(p=>`        ${p}: TODO`));
+        L.push('','    Returns:','        TODO','    """');
+        out.push(L.join('\n'));
+      }
+    } else {
+      const re=/(?:async\s+)?function\s+([A-Za-z_$][\w$]*)\s*\(([^)]*)\)|(?:const|let|var)\s+([A-Za-z_$][\w$]*)\s*=\s*(?:async\s*)?\(([^)]*)\)\s*=>/g;
+      for(const m of c.matchAll(re)){
+        const name=m[1]||m[3],args=m[2]!==undefined?m[2]:m[4],ps=clean(args);
+        const L=['/**',` * TODO: describe what ${name} does.`,' *',...ps.map(p=>` * @param {*} ${p} - TODO`),' * @returns {*} TODO',' */',`// ${name}(${args.trim()})`];
+        out.push(L.join('\n'));
+      }
+    }
+    set((out.length?'DOC COMMENT TEMPLATES (paste each one above its function)\n\n'+out.join('\n\n'):'No functions found in this code.')+`\n\nPROMPT FOR AI\nAdd clear, helpful comments to this ${lang} code. Explain why, not just what. Do not change the code itself.\n\nCode:\n----\n${c}\n----`);
+    copy();
+  });
+
+  if(id==='readme') run(()=>{
+    const n=el('name').value.trim();
+    if(!n) return set('Enter a project name first.');
+    const f=lines(el('features').value),lic=el('license').value,au=el('author').value.trim();
+    const T=String.fromCharCode(96).repeat(3);
+    set([`# ${n}`,'',el('desc').value.trim()||'A short description of the project.','',...(f.length?['## Features','',...f.map(x=>'- '+x),'']:[]),'## Installation','',T+'bash',el('install').value.trim()||'npm install',T,'','## Usage','',T+'bash',el('usage').value.trim()||'npm start',T,'',...(lic!=='none'?['## License','',`This project is licensed under the ${lic} license.`,'']:[]),...(au?['## Author','',au]:[])].join('\n'));
+    copy();
+  });
+
+  if(id==='bizname') run(()=>{
+    const kw=el('kw').value.toLowerCase().match(/[a-z0-9]+/g)||[];
+    if(!kw.length) return set('Enter at least one keyword first.');
+    const style=el('style').value,ind=el('industry').value;
+    const suf={tech:['ly','ify','Labs','Hub','Stack'],food:['Kitchen','Bites','Table','Fresh','Pantry'],fashion:['Studio','Wear','Atelier','Co','Collective'],fitness:['Fit','Pulse','Strong','Move','Well'],education:['Academy','Learn','Path','School','Mind'],creative:['Studio','Works','House','Lab','Craft']}[ind];
+    const pre={modern:['Neo','Nova','Zen','Next'],classic:['Prime','Royal','Grand','True'],playful:['Happy','Zippy','Jolly','Fun']}[style];
+    const names=[];
+    kw.slice(0,3).forEach(k=>{
+      suf.forEach(s=>names.push(/^[a-z]/.test(s)?cap(k)+s:cap(k)+' '+s));
+      pre.forEach(p=>names.push(p+' '+cap(k)));
+    });
+    const uniq=shuffle([...new Set(names)]).slice(0,12);
+    const k0=kw[0];
+    const slogans=[`${cap(k0)}, done right.`,`Where ${k0} begins.`,`Simply better ${k0}.`,`Made for people who love ${k0}.`];
+    set(['NAME IDEAS',...uniq.map((x,i)=>`${i+1}. ${x}`),'','SLOGANS',...slogans.map(x=>'• '+x)].join('\n'));
+    copy();
+  });
 }
+
+
 </script>
 </body>
 </html>
