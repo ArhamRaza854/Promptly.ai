@@ -1,1892 +1,555 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Promptly — Free tools for AI prompts, programming, social media and everyday creativity.">
+<meta name="description" content="Promptly — 44 free online tools for writing, coding, creating and everyday tasks.">
 <meta name="theme-color" content="#0B0F19">
 <title>Promptlyx</title>
-
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap');
-
 :root {
-  --bg: #0B0F19;
-  --panel: #111827;
-  --panel2: #182235;
-  --border: #29354b;
-  --text: #f1f5ff;
-  --muted: #94a3b8;
-  --accent: #8b7cff;
-  --accent2: #42d6c5;
-}
-
-* { box-sizing: border-box; }
-
-body {
-  margin: 0;
-  background: radial-gradient(ellipse at 15% 0%, #20264e 0, transparent 35%), var(--bg);
-  color: var(--text);
-  font-family: 'DM Sans', sans-serif;
-}
-
-button, input, textarea, select { font: inherit; }
-button { cursor: pointer; }
-
-.shell {
-  max-width: 1200px;
-  margin: auto;
-  padding: 0 24px;
-}
-
-header {
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  background: #0b0f19ed;
-  backdrop-filter: blur(16px);
-  border-bottom: 1px solid #29354b;
-}
-
-.nav {
-  height: 76px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.brand {
-  color: var(--text);
-  text-decoration: none;
-  font: 700 25px 'Space Grotesk';
-}
-
-.logo {
-  display: inline-grid;
-  place-items: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 12px;
-  background: linear-gradient(135deg,var(--accent),var(--accent2));
-  color: #101322;
-  margin-right: 8px;
-}
-
-.nav-right {
-  display: flex;
-  gap: 20px;
-  color: var(--muted);
-  font-size: 13px;
-}
-
-.nav-right a {
-  color: inherit;
-  text-decoration: none;
-}
-
-.hero {
-  padding: 75px 0 45px;
-  text-align: center;
-}
-
-.eyebrow {
-  display: inline-block;
-  padding: 8px 14px;
-  border: 1px solid #41436b;
-  background: #191d38;
-  border-radius: 30px;
-  color: #c7c4ff;
-  font-size: 12px;
-  font-weight: 700;
-}
-
-h1 {
-  font: 700 clamp(40px,6vw,66px)/1.08 'Space Grotesk';
-  letter-spacing: -2px;
-  margin: 23px 0 15px;
-}
-
-.gradient {
-  background: linear-gradient(100deg,#a99fff,#5ce3d0);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-.hero p {
-  color: var(--muted);
-  font-size: 16px;
-  line-height: 1.7;
-  max-width: 650px;
-  margin: 0 auto 28px;
-}
-
-.search-wrap {
-  max-width: 620px;
-  margin: auto;
-}
-
-.search-wrap input {
-  width: 100%;
-  padding: 17px 20px;
-  background: var(--panel);
-  border: 1px solid #394765;
-  border-radius: 14px;
-  color: white;
-  outline: none;
-}
-
-.search-wrap input:focus {
-  border-color: var(--accent);
-}
-
-.quick {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 9px;
-  margin-top: 17px;
-}
-
-.chip {
-  padding: 8px 13px;
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 30px;
-  color: var(--muted);
-  font-size: 12px;
-}
-
-.chip.active, .chip:hover {
-  border-color: var(--accent);
-  color: white;
-  background: #292449;
-}
-
-main { padding-bottom: 70px; }
-
-.section-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: end;
-  margin: 25px 0 18px;
-}
-
-.section-head h2 {
-  font: 600 23px 'Space Grotesk';
-  margin: 0;
-}
-
-.section-head p {
-  color: var(--muted);
-  font-size: 13px;
-}
-
-.count { color: var(--muted); font-size: 12px; }
-
-.tool-grid {
-  display: grid;
-  grid-template-columns: repeat(4,minmax(0,1fr));
-  gap: 14px;
-}
-
-.tool-card {
-  background: linear-gradient(145deg,#141e34,#101827);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 18px;
-  min-height: 160px;
-  text-align: left;
-  color: white;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  transition: .2s;
-}
-
-.tool-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--accent);
-  box-shadow: 0 12px 30px #0004;
-}
-
-.tool-icon {
-  width: 40px;
-  height: 40px;
-  display: grid;
-  place-items: center;
-  background: #29264e;
-  border-radius: 12px;
-  font-size: 20px;
-  margin-bottom: 13px;
-}
-
-.tool-card h3 { font-size: 15px; margin: 0 0 7px; }
-.tool-card p { font-size: 12px; color: var(--muted); line-height: 1.5; margin: 0; }
-.arrow { color: #a99fff; font-size: 12px; margin-top: auto; padding-top: 13px; }
-
-.empty {
-  display: none;
-  padding: 35px;
-  text-align: center;
-  color: var(--muted);
-  border: 1px dashed var(--border);
-  border-radius: 15px;
-}
-
-footer {
-  border-top: 1px solid var(--border);
-  padding: 25px 0;
-  color: var(--muted);
-  font-size: 12px;
-}
-
-.footer-inner {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 15px;
-}
-
-/* TOOL MODAL */
-
-.modal {
-  position: fixed;
-  inset: 0;
-  z-index: 50;
-  background: #050812d9;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 18px;
-}
-
-.modal.open { display: flex; }
-
-.dialog {
-  width: min(780px,100%);
-  max-height: 90vh;
-  overflow: auto;
-  background: #111a2e;
-  border: 1px solid #35415c;
-  border-radius: 20px;
-}
-
-.dialog-head {
-  position: sticky;
-  top: 0;
-  z-index: 3;
-  background: #111a2e;
-  border-bottom: 1px solid var(--border);
-  padding: 19px 22px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.dialog-title {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.dialog-title .tool-icon { margin: 0; }
-
-.dialog-title h2 {
-  font: 600 20px 'Space Grotesk';
-  margin: 0;
-}
-
-.close {
-  background: #19243b;
-  border: 1px solid var(--border);
-  color: white;
-  border-radius: 9px;
-  width: 35px;
-  height: 35px;
-  font-size: 20px;
-}
-
-.dialog-body { padding: 22px; }
-
-.field { margin-bottom: 16px; }
-
-.field label {
-  display: block;
-  margin-bottom: 8px;
-  color: #c8d2e8;
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.field input,
-.field textarea,
-.field select {
-  width: 100%;
-  padding: 12px;
-  background: #0b1325;
-  border: 1px solid #34425f;
-  border-radius: 10px;
-  color: white;
-  outline: none;
-}
-
-.field textarea {
-  min-height: 110px;
-  resize: vertical;
-}
-
-.field input:focus,
-.field textarea:focus,
-.field select:focus {
-  border-color: var(--accent);
-}
-
-.row-fields {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-.checks {
-  display: flex;
-  gap: 15px;
-  flex-wrap: wrap;
-  color: var(--muted);
-  font-size: 13px;
-  margin: 10px 0 15px;
-}
-
-.checks label { display: flex; gap: 6px; align-items: center; }
-
-.btn {
-  padding: 11px 16px;
-  background: linear-gradient(135deg,var(--accent),#6d62d8);
-  color: white;
-  border: 0;
-  border-radius: 10px;
-  font-size: 13px;
-  font-weight: 700;
-}
-
-.btn.secondary {
-  background: #202c45;
-  border: 1px solid #3a4968;
-}
-
-.btn.success {
-  background: #173d3b;
-  border: 1px solid #276b62;
-  color: #8ff0df;
-}
-
-.actions {
-  display: flex;
-  gap: 9px;
-  flex-wrap: wrap;
-  margin-top: 14px;
-}
-
-.output {
-  background: #0a1222;
-  border: 1px solid #2d3a56;
-  border-radius: 11px;
-  padding: 14px;
-  margin-top: 14px;
-  min-height: 45px;
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-  color: #dce6fa;
-  font-size: 13px;
-  line-height: 1.65;
-}
-
-.output:empty { display: none; }
-
-.hint {
-  color: var(--muted);
-  font-size: 12px;
-  line-height: 1.5;
-  margin-top: 10px;
-}
-
-.playground {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-.code-panel {
-  border: 1px solid #34425f;
-  border-radius: 11px;
-  overflow: hidden;
-  background: #091222;
-}
-
-.code-head {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px;
-  background: #18243a;
-  color: #cbd6ec;
-  font-size: 12px;
-  font-weight: 700;
-}
-
-.code-panel textarea {
-  width: 100%;
-  height: 190px;
-  display: block;
-  background: #091222;
-  border: 0;
-  color: #c7e4ff;
-  padding: 12px;
-  outline: 0;
-  resize: vertical;
-  font: 12px/1.6 Consolas, monospace;
-}
-
-.preview-wrap {
-  margin-top: 15px;
-  border: 1px solid #34425f;
-  border-radius: 11px;
-  overflow: hidden;
-  background: white;
-}
-
-.preview-head {
-  background: #18243a;
-  color: white;
-  padding: 10px;
-  font-size: 12px;
-}
-
-.preview-frame {
-  width: 100%;
-  height: 300px;
-  border: 0;
-  display: block;
-  background: white;
-}
-
-.snippet-list {
-  display: grid;
-  grid-template-columns: repeat(2,1fr);
-  gap: 10px;
-}
-
-.snippet {
-  background: #0c1528;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 13px;
-}
-
-.snippet p { color: var(--muted); font-size: 12px; }
-
-.palette {
-  display: grid;
-  grid-template-columns: repeat(5,1fr);
-  gap: 8px;
-}
-
-.swatch {
-  height: 95px;
-  border-radius: 10px;
-  display: flex;
-  align-items: end;
-  padding: 8px;
-  color: white;
-  font-size: 11px;
-  cursor: pointer;
-}
-
-.markdown-preview {
-  background: white;
-  color: #182235;
-  border-radius: 10px;
-  padding: 15px;
-  min-height: 130px;
-  line-height: 1.6;
-}
-
-.toast {
-  position: fixed;
-  bottom: 22px;
-  left: 50%;
-  transform: translate(-50%,20px);
-  opacity: 0;
-  background: #e9fff9;
-  color: #102c2a;
-  padding: 11px 16px;
-  border-radius: 10px;
-  font-weight: 700;
-  font-size: 13px;
-  transition: .2s;
-  z-index: 80;
-  pointer-events: none;
-}
-
-.toast.show {
-  opacity: 1;
-  transform: translate(-50%,0);
-}
-
-@media(max-width:900px) {
-  .tool-grid { grid-template-columns: repeat(3,1fr); }
-}
-
-@media(max-width:650px) {
-  .shell { padding: 0 16px; }
-  .hero { padding: 50px 0 30px; }
-  .tool-grid { grid-template-columns: repeat(2,1fr); gap: 10px; }
-  .row-fields,.playground { grid-template-columns: 1fr; }
-  .dialog-body { padding: 16px; }
-  .snippet-list { grid-template-columns: 1fr; }
-  .nav-right a { display: none; }
-}
-
-@media(max-width:380px) {
-  .tool-grid { grid-template-columns: 1fr; }
-}
+  --bg:#0B0F19;
+  --panel:#111827;
+  --panel2:#151d2c;
+  --border:#263247;
+  --text:#f4f6fb;
+  --muted:#929db0;
+  --purple:#8b7cff;
+  --teal:#42d6c5;
+  --radius:16px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+header{height:76px;border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between;padding:0 7%;position:sticky;top:0;background:rgba(11,15,25,.92);backdrop-filter:blur(16px);z-index:10}
+.logo{font-family:'Space Grotesk',sans-serif;font-size:25px;font-weight:700;letter-spacing:-1px}
+.logo span{color:var(--purple)}
+.nav-right{color:var(--muted);font-size:13px}
+.hero{max-width:900px;margin:0 auto;text-align:center;padding:90px 22px 52px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;padding:8px 13px;border:1px solid #343052;background:#17152a;border-radius:30px;color:#b8adff;font-size:12px;margin-bottom:24px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 12px var(--teal)}
+h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(42px,7vw,68px);line-height:1.08;letter-spacing:-3px;margin:0 0 20px}
+.gradient{background:linear-gradient(100deg,var(--purple),var(--teal));background-clip:text;-webkit-background-clip:text;color:transparent}
+.hero p{font-size:16px;line-height:1.8;color:var(--muted);max-width:610px;margin:0 auto}
+.search-wrap{max-width:590px;margin:32px auto 0;position:relative}
+.search-wrap input{width:100%;padding:17px 20px 17px 48px;background:var(--panel);border:1px solid var(--border);border-radius:13px;color:white;outline:none}
+.search-wrap input:focus{border-color:var(--purple)}
+.search-icon{position:absolute;left:18px;top:16px;color:var(--muted);font-size:19px}
+main{max-width:1200px;margin:auto;padding:10px 24px 90px}
+.toolbar{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap;margin:15px 0 25px}
+.filters{display:flex;gap:8px;flex-wrap:wrap}
+.filter{padding:9px 15px;border:1px solid var(--border);border-radius:30px;background:transparent;color:var(--muted);font-size:13px}
+.filter.active,.filter:hover{background:#25213e;border-color:#6357ad;color:#c9c1ff}
+.count{font-size:13px;color:var(--muted)}
+.tool-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.tool-card{background:linear-gradient(145deg,var(--panel),#101624);border:1px solid var(--border);border-radius:var(--radius);padding:21px;min-height:174px;cursor:pointer;transition:.2s;position:relative;overflow:hidden}
+.tool-card:hover{transform:translateY(-4px);border-color:#665bb2;box-shadow:0 12px 35px #0004}
+.tool-icon{width:43px;height:43px;border-radius:12px;display:grid;place-items:center;background:#25213e;font-size:21px;margin-bottom:17px}
+.tool-card h3{font-family:'Space Grotesk',sans-serif;font-size:16px;margin:0 0 8px}
+.tool-card p{font-size:12px;color:var(--muted);line-height:1.6;margin:0}
+.tool-arrow{position:absolute;right:18px;top:20px;color:#65718a}
+footer{border-top:1px solid rgba(255,255,255,.07);padding:35px 7%;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;color:var(--muted);font-size:13px}
+footer strong{color:white}
+.modal{display:none;position:fixed;inset:0;background:#050811d9;z-index:20;align-items:center;justify-content:center;padding:18px}
+.modal.open{display:flex}
+.modal-box{width:100%;max-width:650px;max-height:90vh;overflow:auto;background:#111827;border:1px solid #303c52;border-radius:19px;padding:27px;box-shadow:0 25px 80px #0009}
+.modal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:15px;margin-bottom:22px}
+.modal-head h2{font-family:'Space Grotesk',sans-serif;margin:0 0 6px;font-size:23px}
+.modal-head p{color:var(--muted);font-size:13px;margin:0}
+.close{background:#202a3b;border:0;color:white;width:35px;height:35px;border-radius:9px;font-size:20px}
+.form-field{margin-bottom:15px}
+.form-field label{display:block;font-size:13px;color:#cbd3e1;margin-bottom:7px}
+.form-field input,.form-field textarea,.form-field select{width:100%;background:#0c1320;border:1px solid #2a374d;color:white;border-radius:9px;padding:12px;outline:none}
+.form-field textarea{min-height:90px;resize:vertical}
+.form-field input:focus,.form-field textarea:focus,.form-field select:focus{border-color:var(--purple)}
+.form-field select option{background:#111827}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.btn{border:0;border-radius:9px;padding:12px 18px;font-weight:600;font-size:13px}
+.btn-primary{background:linear-gradient(100deg,var(--purple),#6e65d9);color:white}
+.btn-secondary{background:#222d40;color:#dce4f1;border:1px solid #344157}
+.btn:hover{filter:brightness(1.12)}
+.output-wrap{margin-top:22px}
+.output-label{font-size:13px;color:#cbd3e1;margin-bottom:8px}
+.output{white-space:pre-wrap;overflow-wrap:anywhere;background:#0b1220;border:1px solid #2a374d;border-radius:10px;padding:15px;min-height:100px;color:#dce5f4;font-size:13px;line-height:1.7}
+.hint{font-size:11px;color:var(--muted);margin-top:10px;line-height:1.6}
+.empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:50px}
+@media(max-width:950px){.tool-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:680px){header{padding:0 5%;height:65px}.hero{padding-top:65px}main{padding-left:16px;padding-right:16px}.tool-grid{grid-template-columns:repeat(2,1fr);gap:11px}.tool-card{padding:16px;min-height:165px}.tool-card h3{font-size:14px}.modal-box{padding:20px}}
+@media(max-width:420px){.tool-grid{grid-template-columns:1fr 1fr}.tool-card{min-height:175px}.nav-right{font-size:11px}}
 </style>
 </head>
-
 <body>
 
 <header>
-<div class="shell nav">
-<a class="brand" href="#"><span class="logo">P</span> promptly<span style="color:var(--accent2)">.</span></a>
-<div class="nav-right">
-<a href="#tools">Explore tools</a>
-<span>43 useful tools · No sign-up</span>
-</div>
-</div>
+  <div class="logo">Prompt<span>ly</span>.</div>
+  <div class="nav-right"><span id="headerCount">44 useful tools</span> · No sign-up</div>
 </header>
 
-<section class="hero shell">
-<span class="eyebrow">✦ SIMPLE TOOLS. REAL USEFULNESS.</span>
-<h1>Get things done.<br><span class="gradient">Without the clutter.</span></h1>
-<p>Forty-three practical tools for AI prompts, programming, social media and everyday creativity. Free to use, right in your browser.</p>
-
-<div class="search-wrap">
-<input id="search" type="search" placeholder="Search a tool... e.g. password, HTML, Instagram bio">
-</div>
-
-<div class="quick">
-<button class="chip active" data-filter="All">All tools</button>
-<button class="chip" data-filter="AI & Writing">AI & Writing</button>
-<button class="chip" data-filter="Generators">Generators</button>
-<button class="chip" data-filter="Programming">Programming</button>
-<button class="chip" data-filter="Social Media">Social Media</button>
-<button class="chip" data-filter="Web & Design">Web & Design</button>
-</div>
+<section class="hero">
+  <div class="eyebrow"><span class="dot"></span> YOUR EVERYDAY TOOLKIT</div>
+  <h1>Everything you need.<br><span class="gradient">One place.</span></h1>
+  <p>Simple tools to write, create, code, and get things done. Explore your toolkit and make everyday tasks easier.</p>
+  <div class="search-wrap">
+    <span class="search-icon">⌕</span>
+    <input id="searchInput" type="search" placeholder="Search for a tool..." autocomplete="off">
+  </div>
 </section>
 
-<main class="shell" id="tools">
-<div class="section-head">
-<div>
-<h2>Explore the toolkit</h2>
-<p>Pick a tool and get started in seconds.</p>
-</div>
-<span class="count" id="count">43 tools</span>
-</div>
-
-<div class="tool-grid" id="grid"></div>
-<div class="empty" id="empty">No tools found. Try another search.</div>
+<main>
+  <div class="toolbar">
+    <div class="filters" id="filters">
+      <button class="filter active" data-category="All">All tools</button>
+      <button class="filter" data-category="Writing">Writing</button>
+      <button class="filter" data-category="Social Media">Social Media</button>
+      <button class="filter" data-category="Coding">Coding</button>
+      <button class="filter" data-category="Productivity">Productivity</button>
+      <button class="filter" data-category="Business">Business</button>
+    </div>
+    <div class="count" id="count">44 tools available</div>
+  </div>
+  <div class="tool-grid" id="toolGrid"></div>
 </main>
 
 <footer>
-<div class="shell footer-inner">
-<span><strong>promptly.</strong> — Useful tools. No clutter.</span>
-<span>Free to use · No account required</span>
-</div>
+  <div><strong>Promptly.</strong> — Everything you need. One place.</div>
+  <div>Simple tools. Useful results. © <span id="year"></span> Promptly.</div>
 </footer>
 
-<div class="modal" id="modal">
-<div class="dialog">
-<div class="dialog-head">
-<div class="dialog-title">
-<span class="tool-icon" id="modalIcon">✦</span>
-<h2 id="toolTitle">Tool</h2>
+<div class="modal" id="toolModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div>
+        <h2 id="modalTitle">Tool</h2>
+        <p id="modalDesc"></p>
+      </div>
+      <button class="close" id="closeModal" aria-label="Close">×</button>
+    </div>
+    <div id="toolForm"></div>
+    <div class="actions">
+      <button class="btn btn-primary" id="runTool">Generate</button>
+      <button class="btn btn-secondary" id="resetTool">Reset</button>
+    </div>
+    <div class="output-wrap">
+      <div class="output-label">Your result</div>
+      <div class="output" id="toolOutput">Your result will appear here.</div>
+      <div class="actions">
+        <button class="btn btn-secondary" id="copyOutput">Copy result</button>
+      </div>
+      <p class="hint" id="toolHint">Your information stays in your browser. No sign-up required.</p>
+    </div>
+  </div>
 </div>
-<button class="close" id="close">×</button>
-</div>
-<div class="dialog-body" id="toolBody"></div>
-</div>
-</div>
-
-<div class="toast" id="toast">Copied!</div>
 
 <script>
 const tools = [
-{id:'password',name:'Password Generator',desc:'Create strong passwords with custom settings.',icon:'🔐',cat:'Generators'},
-{id:'username',name:'Username Generator',desc:'Find fresh username ideas for any platform.',icon:'👤',cat:'Generators'},
-{id:'qr',name:'QR Code Generator',desc:'Turn a link or text into a downloadable QR code.',icon:'▦',cat:'Generators'},
-{id:'prompt',name:'Prompt Generator',desc:'Build detailed AI prompts using guided options.',icon:'✧',cat:'AI & Writing'},
-{id:'lorem',name:'Lorem Ipsum Generator',desc:'Generate placeholder text for designs and layouts.',icon:'¶',cat:'AI & Writing'},
-{id:'improver',name:'Prompt Improver',desc:'Improve and restructure your rough prompts.',icon:'✨',cat:'AI & Writing'},
-{id:'bio',name:'Bio Generator',desc:'Create professional and social media bios.',icon:'✍️',cat:'Social Media'},
-{id:'choice',name:'Random Choice Picker',desc:'Pick a random option from your own list.',icon:'🎯',cat:'Generators'},
-{id:'random',name:'Random Number Generator',desc:'Generate random numbers within your chosen range.',icon:'🎲',cat:'Generators'},
-{id:'date',name:'Date Calculator',desc:'Find date differences or add and subtract days.',icon:'📅',cat:'Generators'},
-{id:'playground',name:'HTML, CSS & JS Playground',desc:'Write code and instantly preview the result.',icon:'💻',cat:'Programming'},
-{id:'snippets',name:'Code Snippet Library',desc:'Copy ready-to-use HTML, CSS and JS components.',icon:'🧩',cat:'Programming'},
-{id:'json',name:'JSON Formatter',desc:'Format, validate and minify JSON data.',icon:'{}',cat:'Programming'},
-{id:'markdown',name:'Markdown Editor',desc:'Write Markdown and see the formatted preview.',icon:'Ⓜ',cat:'Programming'},
-{id:'instabio',name:'Instagram Bio Generator',desc:'Create stylish Instagram profile bios.',icon:'📸',cat:'Social Media'},
-{id:'caption',name:'Caption Generator',desc:'Create social media captions for your posts.',icon:'💬',cat:'Social Media'},
-{id:'hashtag',name:'Hashtag Generator',desc:'Find relevant hashtags for your niche.',icon:'#️⃣',cat:'Social Media'},
-{id:'palette',name:'Color Palette Generator',desc:'Generate color combinations and copy HEX codes.',icon:'🎨',cat:'Web & Design'},
-{id:'favicon',name:'Favicon Generator',desc:'Create and download a website icon.',icon:'🌐',cat:'Web & Design'},
-{id:'meta',name:'Meta Tag Generator',desc:'Create SEO titles, descriptions and meta tags.',icon:'🔎',cat:'Web & Design'},
-{id:'ytitle',name:'YouTube Title & Description',desc:'Get title ideas, a description and tags for your video.',icon:'▶️',cat:'Social Media'},
-{id:'reels',name:'Reels & TikTok Script Writer',desc:'Write a hook, scenes and caption for short videos.',icon:'🎬',cat:'Social Media'},
-{id:'tweet',name:'Tweet & Thread Writer',desc:'Turn an idea into tweets or a short thread.',icon:'🐦',cat:'Social Media'},
-{id:'blog',name:'Blog Outline Generator',desc:'Plan a blog post with title, sections and meta description.',icon:'📝',cat:'AI & Writing'},
-{id:'paraphrase',name:'Paraphraser',desc:'Build a prompt that rewrites any text in a new style.',icon:'🔁',cat:'AI & Writing'},
-{id:'grammar',name:'Grammar & Tone Fixer',desc:'Fix common typos and punctuation, or make text formal.',icon:'✅',cat:'AI & Writing'},
-{id:'summarize',name:'Text Summarizer',desc:'Shorten long text into its key sentences or bullets.',icon:'📄',cat:'AI & Writing'},
-{id:'email',name:'Email Writer',desc:'Write follow-up, cold, complaint or thank-you emails.',icon:'✉️',cat:'AI & Writing'},
-{id:'product',name:'Product Description Writer',desc:'Create a headline and description for your product.',icon:'🛍️',cat:'AI & Writing'},
-{id:'adcopy',name:'Ad Copy Generator',desc:'Write ad text for Google, Facebook or LinkedIn.',icon:'📣',cat:'AI & Writing'},
-{id:'essay',name:'Essay Outline Helper',desc:'Plan an essay with thesis, body paragraphs and conclusion.',icon:'🧾',cat:'AI & Writing'},
-{id:'resume',name:'Resume & Cover Letter',desc:'Create a resume summary or a cover letter draft.',icon:'💼',cat:'AI & Writing'},
-{id:'interview',name:'Interview Practice',desc:'Get random interview questions for your role.',icon:'🎤',cat:'AI & Writing'},
-{id:'study',name:'Study Notes & Quiz Maker',desc:'Turn your notes into key points and a fill-in-the-blank quiz.',icon:'🎓',cat:'AI & Writing'},
-{id:'imgprompt',name:'AI Image Prompt Builder',desc:'Build detailed prompts for Midjourney, DALL·E and more.',icon:'🖼️',cat:'AI & Writing'},
-{id:'codeexplain',name:'Code Explainer',desc:'Scan your code and get a prompt that explains it simply.',icon:'🧠',cat:'Programming'},
-{id:'codeconvert',name:'Code Converter',desc:'Build a prompt to convert code between languages.',icon:'🔄',cat:'Programming'},
-{id:'bugfix',name:'Bug Finder & Fixer',desc:'Check syntax problems and get a prompt to fix the bug.',icon:'🐞',cat:'Programming'},
-{id:'regex',name:'Regex Generator',desc:'Pick a pattern in plain English and test it on your text.',icon:'🔣',cat:'Programming'},
-{id:'sql',name:'SQL Query Builder',desc:'Build SELECT, INSERT, UPDATE and DELETE queries.',icon:'🗄️',cat:'Programming'},
-{id:'docs',name:'Code Comment & Docs Writer',desc:'Create doc comment templates for your functions.',icon:'📚',cat:'Programming'},
-{id:'readme',name:'README Generator',desc:'Create a clean README.md for your GitHub project.',icon:'📖',cat:'Programming'},
-{id:'bizname',name:'Business Name & Slogan',desc:'Get brand name ideas and slogans from your keywords.',icon:'🏷️',cat:'Generators'}
+  {id:'password',name:'Password Generator',desc:'Create strong and secure passwords.',icon:'🔐',cat:'Productivity',type:'password'},
+  {id:'username',name:'Username Generator',desc:'Find a unique username for any platform.',icon:'👤',cat:'Social Media',type:'prompt',task:'Generate 20 creative, memorable username ideas based on the information provided.'},
+  {id:'qr',name:'QR Code Generator',desc:'Create a QR code for a link or text.',icon:'▦',cat:'Productivity',type:'qr'},
+  {id:'prompt',name:'AI Prompt Generator',desc:'Build better prompts for AI tools.',icon:'✦',cat:'Writing',type:'prompt',task:'Write a detailed, clear, effective AI prompt based on the user’s goal.'},
+  {id:'lorem',name:'Lorem Ipsum Generator',desc:'Generate placeholder text for designs.',icon:'¶',cat:'Writing',type:'lorem'},
+  {id:'improver',name:'Text Improver',desc:'Create a prompt to improve your writing.',icon:'✍️',cat:'Writing',type:'prompt',task:'Rewrite and improve the supplied text while preserving its original meaning. Improve clarity, grammar, flow, and readability.'},
+  {id:'bio',name:'Instagram Bio Generator',desc:'Create a bio that represents your profile.',icon:'📱',cat:'Social Media',type:'prompt',task:'Create 10 attractive Instagram bio options based on the profile details. Keep them concise and suitable for Instagram.'},
+  {id:'choice',name:'Decision Maker',desc:'Make a random choice when you are stuck.',icon:'⚖️',cat:'Productivity',type:'choice'},
+  {id:'random',name:'Random Number Generator',desc:'Generate random numbers in a range.',icon:'🎲',cat:'Productivity',type:'random'},
+  {id:'date',name:'Date Calculator',desc:'Calculate the days between two dates.',icon:'📅',cat:'Productivity',type:'date'},
+  {id:'playground',name:'Code Playground',desc:'Write and preview HTML, CSS, and JavaScript.',icon:'💻',cat:'Coding',type:'playground'},
+  {id:'snippets',name:'Code Snippet Organizer',desc:'Organize and format useful code snippets.',icon:'📋',cat:'Coding',type:'snippets'},
+  {id:'json',name:'JSON Formatter',desc:'Format and validate JSON data.',icon:'{}',cat:'Coding',type:'json'},
+  {id:'markdown',name:'Markdown Helper',desc:'Create a basic Markdown text template.',icon:'M↓',cat:'Coding',type:'markdown'},
+  {id:'instabio',name:'Social Bio Ideas',desc:'Create short bios for your social profiles.',icon:'✨',cat:'Social Media',type:'prompt',task:'Generate several short, memorable social media bio ideas based on the details provided.'},
+  {id:'caption',name:'Caption Generator',desc:'Create captions with different tones.',icon:'💬',cat:'Social Media',type:'prompt',task:'Write engaging social media captions based on the supplied topic, platform, and tone.'},
+  {id:'hashtag',name:'Hashtag Generator',desc:'Find relevant hashtags for your post.',icon:'#️⃣',cat:'Social Media',type:'prompt',task:'Generate relevant, specific, and discoverable hashtags for the supplied topic and platform. Group them by popularity or relevance.'},
+  {id:'palette',name:'Color Palette Generator',desc:'Generate a simple color palette.',icon:'🎨',cat:'Productivity',type:'palette'},
+  {id:'favicon',name:'Favicon Guide',desc:'Create a prompt for a website favicon concept.',icon:'🌐',cat:'Coding',type:'prompt',task:'Create a professional favicon concept for the supplied website or brand. Describe its visual direction, colors, and simple recognizable shape.'},
+  {id:'meta',name:'Meta Description Writer',desc:'Create SEO-friendly meta descriptions.',icon:'🔎',cat:'Business',type:'prompt',task:'Write SEO-friendly meta descriptions for the supplied webpage. Keep each description concise, accurate, and compelling.'},
+
+  {id:'youtube-writer',name:'YouTube Title & Description Writer',desc:'Create clickable titles and SEO-friendly descriptions.',icon:'▶️',cat:'Social Media',type:'prompt',task:'Act as an experienced YouTube content strategist. Create 10 engaging video title options, an SEO-friendly video description, relevant keywords, and a call to action. Keep everything natural and accurate.'},
+  {id:'short-video-script',name:'TikTok & Reels Script Writer',desc:'Write short-form video scripts and hooks.',icon:'🎬',cat:'Social Media',type:'prompt',task:'Write a short-form video script for TikTok or Instagram Reels. Include 5 strong opening hooks, a scene-by-scene script, on-screen text suggestions, and a clear ending. Make it engaging and natural.'},
+  {id:'linkedin-writer',name:'LinkedIn Headline & About Writer',desc:'Improve your professional LinkedIn profile.',icon:'💼',cat:'Social Media',type:'prompt',task:'Write professional LinkedIn headline options and a compelling About section. Use the supplied experience, skills, and goals. Keep the writing human, clear, and professional.'},
+  {id:'tweet-thread',name:'Tweet & Thread Writer',desc:'Create engaging posts and Twitter/X threads.',icon:'🧵',cat:'Social Media',type:'prompt',task:'Write engaging Twitter/X post options and a well-structured thread. Start with a strong hook, keep each post concise, and maintain a natural voice.'},
+  {id:'blog-outline',name:'Blog Post Outline Generator',desc:'Build structured outlines for blog articles.',icon:'📝',cat:'Writing',type:'prompt',task:'Create a detailed blog post outline with an SEO-friendly title, introduction, logical H2 and H3 headings, key talking points, conclusion, and FAQ ideas.'},
+  {id:'paraphraser',name:'Paraphraser & Rewriter',desc:'Rewrite text in a different style.',icon:'🔄',cat:'Writing',type:'prompt',task:'Paraphrase the supplied text while preserving its original meaning and important details. Avoid unnecessary changes and make the result natural and original.'},
+  {id:'grammar-fixer',name:'Grammar & Tone Fixer',desc:'Improve grammar, clarity, and tone.',icon:'✅',cat:'Writing',type:'prompt',task:'Correct grammar, spelling, punctuation, and awkward phrasing in the supplied text. Preserve the original meaning and adjust the tone as requested.'},
+  {id:'text-summarizer',name:'Text Summarizer',desc:'Turn long text into clear summaries.',icon:'📄',cat:'Writing',type:'prompt',task:'Summarize the supplied text clearly. Include the main points, important details, and key takeaways without adding information that is not present.'},
+  {id:'email-writer',name:'Email Writer',desc:'Draft clear and professional emails.',icon:'✉️',cat:'Writing',type:'prompt',task:'Write a clear, natural, professional email based on the situation. Include a suitable subject line, greeting, concise body, and closing.'},
+  {id:'product-description',name:'Product Description Writer',desc:'Write product descriptions that explain value.',icon:'🛍️',cat:'Business',type:'prompt',task:'Write a persuasive but accurate product description. Highlight the supplied features and benefits, use clear language, and avoid unsupported claims.'},
+  {id:'ad-copy',name:'Ad Copy Generator',desc:'Create advertising copy for your business.',icon:'📢',cat:'Business',type:'prompt',task:'Create multiple versions of clear, persuasive advertising copy for the supplied audience and platform. Include headlines, primary text, and calls to action.'},
+  {id:'code-explainer',name:'Code Explainer',desc:'Understand code with simple explanations.',icon:'🧩',cat:'Coding',type:'prompt',task:'Explain the supplied code in simple language. Describe what it does, how the important parts work, and identify any assumptions or potential issues.'},
+  {id:'code-converter',name:'Code Converter',desc:'Convert code between programming languages.',icon:'🔁',cat:'Coding',type:'prompt',task:'Convert the supplied code into the requested programming language. Preserve its functionality, explain important differences, and provide complete code.'},
+  {id:'bug-fixer',name:'Bug Finder & Fixer',desc:'Find errors and suggest code fixes.',icon:'🐛',cat:'Coding',type:'prompt',task:'Review the supplied code and error message. Identify the likely cause, explain the problem, and provide corrected code with a clear explanation.'},
+  {id:'regex-generator',name:'Regex Generator',desc:'Create regular expressions for specific tasks.',icon:'.*',cat:'Coding',type:'prompt',task:'Create a regular expression for the described matching requirement. Explain each part and provide example strings that should match and should not match.'},
+  {id:'sql-builder',name:'SQL Query Builder',desc:'Create SQL queries from plain-language requests.',icon:'🗄️',cat:'Coding',type:'prompt',task:'Write a correct SQL query for the described database task. State any assumptions about table and column names and explain the query.'},
+  {id:'code-docs',name:'Code Documentation Writer',desc:'Generate clear documentation for your code.',icon:'📚',cat:'Coding',type:'prompt',task:'Write clear technical documentation for the supplied code. Include its purpose, parameters, return values, usage examples, and important notes.'},
+  {id:'readme-generator',name:'GitHub README Generator',desc:'Create a professional GitHub README.',icon:'🐙',cat:'Coding',type:'prompt',task:'Create a professional GitHub README.md for the supplied project. Include a project overview, features, installation, usage, technologies, and contribution information where applicable.'},
+  {id:'resume-cover-letter',name:'Resume & Cover Letter Builder',desc:'Improve resumes and job applications.',icon:'📑',cat:'Business',type:'prompt',task:'Help create or improve a professional resume and tailored cover letter using the supplied experience and job details. Use clear, honest, achievement-focused language.'},
+  {id:'interview-practice',name:'Interview Question Practice',desc:'Prepare for job interviews with practice questions.',icon:'🎤',cat:'Productivity',type:'prompt',task:'Create realistic interview questions for the supplied role and experience level. Include strong sample answers, what interviewers are assessing, and useful preparation tips.'},
+  {id:'study-quiz',name:'Study Notes & Quiz Maker',desc:'Turn study material into notes and questions.',icon:'🎓',cat:'Productivity',type:'prompt',task:'Turn the supplied study material into organized notes, key definitions, and a quiz with answers. Keep the content accurate and easy to revise.'},
+  {id:'essay-outline',name:'Essay Outline Helper',desc:'Organize your ideas into an essay outline.',icon:'📖',cat:'Writing',type:'prompt',task:'Create a structured essay outline for the supplied topic. Include a clear thesis statement, introduction, main arguments, supporting points, counterargument if relevant, and conclusion.'},
+  {id:'business-name',name:'Business Name & Slogan Generator',desc:'Discover brand names and memorable slogans.',icon:'🏷️',cat:'Business',type:'prompt',task:'Generate original, memorable business name ideas and matching slogans based on the supplied business details. Prioritize easy pronunciation and a distinctive professional feel.'},
+  {id:'image-prompt',name:'AI Image Prompt Builder',desc:'Write detailed prompts for AI image generators.',icon:'🖼️',cat:'Writing',type:'prompt',task:'Create a detailed AI image-generation prompt based on the supplied concept. Include subject, composition, setting, lighting, colors, visual style, camera perspective, and aspect ratio.'}
 ];
 
-const $ = s => document.querySelector(s);
-const grid = $('#grid');
-const modal = $('#modal');
-const body = $('#toolBody');
-let activeFilter = 'All';
+const promptFields = [
+  {id:'goal',label:'What do you want to create?',type:'textarea',placeholder:'Describe your idea or goal...'},
+  {id:'audience',label:'Target audience (optional)',type:'text',placeholder:'e.g. Beginners, business owners, students...'},
+  {id:'tone',label:'Preferred tone',type:'select',options:['Professional','Friendly','Casual','Creative','Funny','Aesthetic','Persuasive','Educational']},
+  {id:'platform',label:'Platform or context (optional)',type:'text',placeholder:'e.g. Instagram, YouTube, website, business...'},
+  {id:'details',label:'Additional details (optional)',type:'textarea',placeholder:'Add any requirements, keywords, or details...'}
+];
 
-function render() {
-  const q = $('#search').value.toLowerCase();
-  const shown = tools.filter(t =>
-    (activeFilter === 'All' || t.cat === activeFilter) &&
-    `${t.name} ${t.desc} ${t.cat}`.toLowerCase().includes(q)
-  );
+let activeTool = null;
+let activeCategory = 'All';
 
-  grid.innerHTML = shown.map(t => `
-    <button class="tool-card" data-id="${t.id}">
-      <span class="tool-icon">${t.icon}</span>
-      <h3>${t.name}</h3>
-      <p>${t.desc}</p>
-      <span class="arrow">Open tool →</span>
-    </button>
+const grid = document.getElementById('toolGrid');
+const modal = document.getElementById('toolModal');
+const form = document.getElementById('toolForm');
+const output = document.getElementById('toolOutput');
+
+function renderTools(){
+  const query = document.getElementById('searchInput').value.toLowerCase().trim();
+  const filtered = tools.filter(tool => {
+    const matchesCategory = activeCategory === 'All' || tool.cat === activeCategory;
+    const matchesSearch = (tool.name + ' ' + tool.desc + ' ' + tool.cat).toLowerCase().includes(query);
+    return matchesCategory && matchesSearch;
+  });
+
+  document.getElementById('count').textContent = filtered.length + ' tools available';
+  document.getElementById('headerCount').textContent = tools.length + ' useful tools';
+
+  if(!filtered.length){
+    grid.innerHTML = '<div class="empty">No tools found. Try another search.</div>';
+    return;
+  }
+
+  grid.innerHTML = filtered.map(tool => `
+    <article class="tool-card" data-id="${tool.id}" tabindex="0" role="button" aria-label="Open ${tool.name}">
+      <span class="tool-arrow">↗</span>
+      <div class="tool-icon">${tool.icon}</div>
+      <h3>${escapeHTML(tool.name)}</h3>
+      <p>${escapeHTML(tool.desc)}</p>
+    </article>
   `).join('');
 
-  $('#count').textContent = `${shown.length} tools`;
-  $('#empty').style.display = shown.length ? 'none' : 'block';
-}
-
-render();
-
-$('#search').addEventListener('input',render);
-
-document.querySelectorAll('.chip').forEach(b => {
-  b.onclick = () => {
-    document.querySelectorAll('.chip').forEach(x => x.classList.remove('active'));
-    b.classList.add('active');
-    activeFilter = b.dataset.filter;
-    render();
-  };
-});
-
-grid.addEventListener('click',e => {
-  const card = e.target.closest('[data-id]');
-  if(card) openTool(card.dataset.id);
-});
-
-function closeTool() {
-  modal.classList.remove('open');
-  body.innerHTML = '';
-}
-
-$('#close').onclick = closeTool;
-modal.addEventListener('click',e => {
-  if(e.target === modal) closeTool();
-});
-document.addEventListener('keydown',e => {
-  if(e.key === 'Escape') closeTool();
-});
-
-function field(label,html) {
-  return `<div class="field"><label>${label}</label>${html}</div>`;
-}
-
-function input(id,placeholder='',type='text',value='') {
-  return `<input id="${id}" type="${type}" placeholder="${placeholder}" value="${value}">`;
-}
-
-function area(id,placeholder='',value='') {
-  return `<textarea id="${id}" placeholder="${placeholder}">${value}</textarea>`;
-}
-
-function select(id,options) {
-  return `<select id="${id}">${options.map(o=>`<option value="${o[0]}">${o[1]}</option>`).join('')}</select>`;
-}
-
-function actions() {
-  return `<div class="actions">
-    <button class="btn" id="run">Generate</button>
-    <button class="btn secondary" id="reset">Reset</button>
-  </div><div class="output" id="out"></div>`;
-}
-
-function copyButton() {
-  return `<div class="actions"><button class="btn success" id="copy">Copy result</button></div>`;
-}
-
-/* ===== Extra tools: shared helpers ===== */
-
-const LANGS = ['JavaScript','TypeScript','Python','Java','C#','C++','Go','PHP','Ruby','Rust','Swift','Kotlin'];
-const langSelect = id => select(id, LANGS.map(l => [l, l]));
-const aiHint = '<p class="hint">This tool builds a ready-to-use prompt. Paste it into ChatGPT, Claude or Gemini to get the final answer.</p>';
-
-const STOP = new Set('the a an and or but of to in on for with at by from as is are was were be been it this that these those i you he she we they my your our their its not no so if then than also can will just into about over after before more most such'.split(' '));
-
-const cap = s => s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
-const lines = s => s.split(/\n+/).map(x => x.trim()).filter(Boolean);
-
-function shuffle(a) {
-  const b = a.slice();
-  for (let i = b.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [b[i], b[j]] = [b[j], b[i]];
-  }
-  return b;
-}
-
-function sentencesOf(t) {
-  return (t.replace(/\s+/g, ' ').trim().match(/[^.!?]+[.!?]+|[^.!?]+$/g) || []).map(s => s.trim()).filter(Boolean);
-}
-
-function rankSentences(text, n) {
-  const sents = sentencesOf(text);
-  if (sents.length <= n) return { sents, picked: sents.map((s, i) => i) };
-  const freq = {};
-  (text.toLowerCase().match(/[a-z']+/g) || []).forEach(w => {
-    if (w.length > 2 && !STOP.has(w)) freq[w] = (freq[w] || 0) + 1;
+  grid.querySelectorAll('.tool-card').forEach(card => {
+    card.addEventListener('click', () => openTool(card.dataset.id));
+    card.addEventListener('keydown', e => {
+      if(e.key === 'Enter' || e.key === ' '){
+        e.preventDefault();
+        openTool(card.dataset.id);
+      }
+    });
   });
-  const scored = sents.map((s, i) => {
-    const ws = s.toLowerCase().match(/[a-z']+/g) || [];
-    let sc = 0;
-    ws.forEach(w => sc += freq[w] || 0);
-    return { i, sc: sc / Math.max(8, ws.length) };
-  });
-  const picked = scored.sort((a, b) => b.sc - a.sc).slice(0, n).map(x => x.i).sort((a, b) => a - b);
-  return { sents, picked };
 }
 
-function scanBrackets(code, hash) {
-  const pairs = { ')': '(', ']': '[', '}': '{' };
-  const stack = [], issues = [];
-  let line = 1, str = null, lc = false, bc = false;
-  for (let i = 0; i < code.length; i++) {
-    const c = code[i], n = code[i + 1];
-    if (c === '\n') { line++; lc = false; if (str === "'" || str === '"') str = null; continue; }
-    if (lc) continue;
-    if (bc) { if (c === '*' && n === '/') { bc = false; i++; } continue; }
-    if (str) { if (c === '\\') { i++; continue; } if (c === str) str = null; continue; }
-    if (hash && c === '#') { lc = true; continue; }
-    if (!hash && c === '/' && n === '/') { lc = true; continue; }
-    if (!hash && c === '/' && n === '*') { bc = true; i++; continue; }
-    if (c === "'" || c === '"' || c === '`') { str = c; continue; }
-    if ('([{'.includes(c)) stack.push([c, line]);
-    else if (pairs[c]) {
-      const t = stack.pop();
-      if (!t || t[0] !== pairs[c]) issues.push('Line ' + line + ': unexpected "' + c + '"');
-    }
+function escapeHTML(value){
+  return String(value).replace(/[&<>"']/g, char => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  })[char]);
+}
+
+function fieldHTML(field){
+  let control = '';
+  if(field.type === 'textarea'){
+    control = `<textarea id="${field.id}" placeholder="${escapeHTML(field.placeholder || '')}"></textarea>`;
+  } else if(field.type === 'select'){
+    control = `<select id="${field.id}">${field.options.map(option => `<option>${escapeHTML(option)}</option>`).join('')}</select>`;
+  } else {
+    control = `<input id="${field.id}" type="${field.type || 'text'}" placeholder="${escapeHTML(field.placeholder || '')}">`;
   }
-  stack.forEach(s => issues.push('Line ' + s[1] + ': "' + s[0] + '" is never closed'));
-  if (str) issues.push('A string is never closed');
-  return issues;
+  return `<div class="form-field"><label for="${field.id}">${escapeHTML(field.label)}</label>${control}</div>`;
 }
 
-const templates = {
+function openTool(id){
+  const tool = tools.find(item => item.id === id);
+  if(!tool) return;
 
-password:()=>field('Password length',input('length','','number','20'))+
-`<div class="checks">
-<label><input type="checkbox" id="upper" checked> Uppercase</label>
-<label><input type="checkbox" id="lower" checked> Lowercase</label>
-<label><input type="checkbox" id="nums" checked> Numbers</label>
-<label><input type="checkbox" id="symbols" checked> Symbols</label>
-</div>`+actions()+copyButton(),
+  activeTool = tool;
+  document.getElementById('modalTitle').textContent = tool.icon + ' ' + tool.name;
+  document.getElementById('modalDesc').textContent = tool.desc;
+  output.textContent = 'Your result will appear here.';
+  document.getElementById('toolHint').textContent = tool.type === 'prompt'
+    ? 'This tool creates a ready-to-use prompt. Copy it into ChatGPT or another AI assistant to generate your content.'
+    : 'Your information stays in your browser. No sign-up required.';
 
-username:()=>field('Keywords',input('words','e.g. arham, design, tech'))+
-field('Style',select('style',[['mix','Creative mix'],['clean','Clean'],['pro','Professional'],['game','Gaming']]))+
-field('Number of ideas',input('amount','','number','8'))+actions()+copyButton(),
-
-qr:()=>field('Text or URL',input('qrtext','https://example.com'))+
-field('QR size',select('qrsize',[['180','Small'],['260','Medium'],['360','Large']]))+
-`<div class="actions"><button class="btn" id="run">Create QR code</button></div>
-<div id="qrout" class="output"></div>
-<p class="hint">Requires an internet connection and uses an external QR service.</p>`,
-
-prompt:()=>field('What should AI do?',input('task','e.g. Create a weekly study plan'))+
-`<div class="row-fields">
-${field('AI role',input('role','e.g. experienced tutor'))}
-${field('Audience',input('audience','e.g. students'))}
-</div>`+
-field('Tone',select('tone',[['clear','Clear'],['professional','Professional'],['friendly','Friendly'],['creative','Creative'],['academic','Academic']]))+
-field('Output format',select('format',[['steps','Step-by-step guide'],['bullets','Bullet points'],['table','Table'],['email','Email'],['plan','Detailed plan']]))+
-field('Extra instructions',area('extra','Add context or requirements...'))+
-actions()+copyButton(),
-
-lorem:()=>field('Paragraphs',input('amount','','number','3'))+
-field('Words per paragraph',input('words','','number','60'))+
-actions()+copyButton(),
-
-improver:()=>field('Your rough prompt',area('text','Paste your prompt here...'))+
-field('Improvement focus',select('focus',[['clarity','Clarity'],['creativity','Creativity'],['accuracy','Accuracy'],['short','Concise response']]))+
-actions()+copyButton(),
-
-bio:()=>field('Name or role',input('name','Your name or profession'))+
-field('Details',area('details','Skills, interests, achievements...'))+
-field('Platform',select('platform',[['linkedin','LinkedIn'],['instagram','Instagram'],['portfolio','Portfolio'],['x','X / Twitter']]))+
-field('Tone',select('tone',[['professional','Professional'],['friendly','Friendly'],['creative','Creative']]))+
-actions()+copyButton(),
-
-choice:()=>field('Options (one per line or separated by commas)',area('items','Pizza\nBurger\nPasta'))+
-actions()+copyButton(),
-
-random:()=>`<div class="row-fields">
-${field('Minimum',input('min','','number','1'))}
-${field('Maximum',input('max','','number','100'))}
-</div>`+
-field('How many numbers?',input('amount','','number','1'))+
-`<div class="checks"><label><input type="checkbox" id="unique" checked> No duplicates</label></div>`+
-actions()+copyButton(),
-
-date:()=>field('Action',select('kind',[['diff','Difference between two dates'],['add','Add days to a date'],['subtract','Subtract days from a date']]))+
-field('Start date',input('date1','','date'))+
-`<div id="dateSecond">${field('End date',input('date2','','date'))}</div>
-<div id="daysField" style="display:none">${field('Number of days',input('days','','number','30'))}</div>`+
-actions(),
-
-playground:()=>`
-<p class="hint">Write HTML, CSS and JavaScript separately. Press Run to see the output.</p>
-<div class="playground">
-<div class="code-panel">
-<div class="code-head">HTML <button class="btn secondary" data-copy="html">Copy</button></div>
-<textarea id="htmlCode" spellcheck="false"><h1>Hello, Promptly!</h1>
-<p>Edit this HTML to get started.</p>
-<button class="demo-btn">Click me</button></textarea>
-</div>
-
-<div class="code-panel">
-<div class="code-head">CSS <button class="btn secondary" data-copy="css">Copy</button></div>
-<textarea id="cssCode" spellcheck="false">body { font-family: Arial; padding: 32px; }
-h1 { color: #6558d3; }
-.demo-btn { padding: 10px 16px; background: #6558d3; color: white; border: 0; border-radius: 8px; }</textarea>
-</div>
-
-<div class="code-panel">
-<div class="code-head">JavaScript <button class="btn secondary" data-copy="js">Copy</button></div>
-<textarea id="jsCode" spellcheck="false">document.querySelector('.demo-btn')?.addEventListener('click', () => {
-  alert('It works!');
-});</textarea>
-</div>
-
-<div class="code-panel">
-<div class="code-head">Quick actions</div>
-<div style="padding:14px">
-<button class="btn" id="run">▶ Run code</button>
-<button class="btn secondary" id="reset">Reset</button>
-<p class="hint">Test your code in the live preview.</p>
-</div>
-</div>
-</div>
-
-<div class="preview-wrap">
-<div class="preview-head">LIVE PREVIEW</div>
-<iframe id="preview" class="preview-frame" sandbox="allow-scripts" title="Code preview"></iframe>
-</div>
-
-<h3 style="font-size:13px">Console output</h3>
-<div class="output" id="console">Console is ready.</div>
-<div class="actions"><button class="btn secondary" id="downloadProject">Download HTML</button></div>`,
-
-snippets:()=>`<p class="hint">Ready-to-use code components. Copy and paste into your projects.</p><div class="snippet-list" id="snippetsList"></div>`,
-
-json:()=>field('JSON input',area('text','Paste JSON here...'))+
-field('Action',select('mode',[['pretty','Format / validate'],['minify','Minify']]))+
-actions()+copyButton(),
-
-markdown:()=>`
-<div class="row-fields">
-<div class="field">
-<label>Markdown input</label>
-<textarea id="mdText"># Welcome
-
-Write **Markdown** here.
-
-- First item
-- Second item</textarea>
-</div>
-<div class="field">
-<label>Live preview</label>
-<div class="markdown-preview" id="mdPreview"></div>
-</div>
-</div>
-<button class="btn success" id="copyMd">Copy Markdown</button>`,
-
-instabio:()=>field('Name',input('name','Your name'))+
-field('Profession',input('role','e.g. Web Developer'))+
-field('Interests',input('interests','e.g. Design, technology'))+
-field('Style',select('style',[['minimal','Minimal'],['aesthetic','Aesthetic'],['professional','Professional'],['fun','Fun']]))+
-field('Emojis',select('emoji',[['some','A few'],['many','More'],['none','None']]))+
-actions()+copyButton(),
-
-caption:()=>field('Describe your post',area('topic','What is your post about?'))+
-field('Platform',select('platform',[['instagram','Instagram'],['facebook','Facebook'],['tiktok','TikTok'],['linkedin','LinkedIn']]))+
-field('Tone',select('tone',[['friendly','Friendly'],['fun','Funny'],['inspiring','Inspirational'],['professional','Professional']]))+
-actions()+copyButton(),
-
-hashtag:()=>field('Topic or niche',input('topic','e.g. travel photography'))+
-field('Platform',select('platform',[['instagram','Instagram'],['tiktok','TikTok'],['general','General']]))+
-actions()+copyButton(),
-
-palette:()=>field('Palette mood',select('mood',[['random','Surprise me'],['calm','Calm'],['warm','Warm'],['cool','Cool'],['bold','Bold']]))+
-`<button class="btn" id="run">Generate palette</button><div id="paletteOut"></div>`,
-
-favicon:()=>field('Icon text',input('iconText','P'))+
-`<div class="row-fields">
-${field('Background',input('bgColor','','color','#8b7cff'))}
-${field('Text color',input('fgColor','','color','#ffffff'))}
-</div>`+
-field('Shape',select('shape',[['rounded','Rounded square'],['circle','Circle'],['square','Square']]))+
-`<button class="btn" id="run">Create favicon</button><div id="faviconOut"></div>`,
-
-meta:()=>field('Page title',input('title','Your page title'))+
-field('Meta description',area('description','Describe your page...'))+
-field('Page URL',input('url','https://example.com'))+
-field('Social image URL',input('image','https://example.com/image.jpg'))+
-field('Brand name',input('site','Your brand'))+
-actions()+copyButton(),
-
-ytitle:()=>field('Video topic',input('topic','e.g. learn Python in 30 days'))+
-field('Audience (optional)',input('aud','e.g. beginners'))+
-field('Title style',select('style',[['curiosity','Curiosity'],['howto','How-to'],['list','List'],['bold','Bold claim']]))+
-field('Keywords (optional, separated by commas)',input('kw','e.g. python, coding, tutorial'))+
-actions()+copyButton(),
-
-reels:()=>field('Topic',input('topic','e.g. 3 habits for better focus'))+
-field('Goal',select('goal',[['educate','Teach something'],['sell','Promote a product'],['story','Tell a story']]))+
-field('Length',select('len',[['15','15 seconds'],['30','30 seconds'],['60','60 seconds']]))+
-actions()+copyButton(),
-
-tweet:()=>field('Topic or idea',input('topic','e.g. learning to code'))+
-`<div class="row-fields">
-${field('Format',select('format',[['single','Single tweet (3 options)'],['thread','Thread (6 tweets)']]))}
-${field('Tone',select('tone',[['pro','Professional'],['fun','Funny'],['insp','Inspiring']]))}
-</div>`+
-actions()+copyButton(),
-
-blog:()=>field('Blog topic',input('topic','e.g. healthy meal prep'))+
-field('Audience (optional)',input('aud','e.g. busy students'))+
-field('Post type',select('type',[['guide','How-to guide'],['list','List post'],['opinion','Opinion'],['review','Review']]))+
-actions()+copyButton(),
-
-paraphrase:()=>field('Text to rewrite',area('text','Paste your text here...'))+
-field('Rewrite style',select('style',[['simpler','Simpler words'],['formal','More formal'],['casual','More casual'],['shorter','Shorter']]))+
-actions()+copyButton()+aiHint,
-
-grammar:()=>field('Your text',area('text','Paste your text here...'))+
-field('Tone',select('tone',[['keep','Keep my tone'],['formal','Make it more formal']]))+
-actions()+copyButton()+
-`<p class="hint">Fixes common typos, spacing, capital letters and punctuation. It does not check every grammar rule, so read the result before you use it.</p>`,
-
-summarize:()=>field('Text to shorten',area('text','Paste an article or long text here...'))+
-field('Result',select('len',[['3','3 sentences'],['5','5 sentences'],['bullets','Key points (5 bullets)']]))+
-actions()+copyButton()+
-`<p class="hint">Picks the most important sentences from your own text. Nothing is rewritten and nothing leaves your browser.</p>`,
-
-email:()=>field('Purpose',select('purpose',[['followup','Follow-up'],['cold','Cold outreach'],['complaint','Complaint'],['apology','Apology'],['request','Request'],['thanks','Thank you']]))+
-`<div class="row-fields">
-${field('Recipient name (optional)',input('to','e.g. Sarah'))}
-${field('Your name',input('from','e.g. Arham'))}
-</div>`+
-field('Key points (one per line)',area('points','Mention the date, the order number, what you need...'))+
-field('Tone',select('tone',[['professional','Professional'],['friendly','Friendly'],['direct','Direct']]))+
-actions()+copyButton(),
-
-product:()=>field('Product name',input('name','e.g. AeroBottle'))+
-field('Features (one per line)',area('features','Keeps drinks cold for 24 hours\nLeak-proof lid\nMade from recycled steel'))+
-field('Who is it for?',input('aud','e.g. hikers and gym lovers'))+
-field('Tone',select('tone',[['persuasive','Persuasive'],['simple','Simple'],['luxury','Premium']]))+
-actions()+copyButton(),
-
-adcopy:()=>field('Product or brand name',input('name','e.g. FitTrack'))+
-field('Main benefit',input('benefit','e.g. track your workouts in seconds'))+
-field('Audience (optional)',input('aud','e.g. busy professionals'))+
-field('Platform',select('platform',[['google','Google Ads'],['facebook','Facebook / Instagram'],['linkedin','LinkedIn']]))+
-actions()+copyButton(),
-
-essay:()=>field('Essay topic',input('topic','e.g. social media and teenagers'))+
-`<div class="row-fields">
-${field('Essay type',select('type',[['argumentative','Argumentative'],['expository','Expository'],['compare','Compare and contrast'],['narrative','Narrative']]))}
-${field('Body paragraphs',select('paras',[['3','3 paragraphs'],['4','4 paragraphs'],['5','5 paragraphs']]))}
-</div>`+
-actions()+copyButton(),
-
-resume:()=>`<div class="row-fields">
-${field('Your name',input('name','e.g. Arham Raza'))}
-${field('Target role',input('role','e.g. Frontend Developer'))}
-</div>`+
-`<div class="row-fields">
-${field('Email (optional)',input('email','you@example.com'))}
-${field('Company (for cover letter)',input('company','e.g. Acme Inc.'))}
-</div>`+
-field('Skills (separated by commas)',input('skills','e.g. JavaScript, React, CSS, Git'))+
-field('Experience or achievements (one per line)',area('exp','Built a dashboard used by 2,000 users\nReduced page load time by 40%'))+
-field('Education (optional)',input('edu','e.g. BSc Computer Science, 2025'))+
-field('Create',select('mode',[['resume','Resume summary'],['cover','Cover letter']]))+
-actions()+copyButton(),
-
-interview:()=>field('Role',input('role','e.g. web developer'))+
-`<div class="row-fields">
-${field('Question type',select('type',[['mix','Mixed'],['behavioral','Behavioral'],['situational','Situational'],['technical','Role skills']]))}
-${field('How many?',select('qty',[['5','5 questions'],['8','8 questions'],['10','10 questions']]))}
-</div>`+
-actions()+copyButton(),
-
-study:()=>field('Your notes or textbook text',area('text','Paste at least a paragraph of notes here...'))+
-`<div class="row-fields">
-${field('Create',select('mode',[['both','Notes and quiz'],['notes','Study notes only'],['quiz','Quiz only']]))}
-${field('Items',select('qty',[['5','5 items'],['8','8 items'],['10','10 items']]))}
-</div>`+
-actions()+copyButton(),
-
-imgprompt:()=>field('Subject',input('subject','e.g. a lighthouse on a cliff during a storm'))+
-`<div class="row-fields">
-${field('Style',select('style',[['photo','Photorealistic photo'],['3d','3D render'],['anime','Anime illustration'],['oil','Oil painting'],['vector','Minimal vector art'],['cyber','Cyberpunk art']]))}
-${field('Mood',select('mood',[['calm','Calm'],['dramatic','Dramatic'],['dreamy','Dreamy'],['energetic','Energetic']]))}
-</div>`+
-`<div class="row-fields">
-${field('Lighting',select('light',[['soft natural light','Soft natural light'],['golden hour light','Golden hour'],['neon lighting','Neon lights'],['studio lighting','Studio lighting']]))}
-${field('Shot',select('shot',[['close-up','Close-up'],['wide shot','Wide shot'],['aerial view','Aerial view'],['portrait','Portrait']]))}
-</div>`+
-field('Aspect ratio',select('ratio',[['1:1','Square 1:1'],['16:9','Landscape 16:9'],['9:16','Vertical 9:16']]))+
-field('Extra details (optional)',input('extra','e.g. no text, no watermark'))+
-actions()+copyButton(),
-
-codeexplain:()=>`<div class="row-fields">
-${field('Language',langSelect('lang'))}
-${field('Explain it for',select('level',[['beginner','A beginner'],['intermediate','Someone with experience']]))}
-</div>`+
-field('Your code',area('code','Paste your code here...'))+
-actions()+copyButton()+aiHint,
-
-codeconvert:()=>`<div class="row-fields">
-${field('Convert from',langSelect('from'))}
-${field('Convert to',langSelect('to'))}
-</div>`+
-field('Your code',area('code','Paste your code here...'))+
-actions()+copyButton()+aiHint,
-
-bugfix:()=>field('Language',select('lang',[['JavaScript','JavaScript'],['Python','Python'],['JSON','JSON'],['HTML','HTML'],['Other','Other']]))+
-field('Your code',area('code','Paste the code that is not working...'))+
-field('Error message (optional)',input('err','e.g. Uncaught TypeError: x is not a function'))+
-actions()+copyButton()+
-`<p class="hint">Checks brackets, quotes and common syntax mistakes, then builds a prompt for an AI assistant. JavaScript that uses import or top-level await may be reported as an error here even when it is valid.</p>`,
-
-regex:()=>field('Pattern',select('kind',[['email','Email address'],['url','Web link (URL)'],['phone','Phone number'],['date','Date (YYYY-MM-DD)'],['time','Time (HH:MM)'],['hex','Hex colour'],['ip','IPv4 address'],['zip','US ZIP code'],['username','Username (3 to 16 characters)'],['digits','Numbers only'],['contains','Contains a word'],['starts','Starts with text'],['ends','Ends with text']]))+
-field('Word or text (for the last three options)',input('val','e.g. invoice'))+
-field('Test text (optional)',area('test','Paste text here to see what the pattern matches...'))+
-actions()+copyButton(),
-
-sql:()=>field('Action',select('act',[['SELECT','SELECT (read rows)'],['INSERT','INSERT (add a row)'],['UPDATE','UPDATE (change rows)'],['DELETE','DELETE (remove rows)']]))+
-field('Table name',input('table','e.g. users'))+
-field('Columns',input('cols',"e.g. name, email   (UPDATE: name = 'Ali', age = 30)"))+
-field('Values (INSERT only)',input('vals',"e.g. 'Ali', 'ali@mail.com'"))+
-field('Condition (WHERE)',input('cond','e.g. age > 18'))+
-`<div class="row-fields">
-${field('Order by',input('order','e.g. name ASC'))}
-${field('Limit',input('limit','e.g. 10','number'))}
-</div>`+
-actions()+copyButton(),
-
-docs:()=>field('Language',langSelect('lang'))+
-field('Your code',area('code','Paste your functions here...'))+
-actions()+copyButton()+
-`<p class="hint">Creates doc comment templates for JavaScript, TypeScript and Python functions. Fill in each TODO.</p>`,
-
-readme:()=>field('Project name',input('name','e.g. TaskFlow'))+
-field('One-line description',input('desc','e.g. A simple task manager for small teams'))+
-field('Features (one per line)',area('features','Create and organise tasks\nDrag and drop boards\nWorks offline'))+
-`<div class="row-fields">
-${field('Install command',input('install','','text','npm install'))}
-${field('Run command',input('usage','','text','npm start'))}
-</div>`+
-`<div class="row-fields">
-${field('License',select('license',[['MIT','MIT'],['Apache-2.0','Apache 2.0'],['GPL-3.0','GPL 3.0'],['none','None']]))}
-${field('Author (optional)',input('author','e.g. Arham'))}
-</div>`+
-actions()+copyButton(),
-
-bizname:()=>field('Keywords (separated by commas or spaces)',input('kw','e.g. coffee, morning, fresh'))+
-`<div class="row-fields">
-${field('Industry',select('industry',[['tech','Tech'],['food','Food and drink'],['fashion','Fashion'],['fitness','Health and fitness'],['education','Education'],['creative','Creative studio']]))}
-${field('Style',select('style',[['modern','Modern'],['classic','Classic'],['playful','Playful']]))}
-</div>`+
-actions()+copyButton()+
-`<p class="hint">Always check that the domain name and social media handles are free before you choose a name.</p>`
-};
-
-function openTool(id) {
-  const t = tools.find(x => x.id === id);
-  $('#modalIcon').textContent = t.icon;
-  $('#toolTitle').textContent = t.name;
-  body.innerHTML = templates[id]();
+  if(tool.type === 'prompt'){
+    form.innerHTML = promptFields.map(fieldHTML).join('');
+  } else if(tool.type === 'password'){
+    form.innerHTML = `
+      ${fieldHTML({id:'length',label:'Password length',type:'number',placeholder:'16'})}
+      <div class="form-field"><label><input type="checkbox" id="upper" checked> Include uppercase letters</label></div>
+      <div class="form-field"><label><input type="checkbox" id="lower" checked> Include lowercase letters</label></div>
+      <div class="form-field"><label><input type="checkbox" id="numbers" checked> Include numbers</label></div>
+      <div class="form-field"><label><input type="checkbox" id="symbols" checked> Include symbols</label></div>`;
+    document.getElementById('length').value = 16;
+  } else if(tool.type === 'qr'){
+    form.innerHTML = fieldHTML({id:'qrText',label:'Enter a URL or text',type:'textarea',placeholder:'https://example.com'});
+  } else if(tool.type === 'lorem'){
+    form.innerHTML = fieldHTML({id:'paragraphs',label:'Number of paragraphs',type:'number',placeholder:'3'});
+    document.getElementById('paragraphs').value = 3;
+  } else if(tool.type === 'choice'){
+    form.innerHTML = fieldHTML({id:'choices',label:'Enter your choices (one per line)',type:'textarea',placeholder:'Option 1\nOption 2\nOption 3'});
+  } else if(tool.type === 'random'){
+    form.innerHTML = fieldHTML({id:'min',label:'Minimum number',type:'number',placeholder:'1'}) + fieldHTML({id:'max',label:'Maximum number',type:'number',placeholder:'100'}) + fieldHTML({id:'quantity',label:'How many numbers?',type:'number',placeholder:'1'});
+    document.getElementById('min').value = 1;
+    document.getElementById('max').value = 100;
+    document.getElementById('quantity').value = 1;
+  } else if(tool.type === 'date'){
+    form.innerHTML = fieldHTML({id:'dateStart',label:'Start date',type:'date'}) + fieldHTML({id:'dateEnd',label:'End date',type:'date'});
+  } else if(tool.type === 'playground'){
+    form.innerHTML = fieldHTML({id:'playCode',label:'HTML code to preview',type:'textarea',placeholder:'<h1>Hello world!</h1>'});
+  } else if(tool.type === 'snippets'){
+    form.innerHTML = fieldHTML({id:'snippetName',label:'Snippet title',type:'text',placeholder:'My code snippet'}) + fieldHTML({id:'snippetCode',label:'Paste your code',type:'textarea',placeholder:'Paste code here...'});
+  } else if(tool.type === 'json'){
+    form.innerHTML = fieldHTML({id:'jsonText',label:'Paste JSON',type:'textarea',placeholder:'{"name":"Promptly","tools":44}'});
+  } else if(tool.type === 'markdown'){
+    form.innerHTML = fieldHTML({id:'mdTitle',label:'Document title',type:'text',placeholder:'My document'}) + fieldHTML({id:'mdText',label:'Your content',type:'textarea',placeholder:'Write your content here...'});
+  } else if(tool.type === 'palette'){
+    form.innerHTML = fieldHTML({id:'baseColor',label:'Choose a base color',type:'text',placeholder:'#8b7cff'});
+    document.getElementById('baseColor').value = '#8b7cff';
+  }
   modal.classList.add('open');
-  bindTool(id);
+  document.body.style.overflow = 'hidden';
 }
 
-function copyText(text) {
-  if(!text) return toast('Nothing to copy');
-  const fallback = () => {
-    const t = document.createElement('textarea');
-    t.value = text;
-    document.body.appendChild(t);
-    t.select();
+function closeTool(){
+  modal.classList.remove('open');
+  document.body.style.overflow = '';
+  activeTool = null;
+}
+
+function getValue(id){
+  const element = document.getElementById(id);
+  return element ? element.value.trim() : '';
+}
+
+function generatePrompt(tool){
+  const goal = getValue('goal');
+  const audience = getValue('audience');
+  const tone = getValue('tone');
+  const platform = getValue('platform');
+  const details = getValue('details');
+
+  if(!goal){
+    output.textContent = 'Please enter what you want to create.';
+    return;
+  }
+
+  let prompt = tool.task + '\n\n';
+  prompt += 'MY REQUIREMENTS:\n';
+  prompt += 'Goal: ' + goal + '\n';
+  if(audience) prompt += 'Target audience: ' + audience + '\n';
+  if(tone) prompt += 'Tone: ' + tone + '\n';
+  if(platform) prompt += 'Platform or context: ' + platform + '\n';
+  if(details) prompt += 'Additional details: ' + details + '\n';
+  prompt += '\nPlease provide a complete, useful result. Follow the requirements carefully. Do not invent facts or details that I have not provided.';
+  output.textContent = prompt;
+}
+
+function generateTool(){
+  if(!activeTool) return;
+  const type = activeTool.type;
+
+  if(type === 'prompt'){
+    generatePrompt(activeTool);
+    return;
+  }
+
+  if(type === 'password'){
+    const length = Math.max(4, Math.min(128, Number(getValue('length')) || 16));
+    let chars = '';
+    if(document.getElementById('upper').checked) chars += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    if(document.getElementById('lower').checked) chars += 'abcdefghijklmnopqrstuvwxyz';
+    if(document.getElementById('numbers').checked) chars += '0123456789';
+    if(document.getElementById('symbols').checked) chars += '!@#$%^&*()-_=+[]{}?';
+    if(!chars){output.textContent = 'Select at least one character type.';return;}
+    const random = new Uint32Array(length);
+    crypto.getRandomValues(random);
+    let password = '';
+    for(let i=0;i<length;i++) password += chars[random[i] % chars.length];
+    output.textContent = password;
+    return;
+  }
+
+  if(type === 'qr'){
+    const value = getValue('qrText');
+    if(!value){output.textContent = 'Please enter a URL or text.';return;}
+    output.innerHTML = '';
+    const img = document.createElement('img');
+    img.alt = 'Generated QR code';
+    img.style.cssText = 'display:block;width:220px;height:220px;margin:10px auto;background:white;padding:8px;border-radius:8px';
+    img.src = 'https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=' + encodeURIComponent(value);
+    output.appendChild(img);
+    const note = document.createElement('p');
+    note.textContent = 'Right-click the QR code to save it.';
+    note.style.textAlign = 'center';
+    output.appendChild(note);
+    return;
+  }
+
+  if(type === 'lorem'){
+    const count = Math.max(1,Math.min(20,Number(getValue('paragraphs')) || 3));
+    const words = 'Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat'.split(' ');
+    const paragraphs = [];
+    for(let p=0;p<count;p++){
+      let sentence = [];
+      for(let i=0;i<55;i++) sentence.push(words[Math.floor(Math.random()*words.length)]);
+      paragraphs.push(sentence.join(' ') + '.');
+    }
+    output.textContent = paragraphs.join('\n\n');
+    return;
+  }
+
+  if(type === 'choice'){
+    const choices = getValue('choices').split('\n').map(x=>x.trim()).filter(Boolean);
+    if(choices.length < 2){output.textContent = 'Enter at least two choices, one per line.';return;}
+    output.textContent = 'Your choice:\n\n' + choices[Math.floor(Math.random()*choices.length)];
+    return;
+  }
+
+  if(type === 'random'){
+    const min = Number(getValue('min'));
+    const max = Number(getValue('max'));
+    const quantity = Math.max(1,Math.min(100,Number(getValue('quantity')) || 1));
+    if(!Number.isFinite(min) || !Number.isFinite(max) || max < min){output.textContent = 'Enter a valid minimum and maximum.';return;}
+    const values = [];
+    for(let i=0;i<quantity;i++) values.push(Math.floor(Math.random()*(max-min+1))+min);
+    output.textContent = values.join(', ');
+    return;
+  }
+
+  if(type === 'date'){
+    const start = getValue('dateStart');
+    const end = getValue('dateEnd');
+    if(!start || !end){output.textContent = 'Please select both dates.';return;}
+    const days = Math.round(Math.abs(new Date(end+'T00:00:00')-new Date(start+'T00:00:00'))/86400000);
+    output.textContent = days + ' days between the selected dates.';
+    return;
+  }
+
+  if(type === 'playground'){
+    const code = getValue('playCode');
+    if(!code){output.textContent = 'Enter some HTML code to preview.';return;}
+    const preview = window.open('', '_blank');
+    if(!preview){output.textContent = 'Your browser blocked the preview window. Allow pop-ups and try again.';return;}
+    preview.document.open();
+    preview.document.write(code);
+    preview.document.close();
+    output.textContent = 'Preview opened in a new tab.';
+    return;
+  }
+
+  if(type === 'snippets'){
+    const name = getValue('snippetName') || 'Code snippet';
+    const code = getValue('snippetCode');
+    if(!code){output.textContent = 'Please paste your code.';return;}
+    output.textContent = name + '\n\n' + code;
+    return;
+  }
+
+  if(type === 'json'){
+    try{
+      const parsed = JSON.parse(getValue('jsonText'));
+      output.textContent = JSON.stringify(parsed,null,2);
+    }catch(error){
+      output.textContent = 'Invalid JSON:\n' + error.message;
+    }
+    return;
+  }
+
+  if(type === 'markdown'){
+    const title = getValue('mdTitle');
+    const content = getValue('mdText');
+    if(!title && !content){output.textContent = 'Enter a title or some content.';return;}
+    output.textContent = (title ? '# ' + title + '\n\n' : '') + content;
+    return;
+  }
+
+  if(type === 'palette'){
+    let color = getValue('baseColor');
+    if(!/^#[0-9a-fA-F]{6}$/.test(color)){output.textContent = 'Enter a valid hex color, for example #8b7cff.';return;}
+    const hex = color.slice(1);
+    const r = parseInt(hex.slice(0,2),16);
+    const g = parseInt(hex.slice(2,4),16);
+    const b = parseInt(hex.slice(4,6),16);
+    const colors = [0.65,0.82,1,1.18,1.38].map(f=>{
+      const values = [r,g,b].map(v=>Math.max(0,Math.min(255,Math.round(v*f))));
+      return '#' + values.map(v=>v.toString(16).padStart(2,'0')).join('');
+    });
+    output.innerHTML = '';
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'display:grid;grid-template-columns:repeat(5,1fr);gap:7px';
+    colors.forEach(c=>{
+      const item = document.createElement('div');
+      const swatch = document.createElement('div');
+      swatch.style.cssText = 'height:65px;border-radius:8px;background:'+c;
+      const label = document.createElement('div');
+      label.textContent = c;
+      label.style.cssText = 'font-size:11px;text-align:center;margin-top:7px';
+      item.append(swatch,label);
+      wrap.appendChild(item);
+    });
+    output.appendChild(wrap);
+  }
+}
+
+function resetTool(){
+  if(!activeTool) return;
+  openTool(activeTool.id);
+}
+
+async function copyResult(){
+  const text = output.innerText || output.textContent || '';
+  if(!text || text === 'Your result will appear here.'){
+    alert('Generate a result first.');
+    return;
+  }
+  try{
+    await navigator.clipboard.writeText(text);
+    document.getElementById('copyOutput').textContent = 'Copied!';
+    setTimeout(()=>document.getElementById('copyOutput').textContent='Copy result',1500);
+  }catch(error){
+    const area = document.createElement('textarea');
+    area.value = text;
+    document.body.appendChild(area);
+    area.select();
     document.execCommand('copy');
-    t.remove();
-    toast('Copied to clipboard');
-  };
-  if(navigator.clipboard && window.isSecureContext) {
-    navigator.clipboard.writeText(text).then(()=>toast('Copied!')).catch(fallback);
-  } else fallback();
+    area.remove();
+    document.getElementById('copyOutput').textContent = 'Copied!';
+    setTimeout(()=>document.getElementById('copyOutput').textContent='Copy result',1500);
+  }
 }
 
-function toast(message) {
-  const t = $('#toast');
-  t.textContent = message;
-  t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),1800);
-}
+document.getElementById('filters').addEventListener('click',event=>{
+  const button = event.target.closest('.filter');
+  if(!button) return;
+  document.querySelectorAll('.filter').forEach(item=>item.classList.remove('active'));
+  button.classList.add('active');
+  activeCategory = button.dataset.category;
+  renderTools();
+});
 
-function bindTool(id) {
-  const el = s => document.getElementById(s);
-  const set = v => { if(el('out')) el('out').textContent = v; };
-  const run = fn => { if(el('run')) el('run').onclick = fn; };
-  const copy = () => {
-    if(el('copy')) el('copy').onclick = () => copyText(el('out')?.textContent || '');
-  };
+document.getElementById('searchInput').addEventListener('input',renderTools);
+document.getElementById('closeModal').addEventListener('click',closeTool);
+document.getElementById('runTool').addEventListener('click',generateTool);
+document.getElementById('resetTool').addEventListener('click',resetTool);
+document.getElementById('copyOutput').addEventListener('click',copyResult);
 
-  if(el('reset')) el('reset').onclick = () => {
-    body.querySelectorAll('input,textarea').forEach(x=>{
-      if(x.type==='checkbox') x.checked=x.defaultChecked;
-      else x.value='';
-    });
-    if(el('out')) el('out').textContent='';
-  };
+modal.addEventListener('click',event=>{
+  if(event.target === modal) closeTool();
+});
 
-  if(id==='password') run(()=>{
-    const n=Math.max(4,Math.min(128,+el('length').value||20));
-    let chars='';
-    if(el('upper').checked) chars+='ABCDEFGHJKLMNPQRSTUVWXYZ';
-    if(el('lower').checked) chars+='abcdefghijkmnopqrstuvwxyz';
-    if(el('nums').checked) chars+='23456789';
-    if(el('symbols').checked) chars+='!@#$%^&*()-_=+[]{}?';
-    if(!chars) return set('Select at least one character type.');
-    const a=new Uint32Array(n);
-    crypto.getRandomValues(a);
-    set(Array.from(a,x=>chars[x%chars.length]).join(''));
-    copy();
-  });
+document.addEventListener('keydown',event=>{
+  if(event.key === 'Escape') closeTool();
+});
 
-  if(id==='username') run(()=>{
-    const words=el('words').value.toLowerCase().match(/[a-z0-9]+/g)||[];
-    const style=el('style').value;
-    const n=Math.max(1,Math.min(30,+el('amount').value||8));
-    const first=['Nova','Pixel','Orbit','Echo','Zen','Swift','Lunar','Nexus'];
-    const second=['Fox','Craft','Wave','Byte','Bloom','Spark','Studio','Cloud'];
-    let result=[];
-    for(let i=0;i<n;i++){
-      let a=words.length?words[i%words.length]:first[Math.floor(Math.random()*first.length)];
-      let b=style==='pro'?['Labs','Digital','Studio'][i%3]:style==='game'?['X','OP','Gamer'][i%3]:second[Math.floor(Math.random()*second.length)];
-      result.push(a+b+(style==='game'?Math.floor(Math.random()*99):''));
-    }
-    set([...new Set(result)].join('\n'));
-    copy();
-  });
-
-  if(id==='qr') run(()=>{
-    const value=el('qrtext').value.trim();
-    if(!value) return $('#qrout').textContent='Enter text or a URL first.';
-    const size=el('qrsize').value;
-    const url='https://api.qrserver.com/v1/create-qr-code/?size='+size+'x'+size+'&data='+encodeURIComponent(value);
-    $('#qrout').innerHTML=`<img src="${url}" alt="QR code" style="display:block;max-width:100%;margin:auto;background:white;padding:8px"><div class="actions"><a class="btn" href="${url}" target="_blank" rel="noopener">Open / Download QR</a></div>`;
-  });
-
-  if(id==='prompt') run(()=>{
-    const task=el('task').value.trim();
-    if(!task) return set('Describe what you want AI to do.');
-    set(`Act as ${el('role').value||'a knowledgeable expert'}.
-
-Task: ${task}
-
-Audience: ${el('audience').value||'General audience'}
-Tone: ${el('tone').selectedOptions[0].text}
-Output format: ${el('format').selectedOptions[0].text}
-
-Additional instructions:
-${el('extra').value||'Keep the response clear, accurate and useful.'}
-
-Address the task directly, follow the constraints and organize the result clearly. Ask clarifying questions if essential information is missing.`);
-    copy();
-  });
-
-  if(id==='lorem') run(()=>{
-    const p=Math.max(1,Math.min(20,+el('amount').value||3));
-    const w=Math.max(5,Math.min(300,+el('words').value||60));
-    const bank='Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua'.split(' ');
-    let result=[];
-    for(let j=0;j<p;j++){
-      let a=[];
-      for(let i=0;i<w;i++) a.push(bank[(i+j*5)%bank.length]);
-      a[0]=a[0][0].toUpperCase()+a[0].slice(1);
-      result.push(a.join(' ')+'.');
-    }
-    set(result.join('\n\n'));
-    copy();
-  });
-
-  if(id==='improver') run(()=>{
-    const t=el('text').value.trim();
-    if(!t) return set('Paste a prompt first.');
-    const f=el('focus').value;
-    set(`Your task:
-${t}
-
-Instructions:
-- Address the desired outcome directly.
-- Give a clear and well-structured response.
-- ${f==='clarity'?'Explain ambiguous points and organize information logically.':f==='creativity'?'Explore original approaches while remaining practical.':f==='accuracy'?'Avoid unsupported claims and state uncertainty.':'Keep the response concise and focused.'}
-- Follow all constraints in the original request.
-- Ask focused questions if essential information is missing.
-
-Deliver the final result in a useful format.`);
-    copy();
-  });
-
-  if(id==='bio') run(()=>{
-    const n=el('name').value.trim(),d=el('details').value.trim();
-    if(!n&&!d) return set('Add your name or details.');
-    const p=el('platform').value;
-    const intro=el('tone').value==='professional'?'Focused on delivering thoughtful work.':el('tone').value==='creative'?'Creative ideas and a curious mind.':'Always learning and exploring new ideas.';
-    set(p==='linkedin'?`${n}\n${d}\n${intro}`:`${n} ✨\n${d}\n${intro}`);
-    copy();
-  });
-
-  if(id==='choice') run(()=>{
-    const a=el('items').value.split(/[\n,]+/).map(x=>x.trim()).filter(Boolean);
-    set(a.length?a[Math.floor(Math.random()*a.length)]:'Add at least one option.');
-    copy();
-  });
-
-  if(id==='random') run(()=>{
-    const min=+el('min').value,max=+el('max').value;
-    const n=Math.max(1,Math.min(100,+el('amount').value||1));
-    if(!Number.isSafeInteger(min)||!Number.isSafeInteger(max)||min>max) return set('Enter a valid minimum and maximum.');
-    if(el('unique').checked&&n>max-min+1) return set('Not enough unique numbers in this range.');
-    let a=[];
-    while(a.length<n){
-      const x=Math.floor(Math.random()*(max-min+1))+min;
-      if(!el('unique').checked||!a.includes(x)) a.push(x);
-    }
-    set(a.join(', '));
-    copy();
-  });
-
-  if(id==='date'){
-    const update=()=>{
-      const add=el('kind').value!=='diff';
-      el('dateSecond').style.display=add?'none':'block';
-      el('daysField').style.display=add?'block':'none';
-    };
-    el('kind').onchange=update;
-    update();
-    run(()=>{
-      const d=new Date(el('date1').value+'T00:00:00');
-      if(!el('date1').value||isNaN(d)) return set('Choose a valid start date.');
-      if(el('kind').value==='diff'){
-        const e=new Date(el('date2').value+'T00:00:00');
-        if(!el('date2').value||isNaN(e)) return set('Choose an end date.');
-        set(Math.abs(Math.round((e-d)/86400000))+' days between the dates.');
-      } else {
-        const n=+el('days').value;
-        if(!Number.isFinite(n)) return set('Enter a valid number of days.');
-        d.setDate(d.getDate()+(el('kind').value==='add'?n:-n));
-        set(d.toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'}));
-      }
-    });
-  }
-
-  if(id==='json') run(()=>{
-    try {
-      const v=JSON.parse(el('text').value);
-      set(el('mode').value==='minify'?JSON.stringify(v):JSON.stringify(v,null,2));
-      copy();
-    } catch(e) { set('Invalid JSON: '+e.message); }
-  });
-
-  if(id==='markdown'){
-    const md=el('mdText'),preview=el('mdPreview');
-    const update=()=>{
-      let s=md.value.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-      s=s.replace(/^### (.*)$/gm,'<h3>$1</h3>')
-      .replace(/^## (.*)$/gm,'<h2>$1</h2>')
-      .replace(/^# (.*)$/gm,'<h1>$1</h1>')
-      .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
-      .replace(/\*(.*?)\*/g,'<em>$1</em>')
-      .replace(/\n/g,'<br>');
-      preview.innerHTML=s;
-    };
-    md.addEventListener('input',update);
-    update();
-    el('copyMd').onclick=()=>copyText(md.value);
-  }
-
-  if(id==='playground'){
-    const defaults={
-      html:'<h1>Hello, Promptly!</h1>\n<p>Edit this HTML to get started.</p>\n<button class="demo-btn">Click me</button>',
-      css:'body { font-family: Arial; padding: 32px; }\nh1 { color: #6558d3; }\n.demo-btn { padding: 10px 16px; background: #6558d3; color: white; border: 0; border-radius: 8px; }',
-      js:"document.querySelector('.demo-btn')?.addEventListener('click', () => {\\n  alert('It works!');\\n});"
-    };
-
-    const source=()=>`<!doctype html><html><head><meta charset="utf-8"><style>${el('cssCode').value}</style></head><body>${el('htmlCode').value}<script>window.onerror=(m)=>parent.postMessage({type:'promptly-error',message:m},'*');${el('jsCode').value}<\/script></body></html>`;
-
-    const execute=()=>{
-      el('preview').srcdoc=source();
-      el('console').textContent='Preview updated.';
-    };
-
-    run(execute);
-
-    el('reset').onclick=()=>{
-      el('htmlCode').value=defaults.html;
-      el('cssCode').value=defaults.css;
-      el('jsCode').value=defaults.js;
-      execute();
-    };
-
-    body.querySelectorAll('[data-copy]').forEach(b=>{
-      b.onclick=()=>copyText(el(b.dataset.copy+'Code').value);
-    });
-
-    el('downloadProject').onclick=()=>{
-      const blob=new Blob([source()],{type:'text/html'});
-      const url=URL.createObjectURL(blob);
-      const a=document.createElement('a');
-      a.href=url;
-      a.download='promptly-project.html';
-      a.click();
-      URL.revokeObjectURL(url);
-    };
-    execute();
-  }
-
-  if(id==='snippets'){
-    const data=[
-      ['Gradient Button','A modern gradient button.','<button class="gradient-btn">Get started</button>\n<style>.gradient-btn{padding:12px 20px;border:0;border-radius:10px;color:white;background:linear-gradient(120deg,#8b7cff,#42d6c5);font-weight:700;cursor:pointer}</style>'],
-      ['Info Card','A clean content card.','<article class="info-card"><h3>Card title</h3><p>Your content goes here.</p></article>\n<style>.info-card{max-width:320px;padding:22px;border:1px solid #ddd;border-radius:14px;font-family:Arial}.info-card p{color:#667}</style>'],
-      ['Navigation Bar','A simple navigation bar.','<nav class="nav"><strong>Brand</strong><div><a href="#">Home</a> <a href="#">About</a> <a href="#">Contact</a></div></nav>\n<style>.nav{display:flex;justify-content:space-between;padding:16px;font-family:Arial}.nav a{margin-left:14px;text-decoration:none}</style>'],
-      ['Input Field','A clean form input.','<label for="email">Email address</label><input id="email" type="email" placeholder="you@example.com">'],
-      ['Pill Badge','A small status badge.','<span class="badge">New feature</span>\n<style>.badge{display:inline-block;padding:6px 10px;border-radius:999px;background:#e8e5ff;color:#5145b8;font:600 12px Arial}</style>'],
-      ['Hover Card','A card with a hover animation.','<div class="hover-card">Hover over me</div>\n<style>.hover-card{padding:28px;border:1px solid #ddd;border-radius:14px;transition:.2s;font:600 16px Arial}.hover-card:hover{transform:translateY(-4px);box-shadow:0 12px 28px #0002}</style>']
-    ];
-
-    el('snippetsList').innerHTML=data.map((s,i)=>`
-      <div class="snippet">
-        <strong>${s[0]}</strong>
-        <p>${s[1]}</p>
-        <button class="btn secondary" data-snippet="${i}">Copy code</button>
-      </div>`).join('');
-
-    el('snippetsList').querySelectorAll('[data-snippet]').forEach(b=>{
-      b.onclick=()=>copyText(data[+b.dataset.snippet][2]);
-    });
-  }
-
-  if(id==='instabio') run(()=>{
-    const n=el('name').value.trim(),r=el('role').value.trim(),i=el('interests').value.trim();
-    if(!n&&!r&&!i) return set('Add some details first.');
-    const emoji=el('emoji').value==='none'?'':el('emoji').value==='many'?' ✨🚀💫':' ✨';
-    set([n+emoji,r,i].filter(Boolean).join('\n'));
-    copy();
-  });
-
-  if(id==='caption') run(()=>{
-    const t=el('topic').value.trim();
-    if(!t) return set('Describe your post first.');
-    const tone=el('tone').value;
-    const start={friendly:'A little moment worth sharing:',fun:'Plot twist: this deserves a post 😄',inspiring:'Small steps can lead to big things:',professional:'A quick update:'};
-    const end={instagram:'What do you think? Let me know below. 👇',facebook:'Share your thoughts in the comments.',tiktok:'Would you try this? Follow for more.',linkedin:'What has your experience been? I would love to hear your thoughts.'};
-    set(`${start[tone]}\n\n${t}\n\n${end[el('platform').value]}`);
-    copy();
-  });
-
-  if(id==='hashtag') run(()=>{
-    const words=el('topic').value.toLowerCase().match(/[a-z0-9]+/g)||[];
-    if(!words.length) return set('Enter a topic first.');
-    const base=words.join('');
-    const extra=el('platform').value==='instagram'?['instagood','explorepage','contentcreator']:el('platform').value==='tiktok'?['fyp','foryou','tiktoktrend']:['trending','ideas','community'];
-    const tags=[...words.map(w=>'#'+w),'#'+base,...extra.map(w=>'#'+w)];
-    set([...new Set(tags)].slice(0,15).join(' '));
-    copy();
-  });
-
-  if(id==='palette') run(()=>{
-    const sets={
-      calm:['#A8DADC','#457B9D','#F1FAEE','#B7E4C7','#6D6875'],
-      warm:['#F4A261','#E76F51','#E9C46A','#9C6644','#6F1D1B'],
-      cool:['#03045E','#0077B6','#00B4D8','#90E0EF','#CAF0F8'],
-      bold:['#FF006E','#8338EC','#3A86FF','#FFBE0B','#FB5607']
-    };
-    const colors=sets[el('mood').value]||Array.from({length:5},()=> '#'+Math.floor(Math.random()*16777215).toString(16).padStart(6,'0'));
-    $('#paletteOut').innerHTML='<div class="palette">'+colors.map(c=>`<div class="swatch" style="background:${c}" data-color="${c}">${c}</div>`).join('')+'</div>';
-    $('#paletteOut').querySelectorAll('.swatch').forEach(s=>s.onclick=()=>copyText(s.dataset.color));
-  });
-
-  if(id==='favicon') run(()=>{
-    const text=el('iconText').value.trim().slice(0,3)||'P';
-    const bg=el('bgColor').value,fg=el('fgColor').value;
-    const shape=el('shape').value;
-    const c=document.createElement('canvas');
-    c.width=c.height=256;
-    const x=c.getContext('2d');
-    x.fillStyle=bg;
-    x.beginPath();
-    if(shape==='circle') x.arc(128,128,120,0,Math.PI*2);
-    else x.roundRect(8,8,240,240,shape==='rounded'?48:0);
-    x.fill();
-    x.fillStyle=fg;
-    x.font=`bold ${text.length>2?92:130}px Arial`;
-    x.textAlign='center';
-    x.textBaseline='middle';
-    x.fillText(text,128,136);
-    const url=c.toDataURL('image/png');
-    $('#faviconOut').innerHTML=`<img src="${url}" width="96" height="96" alt="Favicon preview"><div class="actions"><a class="btn" href="${url}" download="favicon.png">Download PNG</a></div>`;
-  });
-
-  if(id==='meta') run(()=>{
-    const title=el('title').value.trim();
-    const desc=el('description').value.trim();
-    if(!title||!desc) return set('Add a page title and description.');
-    const esc=s=>s.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
-    const url=el('url').value.trim(),image=el('image').value.trim(),site=el('site').value.trim();
-    set(`<title>${esc(title)}</title>
-<meta name="description" content="${esc(desc)}">
-<meta property="og:type" content="website">
-<meta property="og:title" content="${esc(title)}">
-<meta property="og:description" content="${esc(desc)}">
-${url?`<link rel="canonical" href="${esc(url)}">
-<meta property="og:url" content="${esc(url)}">`:''}
-${image?`<meta property="og:image" content="${esc(image)}">`:''}
-${site?`<meta property="og:site_name" content="${esc(site)}">`:''}
-<meta name="twitter:card" content="${image?'summary_large_image':'summary'}">`);
-    copy();
-  });
-    /* ===== Extra tools ===== */
-
-  if(id==='ytitle') run(()=>{
-    const T=el('topic').value.trim();
-    if(!T) return set('Enter a video topic first.');
-    const aud=el('aud').value.trim(),y=new Date().getFullYear();
-    const kw=(el('kw').value.match(/[^,]+/g)||[]).map(x=>x.trim()).filter(Boolean);
-    const sets={
-      curiosity:[`The Truth About ${T} Nobody Tells You`,`I Tried ${T} for 30 Days. Here Is What Happened`,`Why ${T} Is Harder Than It Looks`,`What Everyone Gets Wrong About ${T}`],
-      howto:[`How to ${T} (Step-by-Step for Beginners)`,`${T}: The Simple Method That Works`,`How to Get Started With ${T} in ${y}`,`${T} Made Easy: A Complete Guide`],
-      list:[`7 ${T} Tips That Actually Work`,`5 Mistakes to Avoid With ${T}`,`10 ${T} Ideas You Can Try Today`,`The Only ${T} Checklist You Need`],
-      bold:[`${T}: Stop Doing It Wrong`,`This Changes Everything About ${T}`,`${T} in ${y}: What Actually Works`,`The Fastest Way to Improve at ${T}`]
-    };
-    const generic=[`${T} Explained in 5 Minutes`,`${T}: Beginner vs Pro`,`Is ${T} Worth It in ${y}?`,`${T} for Beginners`];
-    const titles=[...sets[el('style').value],...generic];
-    set(['TITLE IDEAS (aim for under 60 characters)',...titles.map((t,i)=>`${i+1}. ${t}`),'','DESCRIPTION',`In this video you will learn about ${T}${aud?` for ${aud}`:''}.`,'','In this video:',`• The basics of ${T}`,'• Common mistakes to avoid','• What to do next','','If this helped, like and subscribe for more.','','TAGS',(kw.length?kw:[T]).join(', ')].join('\n'));
-    copy();
-  });
-
-  if(id==='reels') run(()=>{
-    const T=el('topic').value.trim();
-    if(!T) return set('Enter a topic first.');
-    const goal=el('goal').value,len=+el('len').value,tips=len===15?1:len===30?2:3;
-    const hooks=[`Stop scrolling if you care about ${T}.`,`Nobody talks about this part of ${T}.`,`Here is ${T} in ${len} seconds.`];
-    let beats;
-    if(goal==='sell') beats=['Show the problem your viewer has.',`Reveal ${T} as the answer.`,'Show the result or a quick demo.'];
-    else if(goal==='story') beats=['Set the scene in one sentence.','Describe the turning point.',`Share the lesson about ${T}.`];
-    else beats=Array.from({length:tips},(_,i)=>`Tip ${i+1}: one clear, specific point about ${T}.`);
-    const cta=goal==='sell'?'Tap the link in bio to try it.':'Follow for more, and save this for later.';
-    set(['HOOK OPTIONS (first 3 seconds)',...hooks.map((h,i)=>`${i+1}. ${h}`),'',`SCRIPT (${len} seconds)`,...beats.map((b,i)=>`Scene ${i+1}: ${b}`),`Final scene: ${cta}`,'','CAPTION',`${cap(T)} 👇 ${cta}`].join('\n'));
-    copy();
-  });
-
-  if(id==='tweet') run(()=>{
-    const T=el('topic').value.trim();
-    if(!T) return set('Enter a topic first.');
-    const open={pro:'A practical note on',fun:'Hot take on',insp:'A reminder about'}[el('tone').value];
-    if(el('format').value==='single'){
-      const v=[`${open} ${T}: start small, stay consistent, and measure what happens.`,`${cap(T)} is simpler than it looks. Pick one step and do it today.`,`The best advice I have on ${T}: ship it, learn from it, repeat.`];
-      set(v.map((t,i)=>`Option ${i+1} (${t.length}/280)\n${t}`).join('\n\n'));
-    } else {
-      const th=[`${open} ${T}. A thread 🧵`,`The problem: most people overcomplicate ${T}.`,'Start small. One clear step beats ten vague ones.','Track what happens, then adjust. Progress comes from feedback.','Share what you learn. Teaching makes it stick.','That is the idea. Follow for more, and share this with someone who needs it.'];
-      set(th.map((x,i)=>`${i+1}/${th.length} ${x}`).join('\n\n'));
-    }
-    copy();
-  });
-
-  if(id==='blog') run(()=>{
-    const T=el('topic').value.trim();
-    if(!T) return set('Enter a topic first.');
-    const aud=el('aud').value.trim()||'beginners',type=el('type').value;
-    const secs={
-      guide:[`What is ${T}?`,`Why ${T} matters`,'Step-by-step: how to get started','Common mistakes to avoid','Tools and resources','Frequently asked questions'],
-      list:['Tip 1: Start with the basics','Tip 2: Build a simple routine','Tip 3: Use the right tools','Tip 4: Learn from examples','Tip 5: Track your progress','Bonus: What to avoid'],
-      opinion:[`My position on ${T}`,'The case for it','The strongest counterargument','Why I still disagree','What readers can do next'],
-      review:[`What ${T} is`,'What I liked','What could be better','Who it is best for','Price and value','Final verdict']
-    }[type];
-    const title={guide:`The Complete Beginner's Guide to ${T}`,list:`7 Simple Ways to Get Better at ${T}`,opinion:`Why ${T} Is Not What You Think`,review:`${cap(T)} Review: Is It Worth It?`}[type];
-    set(['TITLE',title,'','INTRODUCTION',`Hook: open with a problem or question your ${aud} face with ${T}.`,'Promise: say exactly what the reader will learn.','','OUTLINE',...secs.map((s,i)=>`H2 ${i+1}. ${s}`),'','CONCLUSION','Summarise the key points and finish with one clear next step.','','META DESCRIPTION',`A clear, practical look at ${T} for ${aud}. Learn what matters and what to do next.`].join('\n'));
-    copy();
-  });
-
-  if(id==='paraphrase') run(()=>{
-    const t=el('text').value.trim();
-    if(!t) return set('Paste some text first.');
-    const how={simpler:'in simpler words that anyone can understand',formal:'in a more formal, professional tone',casual:'in a relaxed, conversational tone',shorter:'in fewer words while keeping every key point'}[el('style').value];
-    set(`Rewrite the text below ${how}.\n\nRules:\n- Keep the original meaning.\n- Do not add new facts.\n- Return only the rewritten text.\n\nText:\n"""\n${t}\n"""`);
-    copy();
-  });
-
-  if(id==='grammar') run(()=>{
-    let s=el('text').value;
-    if(!s.trim()) return set('Paste some text first.');
-    let n=0;
-    const fix=(re,fn)=>{s=s.replace(re,(...a)=>{n++;return typeof fn==='function'?fn(...a):fn;});};
-    const typos={teh:'the',recieve:'receive',definately:'definitely',seperate:'separate',occured:'occurred',untill:'until',alot:'a lot',wich:'which',becuase:'because',thier:'their',adress:'address',dont:"don't",cant:"can't",wont:"won't",im:"I'm",ive:"I've",didnt:"didn't",doesnt:"doesn't",isnt:"isn't"};
-    fix(new RegExp('\\b('+Object.keys(typos).join('|')+')\\b','gi'),m=>{
-      const r=typos[m.toLowerCase()];
-      return m[0]===m[0].toUpperCase()?r.charAt(0).toUpperCase()+r.slice(1):r;
-    });
-    fix(/\bi\b(?=\s|'|[.,!?]|$)/g,'I');
-    fix(/\b(\w+)\s+\1\b/gi,(m,a)=>a);
-    fix(/[ \t]{2,}/g,' ');
-    fix(/[ \t]+([,.!?;:])/g,(m,a)=>a);
-    fix(/([,;!?])(?=[A-Za-z])/g,(m,a)=>a+' ');
-    fix(/\.(?=[A-Z][a-z])/g,'. ');
-    fix(/(^|[.!?]\s+|\n\s*)([a-z])/g,(m,a,b)=>a+b.toUpperCase());
-    if(el('tone').value==='formal'){
-      const f={"don't":'do not',"can't":'cannot',"won't":'will not',"I'm":'I am',"it's":'it is',"I've":'I have',"didn't":'did not',"doesn't":'does not',"isn't":'is not',gonna:'going to',wanna:'want to',kinda:'somewhat'};
-      fix(new RegExp('\\b('+Object.keys(f).join('|')+')\\b','gi'),m=>{
-        const k=Object.keys(f).find(x=>x.toLowerCase()===m.toLowerCase());
-        const r=f[k];
-        return m[0]===m[0].toUpperCase()?r.charAt(0).toUpperCase()+r.slice(1):r;
-      });
-    }
-    s=s.trim();
-    if(/[A-Za-z0-9]$/.test(s)){s+='.';n++;}
-    set(s);
-    toast(n+(n===1?' fix':' fixes')+' applied');
-    copy();
-  });
-
-  if(id==='summarize') run(()=>{
-    const t=el('text').value.trim();
-    if(!t) return set('Paste some text first.');
-    const bullets=el('len').value==='bullets',n=bullets?5:+el('len').value;
-    const r=rankSentences(t,n);
-    if(r.sents.length<=n) return set('This text is already short. Paste more text to summarise.');
-    const out=r.picked.map(i=>r.sents[i]);
-    set(bullets?out.map(s=>'• '+s).join('\n'):out.join(' '));
-    toast('Shortened from '+t.split(/\s+/).length+' to '+out.join(' ').split(/\s+/).length+' words');
-    copy();
-  });
-
-  if(id==='email') run(()=>{
-    const p=el('purpose').value,tone=el('tone').value;
-    const to=el('to').value.trim(),from=el('from').value.trim();
-    const pts=lines(el('points').value);
-    const subject={followup:'Following up on our conversation',cold:'A quick idea for you',complaint:'An issue that needs your attention',apology:'My apologies',request:'A quick request',thanks:'Thank you'}[p];
-    const open={followup:'I wanted to follow up on our recent conversation.',cold:'I am reaching out because I think I can help.',complaint:'I am writing about a problem I would like to see resolved.',apology:'I am sorry about what happened, and I want to make it right.',request:'I would like to ask for your help with something.',thanks:'Thank you so much for your time and support.'}[p];
-    const close={followup:'Could you let me know where things stand?',cold:'Would you be open to a short call this week?',complaint:'I would appreciate a reply and a resolution by the end of the week.',apology:'Thank you for your understanding.',request:'Thank you in advance for your help.',thanks:'I really appreciate it.'}[p];
-    const hi=to?{professional:`Dear ${to},`,friendly:`Hi ${to},`,direct:`${to},`}[tone]:{professional:'Hello,',friendly:'Hi there,',direct:'Hello,'}[tone];
-    const bye={professional:'Kind regards,',friendly:'Thanks,',direct:'Regards,'}[tone];
-    set([`Subject: ${subject}`,'',hi,'',open,...(pts.length?['',...pts.map(x=>'- '+x)]:[]),'',close,'',bye,from||'[Your name]'].join('\n'));
-    copy();
-  });
-
-  if(id==='product') run(()=>{
-    const n=el('name').value.trim();
-    if(!n) return set('Enter a product name first.');
-    const f=lines(el('features').value),aud=el('aud').value.trim()||'everyday use',tone=el('tone').value;
-    const head={persuasive:`Meet ${n}: made to make life easier`,simple:`${n}: simple, useful, reliable`,luxury:`${n}: crafted for those who expect more`}[tone];
-    const intro={persuasive:`${n} is designed for ${aud}, with everything you need and nothing you do not.`,simple:`${n} is made for ${aud}. It does the job well.`,luxury:`Designed with care for ${aud}, ${n} brings quality and style together.`}[tone];
-    const cta={persuasive:'Order yours today and see the difference.',simple:'Add it to your cart today.',luxury:'Make it yours today.'}[tone];
-    set([head,'',intro,'',...(f.length?['Key features:',...f.map(x=>'✔ '+x),'']:[]),cta].join('\n'));
-    copy();
-  });
-
-  if(id==='adcopy') run(()=>{
-    const n=el('name').value.trim(),b=el('benefit').value.trim();
-    if(!n||!b) return set('Add a product name and a main benefit.');
-    const aud=el('aud').value.trim()||'you',plat=el('platform').value;
-    const cnt=(s,m)=>`${s} (${s.length}/${m})${s.length>m?' - too long, shorten it':''}`;
-    if(plat==='google'){
-      set(['HEADLINES (max 30 characters each)',cnt(n,30),cnt(`Try ${n} Today`,30),cnt(cap(b),30),cnt(`Why ${n}?`,30),'','DESCRIPTIONS (max 90 characters each)',cnt(`${n} helps ${aud} ${b}. Start today.`,90),cnt(`Join people who chose ${n}. ${cap(b)}.`,90)].join('\n'));
-    } else if(plat==='facebook'){
-      set(['PRIMARY TEXT',`${cap(b)}: that is what ${n} is built for.`,'',`Made for ${aud}. See why people love it.`,'','HEADLINE',`${n}: ${cap(b)}`,'','BUTTON','Learn More'].join('\n'));
-    } else {
-      set(['INTRO TEXT',`${cap(aud)}: ${b}. Here is how ${n} helps.`,'',`We built ${n} to make that simple. See how it works.`,'','HEADLINE',`${n}: ${cap(b)}`,'','BUTTON','Learn More'].join('\n'));
-    }
-    copy();
-  });
-
-  if(id==='essay') run(()=>{
-    const T=el('topic').value.trim();
-    if(!T) return set('Enter your essay topic first.');
-    const type=el('type').value,n=+el('paras').value;
-    const thesis={argumentative:`${cap(T)} should be [supported / changed] because of [reason 1], [reason 2] and [reason 3].`,expository:`${cap(T)} can be understood through [point 1], [point 2] and [point 3].`,compare:`Although [A] and [B] share [similarity], they differ in [difference 1] and [difference 2] when it comes to ${T}.`,narrative:`The experience of ${T} taught me [lesson], and it changed how I [see / act].`}[type];
-    const hook={argumentative:'a surprising fact, statistic or question',expository:'a short definition or a striking example',compare:'a question that links the two subjects',narrative:'a vivid moment or sensory detail'}[type];
-    const body=Array.from({length:n},(_,i)=>`BODY PARAGRAPH ${i+1}\n- Topic sentence: state point ${i+1} about ${T}\n- Evidence: add a fact, quote or example\n- Explanation: say why it matters\n- Link: connect back to your thesis`);
-    set([`INTRODUCTION\n- Hook: start with ${hook}\n- Background: 1 to 2 sentences on ${T}\n- Thesis: ${thesis}`,'',...body.flatMap(b=>[b,'']),...(type==='argumentative'?['COUNTERARGUMENT\n- Present the strongest opposing view\n- Respond with evidence','']:[]),'CONCLUSION\n- Restate your thesis in new words\n- Summarise your main points\n- End with a final thought or call to action'].join('\n'));
-    copy();
-  });
-
-  if(id==='resume') run(()=>{
-    const n=el('name').value.trim(),r=el('role').value.trim();
-    if(!n||!r) return set('Add your name and target role.');
-    const sk=(el('skills').value.match(/[^,]+/g)||[]).map(x=>x.trim()).filter(Boolean);
-    const ex=lines(el('exp').value),ed=el('edu').value.trim(),em=el('email').value.trim();
-    if(el('mode').value==='cover'){
-      const co=el('company').value.trim()||'your company';
-      set(['Dear Hiring Manager,','',`I am excited to apply for the ${r} role at ${co}.${sk.length?` My experience with ${sk.slice(0,3).join(', ')} has prepared me to contribute from day one.`:''}`,'',...(ex.length?['Highlights from my background:',...ex.map(x=>'- '+x),'']:[]),`I would welcome the chance to discuss how I can help ${co} succeed. Thank you for your time and consideration.`,'','Sincerely,',n,...(em?[em]:[])].join('\n'));
-    } else {
-      set([n.toUpperCase(),r+(em?' | '+em:''),'','SUMMARY',`${r} with experience in ${sk.slice(0,4).join(', ')||'a range of areas'}. Focused on clear results, reliable work and continuous learning.`,'',...(sk.length?['SKILLS',sk.join(' • '),'']:[]),...(ex.length?['EXPERIENCE',...ex.map(x=>'• '+x),'']:[]),...(ed?['EDUCATION',ed]:[])].join('\n'));
-    }
-    copy();
-  });
-
-  if(id==='interview') run(()=>{
-    const role=el('role').value.trim()||'professional',type=el('type').value,count=+el('qty').value;
-    const bank={
-      behavioral:['Tell me about a time you faced a difficult challenge at work. What did you do?','Describe a time you disagreed with a teammate. How did you handle it?','Tell me about a goal you achieved and how you reached it.','Describe a mistake you made and what you learned from it.','Tell me about a time you had to learn something quickly.','Give an example of when you showed leadership.','Tell me about a time you worked under a tight deadline.','Describe a time you received difficult feedback.'],
-      situational:['What would you do if you were given two urgent tasks at the same time?','How would you handle a teammate who is not doing their share?','What would you do if you found a serious mistake just before a deadline?','How would you respond if a client was unhappy with your work?','What would you do if you did not know how to complete a task?','How would you handle a change in priorities halfway through a project?'],
-      technical:[`What skills make someone successful as a ${role}?`,`Walk me through a recent project you completed as a ${role}.`,`What tools do you use most as a ${role}, and why?`,`How do you keep your ${role} skills up to date?`,`Describe a hard problem you solved as a ${role}.`,`How do you check the quality of your work as a ${role}?`]
-    };
-    const pool=type==='mix'?[...bank.behavioral,...bank.situational,...bank.technical]:bank[type];
-    const qs=shuffle(pool).slice(0,count);
-    set(`Practice questions for ${role}\n\n`+qs.map((q,i)=>`${i+1}. ${q}`).join('\n\n')+'\n\nTip: answer behavioral questions with the STAR method: Situation, Task, Action, Result.');
-    copy();
-  });
-
-  if(id==='study') run(()=>{
-    const t=el('text').value.trim();
-    if(t.split(/\s+/).length<20) return set('Paste at least a short paragraph (about 20 words) of notes.');
-    const n=+el('qty').value,mode=el('mode').value;
-    const r=rankSentences(t,n),keep=r.picked.map(i=>r.sents[i]);
-    const parts=[];
-    if(mode!=='quiz') parts.push('STUDY NOTES',...keep.map(s=>'• '+s),'');
-    if(mode!=='notes'){
-      const freq={};
-      (t.toLowerCase().match(/[a-z]{5,}/g)||[]).forEach(w=>{if(!STOP.has(w)) freq[w]=(freq[w]||0)+1;});
-      const answers=[];
-      parts.push('QUIZ: fill in the blank');
-      keep.forEach(s=>{
-        const ws=(s.toLowerCase().match(/[a-z]{5,}/g)||[]).filter(w=>!STOP.has(w)).sort((a,b)=>(freq[b]||0)-(freq[a]||0)||b.length-a.length);
-        if(!ws.length) return;
-        const w=ws.find(x=>!answers.includes(x))||ws[0];
-        answers.push(w);
-        parts.push(`${answers.length}. ${s.replace(new RegExp('\\b'+w+'\\b','i'),'_____')}`);
-      });
-      parts.push('','ANSWERS',...answers.map((a,i)=>`${i+1}. ${a}`));
-    }
-    set(parts.join('\n'));
-    copy();
-  });
-
-  if(id==='imgprompt') run(()=>{
-    const s=el('subject').value.trim();
-    if(!s) return set('Describe your subject first.');
-    const style=el('style').selectedOptions[0].text.toLowerCase(),mood=el('mood').selectedOptions[0].text.toLowerCase();
-    const light=el('light').value,shot=el('shot').value,ar=el('ratio').value,ex=el('extra').value.trim();
-    const p=`${s}, ${shot}, ${style}, ${mood} mood, ${light}, highly detailed, sharp focus${ex?', '+ex:''}`;
-    set(`PROMPT\n${p}\n\nMIDJOURNEY VERSION\n${p} --ar ${ar}\n\nTIP\nPut the most important idea first. Add "no text, no watermark" if you want a clean image.`);
-    copy();
-  });
-
-  if(id==='codeexplain') run(()=>{
-    const c=el('code').value;
-    if(!c.trim()) return set('Paste some code first.');
-    const fn=(c.match(/\bfunction\b|\bdef\b|=>|\bfunc\b|\bfn\b/g)||[]).length;
-    const lp=(c.match(/\bfor\b|\bwhile\b|\.forEach\(|\.map\(/g)||[]).length;
-    const cond=(c.match(/\bif\b|\belse\b|\bswitch\b|\bcase\b/g)||[]).length;
-    const level=el('level').value==='beginner'?'a complete beginner':'someone with some programming experience';
-    set(`QUICK SCAN\nLines: ${c.split('\n').length}\nFunctions: ${fn}\nLoops: ${lp}\nConditions: ${cond}\n\nPROMPT FOR AI\nExplain the following ${el('lang').value} code to ${level}.\n\n1. Start with a one-sentence summary of what it does.\n2. Walk through it step by step.\n3. Point out any bugs or risky parts.\n\nCode:\n----\n${c}\n----`);
-    copy();
-  });
-
-  if(id==='codeconvert'){
-    el('to').value='Python';
-    run(()=>{
-      const c=el('code').value,from=el('from').value,to=el('to').value;
-      if(!c.trim()) return set('Paste some code first.');
-      if(from===to) return set('Choose two different languages.');
-      set(`Convert the following ${from} code to ${to}.\n\nRules:\n- Keep the same behaviour.\n- Use idiomatic ${to} style and naming.\n- Add short comments where the approach differs.\n- List any libraries or setup needed.\n\n${from} code:\n----\n${c}\n----`);
-      copy();
-    });
-  }
-
-  if(id==='bugfix') run(()=>{
-    const c=el('code').value,lang=el('lang').value;
-    if(!c.trim()) return set('Paste your code first.');
-    const found=[];
-    if(lang==='JSON'){
-      try{JSON.parse(c);}catch(e){found.push('JSON error: '+e.message);}
-    } else if(lang==='HTML'){
-      ['div','span','p','ul','ol','li','a','section','article','main','header','footer','nav','button','form','table','tr','td','h1','h2','h3'].forEach(t=>{
-        const o=(c.match(new RegExp('<'+t+'(\\s[^>]*)?>','gi'))||[]).length,x=(c.match(new RegExp('</'+t+'>','gi'))||[]).length;
-        if(o!==x) found.push(`<${t}> is opened ${o} time(s) but closed ${x} time(s)`);
-      });
-    } else {
-      scanBrackets(c,lang==='Python').forEach(x=>found.push(x));
-      if(lang==='JavaScript'){
-        try{new Function(c);}catch(e){found.push('JavaScript syntax: '+e.message);}
-      }
-      if(lang==='Python'){
-        c.split('\n').forEach((l,i)=>{
-          if(/^\s*(def|class|if|elif|else|for|while|try|except|finally|with)\b[^#]*[^:\s#]\s*(#.*)?$/.test(l)&&!/[(\[{,\\]\s*$/.test(l)) found.push(`Line ${i+1}: this line may be missing a ":" at the end`);
-          if(/^\s*print\s+[^(\s=]/.test(l)) found.push(`Line ${i+1}: use print(...) with brackets`);
-        });
-        if(/^\t+ /m.test(c)||/^ +\t/m.test(c)) found.push('Tabs and spaces are mixed in the indentation');
-      }
-    }
-    const err=el('err').value.trim();
-    set(`FINDINGS\n${found.length?found.map(x=>'• '+x).join('\n'):'No obvious syntax problems found. The bug may be in the logic.'}\n\nPROMPT FOR AI\nFind and fix the bug in this ${lang==='Other'?'':lang+' '}code.${err?'\nError message: '+err:''}\n\nExplain what was wrong, then give the corrected code.\n\nCode:\n----\n${c}\n----`);
-    copy();
-  });
-
-  if(id==='regex') run(()=>{
-    const kind=el('kind').value,val=el('val').value.trim();
-    const lib={
-      email:[/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/,'Email address'],
-      url:[/https?:\/\/[^\s/$.?#][^\s]*/,'Web link starting with http or https'],
-      phone:[/\+?\d{1,3}[\s.-]?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}/,'Phone number with optional country code'],
-      date:[/\b\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|3[01])\b/,'Date in YYYY-MM-DD format'],
-      time:[/\b(?:[01]\d|2[0-3]):[0-5]\d\b/,'24-hour time (HH:MM)'],
-      hex:[/#(?:[0-9a-fA-F]{3}){1,2}\b/,'Hex colour code'],
-      ip:[/\b(?:(?:25[0-5]|2[0-4]\d|1?\d?\d)\.){3}(?:25[0-5]|2[0-4]\d|1?\d?\d)\b/,'IPv4 address'],
-      zip:[/\b\d{5}(?:-\d{4})?\b/,'US ZIP code'],
-      username:[/\b[A-Za-z0-9_]{3,16}\b/,'Username of 3 to 16 letters, numbers or underscores'],
-      digits:[/\d+/,'One or more digits']
-    };
-    let re,why;
-    if(lib[kind]){ re=lib[kind][0]; why=lib[kind][1]; }
-    else {
-      if(!val) return set('Enter a word or text first.');
-      const e=val.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
-      re={contains:new RegExp('\\b'+e+'\\b'),starts:new RegExp('^'+e),ends:new RegExp(e+'$')}[kind];
-      why={contains:'Whole word "'+val+'"',starts:'Text that starts with "'+val+'"',ends:'Text that ends with "'+val+'"'}[kind];
-    }
-    const flags=kind==='starts'||kind==='ends'?'gm':'g';
-    const text=el('test').value;
-    const m=text?(text.match(new RegExp(re.source,flags))||[]):null;
-    set(`PATTERN\n/${re.source}/${flags}\n\nMEANING\n${why}`+(m?`\n\nMATCHES IN YOUR TEXT: ${m.length}${m.length?'\n'+m.slice(0,20).join('\n'):''}`:'')+`\n\nJAVASCRIPT\nconst pattern = /${re.source}/${flags};`);
-    copy();
-  });
-
-  if(id==='sql') run(()=>{
-    const act=el('act').value,tb=el('table').value.trim();
-    if(!/^[A-Za-z_][\w.]*$/.test(tb)) return set('Enter a valid table name (letters, numbers and underscores).');
-    const cols=el('cols').value.trim(),vals=el('vals').value.trim(),cond=el('cond').value.trim(),ord=el('order').value.trim(),lim=parseInt(el('limit').value,10);
-    let q,warn='';
-    if(act==='SELECT'){
-      q=`SELECT ${cols||'*'}\nFROM ${tb}`;
-      if(cond) q+=`\nWHERE ${cond}`;
-      if(ord) q+=`\nORDER BY ${ord}`;
-      if(lim>0) q+=`\nLIMIT ${lim}`;
-    } else if(act==='INSERT'){
-      if(!cols||!vals) return set('INSERT needs columns and values.');
-      q=`INSERT INTO ${tb} (${cols})\nVALUES (${vals})`;
-    } else if(act==='UPDATE'){
-      if(!cols) return set("UPDATE needs columns like: name = 'Ali'");
-      q=`UPDATE ${tb}\nSET ${cols}`;
-      if(cond) q+=`\nWHERE ${cond}`;
-    } else {
-      q=`DELETE FROM ${tb}`;
-      if(cond) q+=`\nWHERE ${cond}`;
-    }
-    if((act==='UPDATE'||act==='DELETE')&&!cond) warn='\n\n-- Warning: no WHERE condition. This will affect every row in the table.';
-    set(q+';'+warn);
-    copy();
-  });
-
-  if(id==='docs') run(()=>{
-    const c=el('code').value,lang=el('lang').value;
-    if(!c.trim()) return set('Paste your code first.');
-    const clean=a=>a.split(',').map(x=>x.replace(/=.*$/,'').replace(/:.*$/,'').replace(/[*.\s]/g,'')).filter(Boolean);
-    const out=[];
-    if(lang==='Python'){
-      for(const m of c.matchAll(/def\s+(\w+)\s*\(([^)]*)\)/g)){
-        const ps=clean(m[2]).filter(p=>p!=='self'&&p!=='cls');
-        const L=[`def ${m[1]}(${m[2].trim()}):`,`    """TODO: describe what ${m[1]} does.`];
-        if(ps.length) L.push('','    Args:',...ps.map(p=>`        ${p}: TODO`));
-        L.push('','    Returns:','        TODO','    """');
-        out.push(L.join('\n'));
-      }
-    } else {
-      const re=/(?:async\s+)?function\s+([A-Za-z_$][\w$]*)\s*\(([^)]*)\)|(?:const|let|var)\s+([A-Za-z_$][\w$]*)\s*=\s*(?:async\s*)?\(([^)]*)\)\s*=>/g;
-      for(const m of c.matchAll(re)){
-        const name=m[1]||m[3],args=m[2]!==undefined?m[2]:m[4],ps=clean(args);
-        const L=['/**',` * TODO: describe what ${name} does.`,' *',...ps.map(p=>` * @param {*} ${p} - TODO`),' * @returns {*} TODO',' */',`// ${name}(${args.trim()})`];
-        out.push(L.join('\n'));
-      }
-    }
-    set((out.length?'DOC COMMENT TEMPLATES (paste each one above its function)\n\n'+out.join('\n\n'):'No functions found in this code.')+`\n\nPROMPT FOR AI\nAdd clear, helpful comments to this ${lang} code. Explain why, not just what. Do not change the code itself.\n\nCode:\n----\n${c}\n----`);
-    copy();
-  });
-
-  if(id==='readme') run(()=>{
-    const n=el('name').value.trim();
-    if(!n) return set('Enter a project name first.');
-    const f=lines(el('features').value),lic=el('license').value,au=el('author').value.trim();
-    const T=String.fromCharCode(96).repeat(3);
-    set([`# ${n}`,'',el('desc').value.trim()||'A short description of the project.','',...(f.length?['## Features','',...f.map(x=>'- '+x),'']:[]),'## Installation','',T+'bash',el('install').value.trim()||'npm install',T,'','## Usage','',T+'bash',el('usage').value.trim()||'npm start',T,'',...(lic!=='none'?['## License','',`This project is licensed under the ${lic} license.`,'']:[]),...(au?['## Author','',au]:[])].join('\n'));
-    copy();
-  });
-
-  if(id==='bizname') run(()=>{
-    const kw=el('kw').value.toLowerCase().match(/[a-z0-9]+/g)||[];
-    if(!kw.length) return set('Enter at least one keyword first.');
-    const style=el('style').value,ind=el('industry').value;
-    const suf={tech:['ly','ify','Labs','Hub','Stack'],food:['Kitchen','Bites','Table','Fresh','Pantry'],fashion:['Studio','Wear','Atelier','Co','Collective'],fitness:['Fit','Pulse','Strong','Move','Well'],education:['Academy','Learn','Path','School','Mind'],creative:['Studio','Works','House','Lab','Craft']}[ind];
-    const pre={modern:['Neo','Nova','Zen','Next'],classic:['Prime','Royal','Grand','True'],playful:['Happy','Zippy','Jolly','Fun']}[style];
-    const names=[];
-    kw.slice(0,3).forEach(k=>{
-      suf.forEach(s=>names.push(/^[a-z]/.test(s)?cap(k)+s:cap(k)+' '+s));
-      pre.forEach(p=>names.push(p+' '+cap(k)));
-    });
-    const uniq=shuffle([...new Set(names)]).slice(0,12);
-    const k0=kw[0];
-    const slogans=[`${cap(k0)}, done right.`,`Where ${k0} begins.`,`Simply better ${k0}.`,`Made for people who love ${k0}.`];
-    set(['NAME IDEAS',...uniq.map((x,i)=>`${i+1}. ${x}`),'','SLOGANS',...slogans.map(x=>'• '+x)].join('\n'));
-    copy();
-  });
-}
-
-
+document.getElementById('year').textContent = new Date().getFullYear();
+renderTools();
 </script>
 </body>
 </html>
