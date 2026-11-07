@@ -1,0 +1,1251 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Promptly — Free tools for AI prompts, programming, social media and everyday creativity.">
+<meta name="theme-color" content="#0B0F19">
+<title>Promptly — Everything You Need. One Place.</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+:root {
+  --bg: #0B0F19;
+  --panel: #111827;
+  --panel2: #182235;
+  --border: #29354b;
+  --text: #f1f5ff;
+  --muted: #94a3b8;
+  --accent: #8b7cff;
+  --accent2: #42d6c5;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: radial-gradient(ellipse at 15% 0%, #20264e 0, transparent 35%), var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+}
+
+button, input, textarea, select { font: inherit; }
+button { cursor: pointer; }
+
+.shell {
+  max-width: 1200px;
+  margin: auto;
+  padding: 0 24px;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: #0b0f19ed;
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid #29354b;
+}
+
+.nav {
+  height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  color: var(--text);
+  text-decoration: none;
+  font: 700 25px 'Space Grotesk';
+}
+
+.logo {
+  display: inline-grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: linear-gradient(135deg,var(--accent),var(--accent2));
+  color: #101322;
+  margin-right: 8px;
+}
+
+.nav-right {
+  display: flex;
+  gap: 20px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.nav-right a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.hero {
+  padding: 75px 0 45px;
+  text-align: center;
+}
+
+.eyebrow {
+  display: inline-block;
+  padding: 8px 14px;
+  border: 1px solid #41436b;
+  background: #191d38;
+  border-radius: 30px;
+  color: #c7c4ff;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+h1 {
+  font: 700 clamp(40px,6vw,66px)/1.08 'Space Grotesk';
+  letter-spacing: -2px;
+  margin: 23px 0 15px;
+}
+
+.gradient {
+  background: linear-gradient(100deg,#a99fff,#5ce3d0);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero p {
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.7;
+  max-width: 650px;
+  margin: 0 auto 28px;
+}
+
+.search-wrap {
+  max-width: 620px;
+  margin: auto;
+}
+
+.search-wrap input {
+  width: 100%;
+  padding: 17px 20px;
+  background: var(--panel);
+  border: 1px solid #394765;
+  border-radius: 14px;
+  color: white;
+  outline: none;
+}
+
+.search-wrap input:focus {
+  border-color: var(--accent);
+}
+
+.quick {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 17px;
+}
+
+.chip {
+  padding: 8px 13px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 30px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.chip.active, .chip:hover {
+  border-color: var(--accent);
+  color: white;
+  background: #292449;
+}
+
+main { padding-bottom: 70px; }
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  margin: 25px 0 18px;
+}
+
+.section-head h2 {
+  font: 600 23px 'Space Grotesk';
+  margin: 0;
+}
+
+.section-head p {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.count { color: var(--muted); font-size: 12px; }
+
+.tool-grid {
+  display: grid;
+  grid-template-columns: repeat(4,minmax(0,1fr));
+  gap: 14px;
+}
+
+.tool-card {
+  background: linear-gradient(145deg,#141e34,#101827);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 18px;
+  min-height: 160px;
+  text-align: left;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  transition: .2s;
+}
+
+.tool-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+  box-shadow: 0 12px 30px #0004;
+}
+
+.tool-icon {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  background: #29264e;
+  border-radius: 12px;
+  font-size: 20px;
+  margin-bottom: 13px;
+}
+
+.tool-card h3 { font-size: 15px; margin: 0 0 7px; }
+.tool-card p { font-size: 12px; color: var(--muted); line-height: 1.5; margin: 0; }
+.arrow { color: #a99fff; font-size: 12px; margin-top: auto; padding-top: 13px; }
+
+.empty {
+  display: none;
+  padding: 35px;
+  text-align: center;
+  color: var(--muted);
+  border: 1px dashed var(--border);
+  border-radius: 15px;
+}
+
+footer {
+  border-top: 1px solid var(--border);
+  padding: 25px 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+/* TOOL MODAL */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: #050812d9;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+}
+
+.modal.open { display: flex; }
+
+.dialog {
+  width: min(780px,100%);
+  max-height: 90vh;
+  overflow: auto;
+  background: #111a2e;
+  border: 1px solid #35415c;
+  border-radius: 20px;
+}
+
+.dialog-head {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  background: #111a2e;
+  border-bottom: 1px solid var(--border);
+  padding: 19px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dialog-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.dialog-title .tool-icon { margin: 0; }
+
+.dialog-title h2 {
+  font: 600 20px 'Space Grotesk';
+  margin: 0;
+}
+
+.close {
+  background: #19243b;
+  border: 1px solid var(--border);
+  color: white;
+  border-radius: 9px;
+  width: 35px;
+  height: 35px;
+  font-size: 20px;
+}
+
+.dialog-body { padding: 22px; }
+
+.field { margin-bottom: 16px; }
+
+.field label {
+  display: block;
+  margin-bottom: 8px;
+  color: #c8d2e8;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.field input,
+.field textarea,
+.field select {
+  width: 100%;
+  padding: 12px;
+  background: #0b1325;
+  border: 1px solid #34425f;
+  border-radius: 10px;
+  color: white;
+  outline: none;
+}
+
+.field textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.field input:focus,
+.field textarea:focus,
+.field select:focus {
+  border-color: var(--accent);
+}
+
+.row-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.checks {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  color: var(--muted);
+  font-size: 13px;
+  margin: 10px 0 15px;
+}
+
+.checks label { display: flex; gap: 6px; align-items: center; }
+
+.btn {
+  padding: 11px 16px;
+  background: linear-gradient(135deg,var(--accent),#6d62d8);
+  color: white;
+  border: 0;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.btn.secondary {
+  background: #202c45;
+  border: 1px solid #3a4968;
+}
+
+.btn.success {
+  background: #173d3b;
+  border: 1px solid #276b62;
+  color: #8ff0df;
+}
+
+.actions {
+  display: flex;
+  gap: 9px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+.output {
+  background: #0a1222;
+  border: 1px solid #2d3a56;
+  border-radius: 11px;
+  padding: 14px;
+  margin-top: 14px;
+  min-height: 45px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  color: #dce6fa;
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.output:empty { display: none; }
+
+.hint {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+  margin-top: 10px;
+}
+
+.playground {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.code-panel {
+  border: 1px solid #34425f;
+  border-radius: 11px;
+  overflow: hidden;
+  background: #091222;
+}
+
+.code-head {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  background: #18243a;
+  color: #cbd6ec;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.code-panel textarea {
+  width: 100%;
+  height: 190px;
+  display: block;
+  background: #091222;
+  border: 0;
+  color: #c7e4ff;
+  padding: 12px;
+  outline: 0;
+  resize: vertical;
+  font: 12px/1.6 Consolas, monospace;
+}
+
+.preview-wrap {
+  margin-top: 15px;
+  border: 1px solid #34425f;
+  border-radius: 11px;
+  overflow: hidden;
+  background: white;
+}
+
+.preview-head {
+  background: #18243a;
+  color: white;
+  padding: 10px;
+  font-size: 12px;
+}
+
+.preview-frame {
+  width: 100%;
+  height: 300px;
+  border: 0;
+  display: block;
+  background: white;
+}
+
+.snippet-list {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 10px;
+}
+
+.snippet {
+  background: #0c1528;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 13px;
+}
+
+.snippet p { color: var(--muted); font-size: 12px; }
+
+.palette {
+  display: grid;
+  grid-template-columns: repeat(5,1fr);
+  gap: 8px;
+}
+
+.swatch {
+  height: 95px;
+  border-radius: 10px;
+  display: flex;
+  align-items: end;
+  padding: 8px;
+  color: white;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.markdown-preview {
+  background: white;
+  color: #182235;
+  border-radius: 10px;
+  padding: 15px;
+  min-height: 130px;
+  line-height: 1.6;
+}
+
+.toast {
+  position: fixed;
+  bottom: 22px;
+  left: 50%;
+  transform: translate(-50%,20px);
+  opacity: 0;
+  background: #e9fff9;
+  color: #102c2a;
+  padding: 11px 16px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 13px;
+  transition: .2s;
+  z-index: 80;
+  pointer-events: none;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translate(-50%,0);
+}
+
+@media(max-width:900px) {
+  .tool-grid { grid-template-columns: repeat(3,1fr); }
+}
+
+@media(max-width:650px) {
+  .shell { padding: 0 16px; }
+  .hero { padding: 50px 0 30px; }
+  .tool-grid { grid-template-columns: repeat(2,1fr); gap: 10px; }
+  .row-fields,.playground { grid-template-columns: 1fr; }
+  .dialog-body { padding: 16px; }
+  .snippet-list { grid-template-columns: 1fr; }
+  .nav-right a { display: none; }
+}
+
+@media(max-width:380px) {
+  .tool-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="shell nav">
+<a class="brand" href="#"><span class="logo">P</span> promptly<span style="color:var(--accent2)">.</span></a>
+<div class="nav-right">
+<a href="#tools">Explore tools</a>
+<span>20 useful tools · No sign-up</span>
+</div>
+</div>
+</header>
+
+<section class="hero shell">
+<span class="eyebrow">✦ SIMPLE TOOLS. REAL USEFULNESS.</span>
+<h1>Get things done.<br><span class="gradient">Without the clutter.</span></h1>
+<p>Twenty practical tools for AI prompts, programming, social media and everyday creativity. Free to use, right in your browser.</p>
+
+<div class="search-wrap">
+<input id="search" type="search" placeholder="Search a tool... e.g. password, HTML, Instagram bio">
+</div>
+
+<div class="quick">
+<button class="chip active" data-filter="All">All tools</button>
+<button class="chip" data-filter="AI & Writing">AI & Writing</button>
+<button class="chip" data-filter="Generators">Generators</button>
+<button class="chip" data-filter="Programming">Programming</button>
+<button class="chip" data-filter="Social Media">Social Media</button>
+<button class="chip" data-filter="Web & Design">Web & Design</button>
+</div>
+</section>
+
+<main class="shell" id="tools">
+<div class="section-head">
+<div>
+<h2>Explore the toolkit</h2>
+<p>Pick a tool and get started in seconds.</p>
+</div>
+<span class="count" id="count">20 tools</span>
+</div>
+
+<div class="tool-grid" id="grid"></div>
+<div class="empty" id="empty">No tools found. Try another search.</div>
+</main>
+
+<footer>
+<div class="shell footer-inner">
+<span><strong>promptly.</strong> — Useful tools. No clutter.</span>
+<span>Free to use · No account required</span>
+</div>
+</footer>
+
+<div class="modal" id="modal">
+<div class="dialog">
+<div class="dialog-head">
+<div class="dialog-title">
+<span class="tool-icon" id="modalIcon">✦</span>
+<h2 id="toolTitle">Tool</h2>
+</div>
+<button class="close" id="close">×</button>
+</div>
+<div class="dialog-body" id="toolBody"></div>
+</div>
+</div>
+
+<div class="toast" id="toast">Copied!</div>
+
+<script>
+const tools = [
+{id:'password',name:'Password Generator',desc:'Create strong passwords with custom settings.',icon:'🔐',cat:'Generators'},
+{id:'username',name:'Username Generator',desc:'Find fresh username ideas for any platform.',icon:'👤',cat:'Generators'},
+{id:'qr',name:'QR Code Generator',desc:'Turn a link or text into a downloadable QR code.',icon:'▦',cat:'Generators'},
+{id:'prompt',name:'Prompt Generator',desc:'Build detailed AI prompts using guided options.',icon:'✧',cat:'AI & Writing'},
+{id:'lorem',name:'Lorem Ipsum Generator',desc:'Generate placeholder text for designs and layouts.',icon:'¶',cat:'AI & Writing'},
+{id:'improver',name:'Prompt Improver',desc:'Improve and restructure your rough prompts.',icon:'✨',cat:'AI & Writing'},
+{id:'bio',name:'Bio Generator',desc:'Create professional and social media bios.',icon:'✍️',cat:'Social Media'},
+{id:'choice',name:'Random Choice Picker',desc:'Pick a random option from your own list.',icon:'🎯',cat:'Generators'},
+{id:'random',name:'Random Number Generator',desc:'Generate random numbers within your chosen range.',icon:'🎲',cat:'Generators'},
+{id:'date',name:'Date Calculator',desc:'Find date differences or add and subtract days.',icon:'📅',cat:'Generators'},
+{id:'playground',name:'HTML, CSS & JS Playground',desc:'Write code and instantly preview the result.',icon:'💻',cat:'Programming'},
+{id:'snippets',name:'Code Snippet Library',desc:'Copy ready-to-use HTML, CSS and JS components.',icon:'🧩',cat:'Programming'},
+{id:'json',name:'JSON Formatter',desc:'Format, validate and minify JSON data.',icon:'{}',cat:'Programming'},
+{id:'markdown',name:'Markdown Editor',desc:'Write Markdown and see the formatted preview.',icon:'Ⓜ',cat:'Programming'},
+{id:'instabio',name:'Instagram Bio Generator',desc:'Create stylish Instagram profile bios.',icon:'📸',cat:'Social Media'},
+{id:'caption',name:'Caption Generator',desc:'Create social media captions for your posts.',icon:'💬',cat:'Social Media'},
+{id:'hashtag',name:'Hashtag Generator',desc:'Find relevant hashtags for your niche.',icon:'#️⃣',cat:'Social Media'},
+{id:'palette',name:'Color Palette Generator',desc:'Generate color combinations and copy HEX codes.',icon:'🎨',cat:'Web & Design'},
+{id:'favicon',name:'Favicon Generator',desc:'Create and download a website icon.',icon:'🌐',cat:'Web & Design'},
+{id:'meta',name:'Meta Tag Generator',desc:'Create SEO titles, descriptions and meta tags.',icon:'🔎',cat:'Web & Design'}
+];
+
+const $ = s => document.querySelector(s);
+const grid = $('#grid');
+const modal = $('#modal');
+const body = $('#toolBody');
+let activeFilter = 'All';
+
+function render() {
+  const q = $('#search').value.toLowerCase();
+  const shown = tools.filter(t =>
+    (activeFilter === 'All' || t.cat === activeFilter) &&
+    `${t.name} ${t.desc} ${t.cat}`.toLowerCase().includes(q)
+  );
+
+  grid.innerHTML = shown.map(t => `
+    <button class="tool-card" data-id="${t.id}">
+      <span class="tool-icon">${t.icon}</span>
+      <h3>${t.name}</h3>
+      <p>${t.desc}</p>
+      <span class="arrow">Open tool →</span>
+    </button>
+  `).join('');
+
+  $('#count').textContent = `${shown.length} tools`;
+  $('#empty').style.display = shown.length ? 'none' : 'block';
+}
+
+render();
+
+$('#search').addEventListener('input',render);
+
+document.querySelectorAll('.chip').forEach(b => {
+  b.onclick = () => {
+    document.querySelectorAll('.chip').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    activeFilter = b.dataset.filter;
+    render();
+  };
+});
+
+grid.addEventListener('click',e => {
+  const card = e.target.closest('[data-id]');
+  if(card) openTool(card.dataset.id);
+});
+
+function closeTool() {
+  modal.classList.remove('open');
+  body.innerHTML = '';
+}
+
+$('#close').onclick = closeTool;
+modal.addEventListener('click',e => {
+  if(e.target === modal) closeTool();
+});
+document.addEventListener('keydown',e => {
+  if(e.key === 'Escape') closeTool();
+});
+
+function field(label,html) {
+  return `<div class="field"><label>${label}</label>${html}</div>`;
+}
+
+function input(id,placeholder='',type='text',value='') {
+  return `<input id="${id}" type="${type}" placeholder="${placeholder}" value="${value}">`;
+}
+
+function area(id,placeholder='',value='') {
+  return `<textarea id="${id}" placeholder="${placeholder}">${value}</textarea>`;
+}
+
+function select(id,options) {
+  return `<select id="${id}">${options.map(o=>`<option value="${o[0]}">${o[1]}</option>`).join('')}</select>`;
+}
+
+function actions() {
+  return `<div class="actions">
+    <button class="btn" id="run">Generate</button>
+    <button class="btn secondary" id="reset">Reset</button>
+  </div><div class="output" id="out"></div>`;
+}
+
+function copyButton() {
+  return `<div class="actions"><button class="btn success" id="copy">Copy result</button></div>`;
+}
+
+const templates = {
+
+password:()=>field('Password length',input('length','','number','20'))+
+`<div class="checks">
+<label><input type="checkbox" id="upper" checked> Uppercase</label>
+<label><input type="checkbox" id="lower" checked> Lowercase</label>
+<label><input type="checkbox" id="nums" checked> Numbers</label>
+<label><input type="checkbox" id="symbols" checked> Symbols</label>
+</div>`+actions()+copyButton(),
+
+username:()=>field('Keywords',input('words','e.g. arham, design, tech'))+
+field('Style',select('style',[['mix','Creative mix'],['clean','Clean'],['pro','Professional'],['game','Gaming']]))+
+field('Number of ideas',input('amount','','number','8'))+actions()+copyButton(),
+
+qr:()=>field('Text or URL',input('qrtext','https://example.com'))+
+field('QR size',select('qrsize',[['180','Small'],['260','Medium'],['360','Large']]))+
+`<div class="actions"><button class="btn" id="run">Create QR code</button></div>
+<div id="qrout" class="output"></div>
+<p class="hint">Requires an internet connection and uses an external QR service.</p>`,
+
+prompt:()=>field('What should AI do?',input('task','e.g. Create a weekly study plan'))+
+`<div class="row-fields">
+${field('AI role',input('role','e.g. experienced tutor'))}
+${field('Audience',input('audience','e.g. students'))}
+</div>`+
+field('Tone',select('tone',[['clear','Clear'],['professional','Professional'],['friendly','Friendly'],['creative','Creative'],['academic','Academic']]))+
+field('Output format',select('format',[['steps','Step-by-step guide'],['bullets','Bullet points'],['table','Table'],['email','Email'],['plan','Detailed plan']]))+
+field('Extra instructions',area('extra','Add context or requirements...'))+
+actions()+copyButton(),
+
+lorem:()=>field('Paragraphs',input('amount','','number','3'))+
+field('Words per paragraph',input('words','','number','60'))+
+actions()+copyButton(),
+
+improver:()=>field('Your rough prompt',area('text','Paste your prompt here...'))+
+field('Improvement focus',select('focus',[['clarity','Clarity'],['creativity','Creativity'],['accuracy','Accuracy'],['short','Concise response']]))+
+actions()+copyButton(),
+
+bio:()=>field('Name or role',input('name','Your name or profession'))+
+field('Details',area('details','Skills, interests, achievements...'))+
+field('Platform',select('platform',[['linkedin','LinkedIn'],['instagram','Instagram'],['portfolio','Portfolio'],['x','X / Twitter']]))+
+field('Tone',select('tone',[['professional','Professional'],['friendly','Friendly'],['creative','Creative']]))+
+actions()+copyButton(),
+
+choice:()=>field('Options (one per line or separated by commas)',area('items','Pizza\nBurger\nPasta'))+
+actions()+copyButton(),
+
+random:()=>`<div class="row-fields">
+${field('Minimum',input('min','','number','1'))}
+${field('Maximum',input('max','','number','100'))}
+</div>`+
+field('How many numbers?',input('amount','','number','1'))+
+`<div class="checks"><label><input type="checkbox" id="unique" checked> No duplicates</label></div>`+
+actions()+copyButton(),
+
+date:()=>field('Action',select('kind',[['diff','Difference between two dates'],['add','Add days to a date'],['subtract','Subtract days from a date']]))+
+field('Start date',input('date1','','date'))+
+`<div id="dateSecond">${field('End date',input('date2','','date'))}</div>
+<div id="daysField" style="display:none">${field('Number of days',input('days','','number','30'))}</div>`+
+actions(),
+
+playground:()=>`
+<p class="hint">Write HTML, CSS and JavaScript separately. Press Run to see the output.</p>
+<div class="playground">
+<div class="code-panel">
+<div class="code-head">HTML <button class="btn secondary" data-copy="html">Copy</button></div>
+<textarea id="htmlCode" spellcheck="false"><h1>Hello, Promptly!</h1>
+<p>Edit this HTML to get started.</p>
+<button class="demo-btn">Click me</button></textarea>
+</div>
+
+<div class="code-panel">
+<div class="code-head">CSS <button class="btn secondary" data-copy="css">Copy</button></div>
+<textarea id="cssCode" spellcheck="false">body { font-family: Arial; padding: 32px; }
+h1 { color: #6558d3; }
+.demo-btn { padding: 10px 16px; background: #6558d3; color: white; border: 0; border-radius: 8px; }</textarea>
+</div>
+
+<div class="code-panel">
+<div class="code-head">JavaScript <button class="btn secondary" data-copy="js">Copy</button></div>
+<textarea id="jsCode" spellcheck="false">document.querySelector('.demo-btn')?.addEventListener('click', () => {
+  alert('It works!');
+});</textarea>
+</div>
+
+<div class="code-panel">
+<div class="code-head">Quick actions</div>
+<div style="padding:14px">
+<button class="btn" id="run">▶ Run code</button>
+<button class="btn secondary" id="reset">Reset</button>
+<p class="hint">Test your code in the live preview.</p>
+</div>
+</div>
+</div>
+
+<div class="preview-wrap">
+<div class="preview-head">LIVE PREVIEW</div>
+<iframe id="preview" class="preview-frame" sandbox="allow-scripts" title="Code preview"></iframe>
+</div>
+
+<h3 style="font-size:13px">Console output</h3>
+<div class="output" id="console">Console is ready.</div>
+<div class="actions"><button class="btn secondary" id="downloadProject">Download HTML</button></div>`,
+
+snippets:()=>`<p class="hint">Ready-to-use code components. Copy and paste into your projects.</p><div class="snippet-list" id="snippetsList"></div>`,
+
+json:()=>field('JSON input',area('text','Paste JSON here...'))+
+field('Action',select('mode',[['pretty','Format / validate'],['minify','Minify']]))+
+actions()+copyButton(),
+
+markdown:()=>`
+<div class="row-fields">
+<div class="field">
+<label>Markdown input</label>
+<textarea id="mdText"># Welcome
+
+Write **Markdown** here.
+
+- First item
+- Second item</textarea>
+</div>
+<div class="field">
+<label>Live preview</label>
+<div class="markdown-preview" id="mdPreview"></div>
+</div>
+</div>
+<button class="btn success" id="copyMd">Copy Markdown</button>`,
+
+instabio:()=>field('Name',input('name','Your name'))+
+field('Profession',input('role','e.g. Web Developer'))+
+field('Interests',input('interests','e.g. Design, technology'))+
+field('Style',select('style',[['minimal','Minimal'],['aesthetic','Aesthetic'],['professional','Professional'],['fun','Fun']]))+
+field('Emojis',select('emoji',[['some','A few'],['many','More'],['none','None']]))+
+actions()+copyButton(),
+
+caption:()=>field('Describe your post',area('topic','What is your post about?'))+
+field('Platform',select('platform',[['instagram','Instagram'],['facebook','Facebook'],['tiktok','TikTok'],['linkedin','LinkedIn']]))+
+field('Tone',select('tone',[['friendly','Friendly'],['fun','Funny'],['inspiring','Inspirational'],['professional','Professional']]))+
+actions()+copyButton(),
+
+hashtag:()=>field('Topic or niche',input('topic','e.g. travel photography'))+
+field('Platform',select('platform',[['instagram','Instagram'],['tiktok','TikTok'],['general','General']]))+
+actions()+copyButton(),
+
+palette:()=>field('Palette mood',select('mood',[['random','Surprise me'],['calm','Calm'],['warm','Warm'],['cool','Cool'],['bold','Bold']]))+
+`<button class="btn" id="run">Generate palette</button><div id="paletteOut"></div>`,
+
+favicon:()=>field('Icon text',input('iconText','P'))+
+`<div class="row-fields">
+${field('Background',input('bgColor','','color','#8b7cff'))}
+${field('Text color',input('fgColor','','color','#ffffff'))}
+</div>`+
+field('Shape',select('shape',[['rounded','Rounded square'],['circle','Circle'],['square','Square']]))+
+`<button class="btn" id="run">Create favicon</button><div id="faviconOut"></div>`,
+
+meta:()=>field('Page title',input('title','Your page title'))+
+field('Meta description',area('description','Describe your page...'))+
+field('Page URL',input('url','https://example.com'))+
+field('Social image URL',input('image','https://example.com/image.jpg'))+
+field('Brand name',input('site','Your brand'))+
+actions()+copyButton()
+};
+
+function openTool(id) {
+  const t = tools.find(x => x.id === id);
+  $('#modalIcon').textContent = t.icon;
+  $('#toolTitle').textContent = t.name;
+  body.innerHTML = templates[id]();
+  modal.classList.add('open');
+  bindTool(id);
+}
+
+function copyText(text) {
+  if(!text) return toast('Nothing to copy');
+  const fallback = () => {
+    const t = document.createElement('textarea');
+    t.value = text;
+    document.body.appendChild(t);
+    t.select();
+    document.execCommand('copy');
+    t.remove();
+    toast('Copied to clipboard');
+  };
+  if(navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(()=>toast('Copied!')).catch(fallback);
+  } else fallback();
+}
+
+function toast(message) {
+  const t = $('#toast');
+  t.textContent = message;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),1800);
+}
+
+function bindTool(id) {
+  const el = s => document.getElementById(s);
+  const set = v => { if(el('out')) el('out').textContent = v; };
+  const run = fn => { if(el('run')) el('run').onclick = fn; };
+  const copy = () => {
+    if(el('copy')) el('copy').onclick = () => copyText(el('out')?.textContent || '');
+  };
+
+  if(el('reset')) el('reset').onclick = () => {
+    body.querySelectorAll('input,textarea').forEach(x=>{
+      if(x.type==='checkbox') x.checked=x.defaultChecked;
+      else x.value='';
+    });
+    if(el('out')) el('out').textContent='';
+  };
+
+  if(id==='password') run(()=>{
+    const n=Math.max(4,Math.min(128,+el('length').value||20));
+    let chars='';
+    if(el('upper').checked) chars+='ABCDEFGHJKLMNPQRSTUVWXYZ';
+    if(el('lower').checked) chars+='abcdefghijkmnopqrstuvwxyz';
+    if(el('nums').checked) chars+='23456789';
+    if(el('symbols').checked) chars+='!@#$%^&*()-_=+[]{}?';
+    if(!chars) return set('Select at least one character type.');
+    const a=new Uint32Array(n);
+    crypto.getRandomValues(a);
+    set(Array.from(a,x=>chars[x%chars.length]).join(''));
+    copy();
+  });
+
+  if(id==='username') run(()=>{
+    const words=el('words').value.toLowerCase().match(/[a-z0-9]+/g)||[];
+    const style=el('style').value;
+    const n=Math.max(1,Math.min(30,+el('amount').value||8));
+    const first=['Nova','Pixel','Orbit','Echo','Zen','Swift','Lunar','Nexus'];
+    const second=['Fox','Craft','Wave','Byte','Bloom','Spark','Studio','Cloud'];
+    let result=[];
+    for(let i=0;i<n;i++){
+      let a=words.length?words[i%words.length]:first[Math.floor(Math.random()*first.length)];
+      let b=style==='pro'?['Labs','Digital','Studio'][i%3]:style==='game'?['X','OP','Gamer'][i%3]:second[Math.floor(Math.random()*second.length)];
+      result.push(a+b+(style==='game'?Math.floor(Math.random()*99):''));
+    }
+    set([...new Set(result)].join('\n'));
+    copy();
+  });
+
+  if(id==='qr') run(()=>{
+    const value=el('qrtext').value.trim();
+    if(!value) return $('#qrout').textContent='Enter text or a URL first.';
+    const size=el('qrsize').value;
+    const url='https://api.qrserver.com/v1/create-qr-code/?size='+size+'x'+size+'&data='+encodeURIComponent(value);
+    $('#qrout').innerHTML=`<img src="${url}" alt="QR code" style="display:block;max-width:100%;margin:auto;background:white;padding:8px"><div class="actions"><a class="btn" href="${url}" target="_blank" rel="noopener">Open / Download QR</a></div>`;
+  });
+
+  if(id==='prompt') run(()=>{
+    const task=el('task').value.trim();
+    if(!task) return set('Describe what you want AI to do.');
+    set(`Act as ${el('role').value||'a knowledgeable expert'}.
+
+Task: ${task}
+
+Audience: ${el('audience').value||'General audience'}
+Tone: ${el('tone').selectedOptions[0].text}
+Output format: ${el('format').selectedOptions[0].text}
+
+Additional instructions:
+${el('extra').value||'Keep the response clear, accurate and useful.'}
+
+Address the task directly, follow the constraints and organize the result clearly. Ask clarifying questions if essential information is missing.`);
+    copy();
+  });
+
+  if(id==='lorem') run(()=>{
+    const p=Math.max(1,Math.min(20,+el('amount').value||3));
+    const w=Math.max(5,Math.min(300,+el('words').value||60));
+    const bank='Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua'.split(' ');
+    let result=[];
+    for(let j=0;j<p;j++){
+      let a=[];
+      for(let i=0;i<w;i++) a.push(bank[(i+j*5)%bank.length]);
+      a[0]=a[0][0].toUpperCase()+a[0].slice(1);
+      result.push(a.join(' ')+'.');
+    }
+    set(result.join('\n\n'));
+    copy();
+  });
+
+  if(id==='improver') run(()=>{
+    const t=el('text').value.trim();
+    if(!t) return set('Paste a prompt first.');
+    const f=el('focus').value;
+    set(`Your task:
+${t}
+
+Instructions:
+- Address the desired outcome directly.
+- Give a clear and well-structured response.
+- ${f==='clarity'?'Explain ambiguous points and organize information logically.':f==='creativity'?'Explore original approaches while remaining practical.':f==='accuracy'?'Avoid unsupported claims and state uncertainty.':'Keep the response concise and focused.'}
+- Follow all constraints in the original request.
+- Ask focused questions if essential information is missing.
+
+Deliver the final result in a useful format.`);
+    copy();
+  });
+
+  if(id==='bio') run(()=>{
+    const n=el('name').value.trim(),d=el('details').value.trim();
+    if(!n&&!d) return set('Add your name or details.');
+    const p=el('platform').value;
+    const intro=el('tone').value==='professional'?'Focused on delivering thoughtful work.':el('tone').value==='creative'?'Creative ideas and a curious mind.':'Always learning and exploring new ideas.';
+    set(p==='linkedin'?`${n}\n${d}\n${intro}`:`${n} ✨\n${d}\n${intro}`);
+    copy();
+  });
+
+  if(id==='choice') run(()=>{
+    const a=el('items').value.split(/[\n,]+/).map(x=>x.trim()).filter(Boolean);
+    set(a.length?a[Math.floor(Math.random()*a.length)]:'Add at least one option.');
+    copy();
+  });
+
+  if(id==='random') run(()=>{
+    const min=+el('min').value,max=+el('max').value;
+    const n=Math.max(1,Math.min(100,+el('amount').value||1));
+    if(!Number.isSafeInteger(min)||!Number.isSafeInteger(max)||min>max) return set('Enter a valid minimum and maximum.');
+    if(el('unique').checked&&n>max-min+1) return set('Not enough unique numbers in this range.');
+    let a=[];
+    while(a.length<n){
+      const x=Math.floor(Math.random()*(max-min+1))+min;
+      if(!el('unique').checked||!a.includes(x)) a.push(x);
+    }
+    set(a.join(', '));
+    copy();
+  });
+
+  if(id==='date'){
+    const update=()=>{
+      const add=el('kind').value!=='diff';
+      el('dateSecond').style.display=add?'none':'block';
+      el('daysField').style.display=add?'block':'none';
+    };
+    el('kind').onchange=update;
+    update();
+    run(()=>{
+      const d=new Date(el('date1').value+'T00:00:00');
+      if(!el('date1').value||isNaN(d)) return set('Choose a valid start date.');
+      if(el('kind').value==='diff'){
+        const e=new Date(el('date2').value+'T00:00:00');
+        if(!el('date2').value||isNaN(e)) return set('Choose an end date.');
+        set(Math.abs(Math.round((e-d)/86400000))+' days between the dates.');
+      } else {
+        const n=+el('days').value;
+        if(!Number.isFinite(n)) return set('Enter a valid number of days.');
+        d.setDate(d.getDate()+(el('kind').value==='add'?n:-n));
+        set(d.toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'}));
+      }
+    });
+  }
+
+  if(id==='json') run(()=>{
+    try {
+      const v=JSON.parse(el('text').value);
+      set(el('mode').value==='minify'?JSON.stringify(v):JSON.stringify(v,null,2));
+      copy();
+    } catch(e) { set('Invalid JSON: '+e.message); }
+  });
+
+  if(id==='markdown'){
+    const md=el('mdText'),preview=el('mdPreview');
+    const update=()=>{
+      let s=md.value.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      s=s.replace(/^### (.*)$/gm,'<h3>$1</h3>')
+      .replace(/^## (.*)$/gm,'<h2>$1</h2>')
+      .replace(/^# (.*)$/gm,'<h1>$1</h1>')
+      .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
+      .replace(/\*(.*?)\*/g,'<em>$1</em>')
+      .replace(/\n/g,'<br>');
+      preview.innerHTML=s;
+    };
+    md.addEventListener('input',update);
+    update();
+    el('copyMd').onclick=()=>copyText(md.value);
+  }
+
+  if(id==='playground'){
+    const defaults={
+      html:'<h1>Hello, Promptly!</h1>\n<p>Edit this HTML to get started.</p>\n<button class="demo-btn">Click me</button>',
+      css:'body { font-family: Arial; padding: 32px; }\nh1 { color: #6558d3; }\n.demo-btn { padding: 10px 16px; background: #6558d3; color: white; border: 0; border-radius: 8px; }',
+      js:"document.querySelector('.demo-btn')?.addEventListener('click', () => {\\n  alert('It works!');\\n});"
+    };
+
+    const source=()=>`<!doctype html><html><head><meta charset="utf-8"><style>${el('cssCode').value}</style></head><body>${el('htmlCode').value}<script>window.onerror=(m)=>parent.postMessage({type:'promptly-error',message:m},'*');${el('jsCode').value}<\/script></body></html>`;
+
+    const execute=()=>{
+      el('preview').srcdoc=source();
+      el('console').textContent='Preview updated.';
+    };
+
+    run(execute);
+
+    el('reset').onclick=()=>{
+      el('htmlCode').value=defaults.html;
+      el('cssCode').value=defaults.css;
+      el('jsCode').value=defaults.js;
+      execute();
+    };
+
+    body.querySelectorAll('[data-copy]').forEach(b=>{
+      b.onclick=()=>copyText(el(b.dataset.copy+'Code').value);
+    });
+
+    el('downloadProject').onclick=()=>{
+      const blob=new Blob([source()],{type:'text/html'});
+      const url=URL.createObjectURL(blob);
+      const a=document.createElement('a');
+      a.href=url;
+      a.download='promptly-project.html';
+      a.click();
+      URL.revokeObjectURL(url);
+    };
+    execute();
+  }
+
+  if(id==='snippets'){
+    const data=[
+      ['Gradient Button','A modern gradient button.','<button class="gradient-btn">Get started</button>\n<style>.gradient-btn{padding:12px 20px;border:0;border-radius:10px;color:white;background:linear-gradient(120deg,#8b7cff,#42d6c5);font-weight:700;cursor:pointer}</style>'],
+      ['Info Card','A clean content card.','<article class="info-card"><h3>Card title</h3><p>Your content goes here.</p></article>\n<style>.info-card{max-width:320px;padding:22px;border:1px solid #ddd;border-radius:14px;font-family:Arial}.info-card p{color:#667}</style>'],
+      ['Navigation Bar','A simple navigation bar.','<nav class="nav"><strong>Brand</strong><div><a href="#">Home</a> <a href="#">About</a> <a href="#">Contact</a></div></nav>\n<style>.nav{display:flex;justify-content:space-between;padding:16px;font-family:Arial}.nav a{margin-left:14px;text-decoration:none}</style>'],
+      ['Input Field','A clean form input.','<label for="email">Email address</label><input id="email" type="email" placeholder="you@example.com">'],
+      ['Pill Badge','A small status badge.','<span class="badge">New feature</span>\n<style>.badge{display:inline-block;padding:6px 10px;border-radius:999px;background:#e8e5ff;color:#5145b8;font:600 12px Arial}</style>'],
+      ['Hover Card','A card with a hover animation.','<div class="hover-card">Hover over me</div>\n<style>.hover-card{padding:28px;border:1px solid #ddd;border-radius:14px;transition:.2s;font:600 16px Arial}.hover-card:hover{transform:translateY(-4px);box-shadow:0 12px 28px #0002}</style>']
+    ];
+
+    el('snippetsList').innerHTML=data.map((s,i)=>`
+      <div class="snippet">
+        <strong>${s[0]}</strong>
+        <p>${s[1]}</p>
+        <button class="btn secondary" data-snippet="${i}">Copy code</button>
+      </div>`).join('');
+
+    el('snippetsList').querySelectorAll('[data-snippet]').forEach(b=>{
+      b.onclick=()=>copyText(data[+b.dataset.snippet][2]);
+    });
+  }
+
+  if(id==='instabio') run(()=>{
+    const n=el('name').value.trim(),r=el('role').value.trim(),i=el('interests').value.trim();
+    if(!n&&!r&&!i) return set('Add some details first.');
+    const emoji=el('emoji').value==='none'?'':el('emoji').value==='many'?' ✨🚀💫':' ✨';
+    set([n+emoji,r,i].filter(Boolean).join('\n'));
+    copy();
+  });
+
+  if(id==='caption') run(()=>{
+    const t=el('topic').value.trim();
+    if(!t) return set('Describe your post first.');
+    const tone=el('tone').value;
+    const start={friendly:'A little moment worth sharing:',fun:'Plot twist: this deserves a post 😄',inspiring:'Small steps can lead to big things:',professional:'A quick update:'};
+    const end={instagram:'What do you think? Let me know below. 👇',facebook:'Share your thoughts in the comments.',tiktok:'Would you try this? Follow for more.',linkedin:'What has your experience been? I would love to hear your thoughts.'};
+    set(`${start[tone]}\n\n${t}\n\n${end[el('platform').value]}`);
+    copy();
+  });
+
+  if(id==='hashtag') run(()=>{
+    const words=el('topic').value.toLowerCase().match(/[a-z0-9]+/g)||[];
+    if(!words.length) return set('Enter a topic first.');
+    const base=words.join('');
+    const extra=el('platform').value==='instagram'?['instagood','explorepage','contentcreator']:el('platform').value==='tiktok'?['fyp','foryou','tiktoktrend']:['trending','ideas','community'];
+    const tags=[...words.map(w=>'#'+w),'#'+base,...extra.map(w=>'#'+w)];
+    set([...new Set(tags)].slice(0,15).join(' '));
+    copy();
+  });
+
+  if(id==='palette') run(()=>{
+    const sets={
+      calm:['#A8DADC','#457B9D','#F1FAEE','#B7E4C7','#6D6875'],
+      warm:['#F4A261','#E76F51','#E9C46A','#9C6644','#6F1D1B'],
+      cool:['#03045E','#0077B6','#00B4D8','#90E0EF','#CAF0F8'],
+      bold:['#FF006E','#8338EC','#3A86FF','#FFBE0B','#FB5607']
+    };
+    const colors=sets[el('mood').value]||Array.from({length:5},()=> '#'+Math.floor(Math.random()*16777215).toString(16).padStart(6,'0'));
+    $('#paletteOut').innerHTML='<div class="palette">'+colors.map(c=>`<div class="swatch" style="background:${c}" data-color="${c}">${c}</div>`).join('')+'</div>';
+    $('#paletteOut').querySelectorAll('.swatch').forEach(s=>s.onclick=()=>copyText(s.dataset.color));
+  });
+
+  if(id==='favicon') run(()=>{
+    const text=el('iconText').value.trim().slice(0,3)||'P';
+    const bg=el('bgColor').value,fg=el('fgColor').value;
+    const shape=el('shape').value;
+    const c=document.createElement('canvas');
+    c.width=c.height=256;
+    const x=c.getContext('2d');
+    x.fillStyle=bg;
+    x.beginPath();
+    if(shape==='circle') x.arc(128,128,120,0,Math.PI*2);
+    else x.roundRect(8,8,240,240,shape==='rounded'?48:0);
+    x.fill();
+    x.fillStyle=fg;
+    x.font=`bold ${text.length>2?92:130}px Arial`;
+    x.textAlign='center';
+    x.textBaseline='middle';
+    x.fillText(text,128,136);
+    const url=c.toDataURL('image/png');
+    $('#faviconOut').innerHTML=`<img src="${url}" width="96" height="96" alt="Favicon preview"><div class="actions"><a class="btn" href="${url}" download="favicon.png">Download PNG</a></div>`;
+  });
+
+  if(id==='meta') run(()=>{
+    const title=el('title').value.trim();
+    const desc=el('description').value.trim();
+    if(!title||!desc) return set('Add a page title and description.');
+    const esc=s=>s.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+    const url=el('url').value.trim(),image=el('image').value.trim(),site=el('site').value.trim();
+    set(`<title>${esc(title)}</title>
+<meta name="description" content="${esc(desc)}">
+<meta property="og:type" content="website">
+<meta property="og:title" content="${esc(title)}">
+<meta property="og:description" content="${esc(desc)}">
+${url?`<link rel="canonical" href="${esc(url)}">
+<meta property="og:url" content="${esc(url)}">`:''}
+${image?`<meta property="og:image" content="${esc(image)}">`:''}
+${site?`<meta property="og:site_name" content="${esc(site)}">`:''}
+<meta name="twitter:card" content="${image?'summary_large_image':'summary'}">`);
+    copy();
+  });
+}
+</script>
+</body>
+</html>
