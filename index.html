@@ -1,94 +1,160 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Promptly — 44 free online tools for writing, coding, creating and everyday tasks.">
 <meta name="theme-color" content="#0B0F19">
 <title>Promptlyx</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230B0F19'/><rect x='2' y='2' width='28' height='28' rx='6' fill='none' stroke='%238b7cff' stroke-width='1.5' stroke-opacity='0.4'/><text x='16' y='21' font-family='Space Grotesk, sans-serif' font-weight='700' font-size='14' fill='%238b7cff' text-anchor='middle'>PX</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg:#0B0F19;
-  --panel:#111827;
-  --panel2:#151d2c;
-  --border:#263247;
+  --panel:rgba(17, 24, 39, 0.55);
+  --panel2:rgba(21, 29, 44, 0.7);
+  --border:rgba(38, 50, 71, 0.5);
+  --border-hover:rgba(139, 124, 255, 0.5);
   --text:#f4f6fb;
   --muted:#929db0;
   --purple:#8b7cff;
   --teal:#42d6c5;
   --radius:16px;
+  --glass-highlight: rgba(255, 255, 255, 0.12);
 }
+
+[data-theme="light"] {
+  --bg:#f3f6fc;
+  --panel:rgba(255, 255, 255, 0.7);
+  --panel2:rgba(240, 244, 250, 0.85);
+  --border:rgba(203, 213, 225, 0.6);
+  --border-hover:rgba(139, 124, 255, 0.6);
+  --text:#0f172a;
+  --muted:#64748b;
+  --purple:#7c3aed;
+  --teal:#0d9488;
+  --glass-highlight: rgba(255, 255, 255, 0.8);
+}
+
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif}
+body{margin:0;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;position:relative;transition: background 0.3s ease, color 0.3s ease;}
+
+/* AMBIENT BLOBS FOR GLASS EFFECT */
+.ambient-blob {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(140px);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.45;
+}
+.blob-1 { width: 450px; height: 450px; background: rgba(139, 124, 255, 0.25); top: 5%; left: -5%; }
+.blob-2 { width: 400px; height: 400px; background: rgba(66, 214, 197, 0.2); bottom: 10%; right: -5%; }
+
 button,input,textarea,select{font:inherit}
 button{cursor:pointer}
-header{height:76px;border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between;padding:0 7%;position:sticky;top:0;background:rgba(11,15,25,.92);backdrop-filter:blur(16px);z-index:10}
+
+header{height:76px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 7%;position:sticky;top:0;background:var(--panel);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);z-index:10}
 .logo{font-family:'Space Grotesk',sans-serif;font-size:25px;font-weight:700;letter-spacing:-1px}
 .logo span{color:var(--purple)}
+.nav-actions {display:flex;align-items:center;gap:15px;}
 .nav-right{color:var(--muted);font-size:13px}
-.hero{max-width:900px;margin:0 auto;text-align:center;padding:90px 22px 52px}
-.eyebrow{display:inline-flex;align-items:center;gap:8px;padding:8px 13px;border:1px solid #343052;background:#17152a;border-radius:30px;color:#b8adff;font-size:12px;margin-bottom:24px}
+.theme-toggle{background:var(--panel2);border:1px solid var(--border);color:var(--text);padding:6px 12px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;display:flex;align-items:center;gap:5px;}
+
+.hero{max-width:900px;margin:0 auto;text-align:center;padding:90px 22px 52px;position:relative;z-index:2;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;padding:8px 13px;border:1px solid var(--border);background:var(--panel2);border-radius:30px;color:var(--purple);font-size:12px;margin-bottom:24px}
 .dot{width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 12px var(--teal)}
 h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(42px,7vw,68px);line-height:1.08;letter-spacing:-3px;margin:0 0 20px}
 .gradient{background:linear-gradient(100deg,var(--purple),var(--teal));background-clip:text;-webkit-background-clip:text;color:transparent}
 .hero p{font-size:16px;line-height:1.8;color:var(--muted);max-width:610px;margin:0 auto}
 .search-wrap{max-width:590px;margin:32px auto 0;position:relative}
-.search-wrap input{width:100%;padding:17px 20px 17px 48px;background:var(--panel);border:1px solid var(--border);border-radius:13px;color:white;outline:none}
+.search-wrap input{width:100%;padding:17px 20px 17px 48px;background:var(--panel2);border:1px solid var(--border);border-radius:13px;color:var(--text);outline:none;backdrop-filter:blur(10px);}
 .search-wrap input:focus{border-color:var(--purple)}
 .search-icon{position:absolute;left:18px;top:16px;color:var(--muted);font-size:19px}
-main{max-width:1200px;margin:auto;padding:10px 24px 90px}
+
+main{max-width:1200px;margin:auto;padding:10px 24px 90px;position:relative;z-index:2;}
+
+/* COMMUNITY FEED SECTION */
+.community-section { margin-bottom: 40px; }
+.section-title { font-family:'Space Grotesk',sans-serif; font-size: 20px; margin-bottom: 15px; display:flex; align-items:center; gap:8px; }
+.community-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+.community-card { background: var(--panel); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; cursor: pointer; transition: 0.2s; position: relative; }
+.community-card:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+.community-tag { font-size: 10px; padding: 3px 8px; background: rgba(139, 124, 255, 0.15); color: var(--purple); border-radius: 6px; display: inline-block; margin-bottom: 8px; font-weight: 600; }
+.community-card p { font-size: 13px; color: var(--muted); margin: 0 0 12px; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.community-footer { display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--muted); }
+.copy-badge { background: var(--panel2); padding: 4px 8px; border-radius: 6px; border: 1px solid var(--border); color: var(--text); }
+
 .toolbar{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap;margin:15px 0 25px}
 .filters{display:flex;gap:8px;flex-wrap:wrap}
-.filter{padding:9px 15px;border:1px solid var(--border);border-radius:30px;background:transparent;color:var(--muted);font-size:13px}
-.filter.active,.filter:hover{background:#25213e;border-color:#6357ad;color:#c9c1ff}
+.filter{padding:9px 15px;border:1px solid var(--border);border-radius:30px;background:var(--panel2);color:var(--muted);font-size:13px;backdrop-filter:blur(10px);}
+.filter.active,.filter:hover{background:var(--panel);border-color:var(--border-hover);color:var(--purple)}
 .count{font-size:13px;color:var(--muted)}
+
 .tool-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.tool-card{background:linear-gradient(145deg,var(--panel),#101624);border:1px solid var(--border);border-radius:var(--radius);padding:21px;min-height:174px;cursor:pointer;transition:.2s;position:relative;overflow:hidden}
-.tool-card:hover{transform:translateY(-4px);border-color:#665bb2;box-shadow:0 12px 35px #0004}
-.tool-icon{width:43px;height:43px;border-radius:12px;display:grid;place-items:center;background:#25213e;font-size:21px;margin-bottom:17px}
+.tool-card{background:var(--panel);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--border);border-radius:var(--radius);padding:21px;min-height:174px;cursor:pointer;transition:.2s;position:relative;overflow:hidden;box-shadow: inset 0 1px 1px var(--glass-highlight);}
+.tool-card:hover{transform:translateY(-4px);border-color:var(--border-hover);box-shadow:0 12px 35px rgba(0,0,0,0.15), inset 0 1px 2px var(--glass-highlight);}
+.tool-icon{width:43px;height:43px;border-radius:12px;display:grid;place-items:center;background:var(--panel2);font-size:21px;margin-bottom:17px;border:1px solid var(--border);}
 .tool-card h3{font-family:'Space Grotesk',sans-serif;font-size:16px;margin:0 0 8px}
 .tool-card p{font-size:12px;color:var(--muted);line-height:1.6;margin:0}
-.tool-arrow{position:absolute;right:18px;top:20px;color:#65718a}
-footer{border-top:1px solid rgba(255,255,255,.07);padding:35px 7%;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;color:var(--muted);font-size:13px}
-footer strong{color:white}
-.modal{display:none;position:fixed;inset:0;background:#050811d9;z-index:20;align-items:center;justify-content:center;padding:18px}
+.tool-arrow{position:absolute;right:18px;top:20px;color:var(--muted)}
+
+footer{border-top:1px solid var(--border);padding:35px 7%;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;color:var(--muted);font-size:13px;background:var(--panel);backdrop-filter:blur(16px);position:relative;z-index:2;}
+footer strong{color:var(--text)}
+
+.modal{display:none;position:fixed;inset:0;background:rgba(5, 8, 17, 0.8);backdrop-filter:blur(10px);z-index:20;align-items:center;justify-content:center;padding:18px}
 .modal.open{display:flex}
-.modal-box{width:100%;max-width:650px;max-height:90vh;overflow:auto;background:#111827;border:1px solid #303c52;border-radius:19px;padding:27px;box-shadow:0 25px 80px #0009}
+.modal-box{width:100%;max-width:650px;max-height:90vh;overflow:auto;background:var(--bg);border:1px solid var(--border);border-radius:19px;padding:27px;box-shadow:0 25px 80px rgba(0,0,0,0.4)}
 .modal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:15px;margin-bottom:22px}
 .modal-head h2{font-family:'Space Grotesk',sans-serif;margin:0 0 6px;font-size:23px}
 .modal-head p{color:var(--muted);font-size:13px;margin:0}
-.close{background:#202a3b;border:0;color:white;width:35px;height:35px;border-radius:9px;font-size:20px}
+.close{background:var(--panel2);border:1px solid var(--border);color:var(--text);width:35px;height:35px;border-radius:9px;font-size:20px}
+
 .form-field{margin-bottom:15px}
-.form-field label{display:block;font-size:13px;color:#cbd3e1;margin-bottom:7px}
-.form-field input,.form-field textarea,.form-field select{width:100%;background:#0c1320;border:1px solid #2a374d;color:white;border-radius:9px;padding:12px;outline:none}
+.form-field label{display:block;font-size:13px;color:var(--text);margin-bottom:7px;font-weight:500;}
+.form-field input,.form-field textarea,.form-field select{width:100%;background:var(--panel2);border:1px solid var(--border);color:var(--text);border-radius:9px;padding:12px;outline:none}
 .form-field textarea{min-height:90px;resize:vertical}
 .form-field input:focus,.form-field textarea:focus,.form-field select:focus{border-color:var(--purple)}
-.form-field select option{background:#111827}
+.form-field select option{background:var(--bg)}
+
+/* SUGGESTION CHIPS */
+.suggestion-group { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.suggestion-chip { background: var(--panel2); border: 1px solid var(--border); border-radius: 20px; padding: 5px 12px; font-size: 11px; color: var(--muted); cursor: pointer; transition: 0.2s; }
+.suggestion-chip:hover, .suggestion-chip.selected { border-color: var(--purple); color: var(--purple); background: rgba(139, 124, 255, 0.1); }
+
 .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
 .btn{border:0;border-radius:9px;padding:12px 18px;font-weight:600;font-size:13px}
 .btn-primary{background:linear-gradient(100deg,var(--purple),#6e65d9);color:white}
-.btn-secondary{background:#222d40;color:#dce4f1;border:1px solid #344157}
+.btn-secondary{background:var(--panel2);color:var(--text);border:1px solid var(--border)}
 .btn:hover{filter:brightness(1.12)}
 .output-wrap{margin-top:22px}
-.output-label{font-size:13px;color:#cbd3e1;margin-bottom:8px}
-.output{white-space:pre-wrap;overflow-wrap:anywhere;background:#0b1220;border:1px solid #2a374d;border-radius:10px;padding:15px;min-height:100px;color:#dce5f4;font-size:13px;line-height:1.7}
+.output-label{font-size:13px;color:var(--text);margin-bottom:8px;font-weight:500;}
+.output{white-space:pre-wrap;overflow-wrap:anywhere;background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:15px;min-height:100px;color:var(--text);font-size:13px;line-height:1.7}
 .hint{font-size:11px;color:var(--muted);margin-top:10px;line-height:1.6}
 .empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:50px}
-@media(max-width:950px){.tool-grid{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:680px){header{padding:0 5%;height:65px}.hero{padding-top:65px}main{padding-left:16px;padding-right:16px}.tool-grid{grid-template-columns:repeat(2,1fr);gap:11px}.tool-card{padding:16px;min-height:165px}.tool-card h3{font-size:14px}.modal-box{padding:20px}}
+
+@media(max-width:950px){.tool-grid{grid-template-columns:repeat(3,1fr)}.community-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:680px){header{padding:0 5%;height:65px}.hero{padding-top:65px}main{padding-left:16px;padding-right:16px}.tool-grid{grid-template-columns:repeat(2,1fr);gap:11px}.community-grid{grid-template-columns:1fr}.tool-card{padding:16px;min-height:165px}.tool-card h3{font-size:14px}.modal-box{padding:20px}}
 @media(max-width:420px){.tool-grid{grid-template-columns:1fr 1fr}.tool-card{min-height:175px}.nav-right{font-size:11px}}
 </style>
 </head>
 <body>
 
+<!-- AMBIENT BLOBS -->
+<div class="ambient-blob blob-1"></div>
+<div class="ambient-blob blob-2"></div>
+
 <header>
-  <div class="logo">Prompt<span>ly</span>.</div>
-  <div class="nav-right"><span id="headerCount">44 useful tools</span> · No sign-up</div>
+  <div class="logo">Prompt<span>ly</span>x</div>
+  <div class="nav-actions">
+    <button class="theme-toggle" onclick="toggleTheme()">
+      <span id="theme-icon">🌙</span> <span id="theme-text">Dark</span>
+    </button>
+    <div class="nav-right"><span id="headerCount">44 useful tools</span></div>
+  </div>
 </header>
 
 <section class="hero">
@@ -102,6 +168,37 @@ footer strong{color:white}
 </section>
 
 <main>
+  <!-- COMMUNITY FEATURED FEED SECTION -->
+  <div class="community-section">
+    <div class="section-title">🔥 Featured & Most Copied Prompts</div>
+    <div class="community-grid">
+      <div class="community-card" onclick="loadCommunityPrompt('Write a high-converting cold outreach email template for digital agency services targeting tech startups.')">
+        <span class="community-tag">Business & Sales</span>
+        <p>High-converting cold outreach email template for digital agency services targeting tech startups.</p>
+        <div class="community-footer">
+          <span>By Community</span>
+          <span class="copy-badge">📋 2.4k copies</span>
+        </div>
+      </div>
+      <div class="community-card" onclick="loadCommunityPrompt('Act as a senior software architect. Refactor this legacy JavaScript code for optimal performance and readability.')">
+        <span class="community-tag">Coding</span>
+        <p>Act as a senior software architect. Refactor legacy JavaScript code for optimal performance and readability.</p>
+        <div class="community-footer">
+          <span>By Community</span>
+          <span class="copy-badge">📋 1.8k copies</span>
+        </div>
+      </div>
+      <div class="community-card" onclick="loadCommunityPrompt('Create a 7-day viral content calendar for Instagram Reels focused on personal productivity tips.')">
+        <span class="community-tag">Social Media</span>
+        <p>Create a 7-day viral content calendar for Instagram Reels focused on personal productivity tips.</p>
+        <div class="community-footer">
+          <span>By Community</span>
+          <span class="copy-badge">📋 3.1k copies</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="toolbar">
     <div class="filters" id="filters">
       <button class="filter active" data-category="All">All tools</button>
@@ -117,8 +214,8 @@ footer strong{color:white}
 </main>
 
 <footer>
-  <div><strong>Promptly.</strong> — Everything you need. One place.</div>
-  <div>Simple tools. Useful results. © <span id="year"></span> Promptly.</div>
+  <div><strong>Promptlyx.</strong> — Everything you need. One place.</div>
+  <div>Simple tools. Useful results. © <span id="year"></span> Promptlyx.</div>
 </footer>
 
 <div class="modal" id="toolModal">
@@ -196,10 +293,16 @@ const tools = [
 ];
 
 const promptFields = [
-  {id:'goal',label:'What do you want to create?',type:'textarea',placeholder:'Describe your idea or goal...'},
-  {id:'audience',label:'Target audience (optional)',type:'text',placeholder:'e.g. Beginners, business owners, students...'},
+  {
+    id:'goal',
+    label:'What do you want to create?',
+    type:'textarea',
+    placeholder:'Describe your idea or goal...',
+    suggestions:['Write a high-converting cold email','Create a viral social media post','Build a clean landing page layout','Refactor messy code functions']
+  },
+  {id:'audience',label:'Target audience (optional)',type:'text',placeholder:'e.g. Beginners, business owners, students...', suggestions:['Tech founders & startups','General consumers','Developers & engineers','Students & learners']},
   {id:'tone',label:'Preferred tone',type:'select',options:['Professional','Friendly','Casual','Creative','Funny','Aesthetic','Persuasive','Educational']},
-  {id:'platform',label:'Platform or context (optional)',type:'text',placeholder:'e.g. Instagram, YouTube, website, business...'},
+  {id:'platform',label:'Platform or context (optional)',type:'text',placeholder:'e.g. Instagram, YouTube, website, business...', suggestions:['Instagram / TikTok','YouTube Video','Website / Landing Page','Email Newsletter']},
   {id:'details',label:'Additional details (optional)',type:'textarea',placeholder:'Add any requirements, keywords, or details...'}
 ];
 
@@ -210,6 +313,17 @@ const grid = document.getElementById('toolGrid');
 const modal = document.getElementById('toolModal');
 const form = document.getElementById('toolForm');
 const output = document.getElementById('toolOutput');
+
+// THEME TOGGLE FUNCTION
+function toggleTheme() {
+  const html = document.documentElement;
+  const currentTheme = html.getAttribute('data-theme');
+  const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', newTheme);
+  
+  document.getElementById('theme-icon').innerText = newTheme === 'dark' ? '🌙' : '☀️';
+  document.getElementById('theme-text').innerText = newTheme === 'dark' ? 'Dark' : 'Light';
+}
 
 function renderTools(){
   const query = document.getElementById('searchInput').value.toLowerCase().trim();
@@ -255,6 +369,14 @@ function escapeHTML(value){
 
 function fieldHTML(field){
   let control = '';
+  let chipsHTML = '';
+  
+  if(field.suggestions && field.suggestions.length > 0){
+    chipsHTML = `<div class="suggestion-group">
+      ${field.suggestions.map(s => `<span class="suggestion-chip" onclick="applySuggestion('${field.id}', '${escapeHTML(s).replace(/'/g, "\\'")}')">${escapeHTML(s)}</span>`).join('')}
+    </div>`;
+  }
+
   if(field.type === 'textarea'){
     control = `<textarea id="${field.id}" placeholder="${escapeHTML(field.placeholder || '')}"></textarea>`;
   } else if(field.type === 'select'){
@@ -262,7 +384,22 @@ function fieldHTML(field){
   } else {
     control = `<input id="${field.id}" type="${field.type || 'text'}" placeholder="${escapeHTML(field.placeholder || '')}">`;
   }
-  return `<div class="form-field"><label for="${field.id}">${escapeHTML(field.label)}</label>${control}</div>`;
+  return `<div class="form-field"><label for="${field.id}">${escapeHTML(field.label)}</label>${chipsHTML}${control}</div>`;
+}
+
+function applySuggestion(fieldId, value){
+  const el = document.getElementById(fieldId);
+  if(el){
+    el.value = value;
+  }
+}
+
+function loadCommunityPrompt(promptText){
+  openTool('prompt');
+  setTimeout(() => {
+    const goalInput = document.getElementById('goal');
+    if(goalInput) goalInput.value = promptText;
+  }, 50);
 }
 
 function openTool(id){
